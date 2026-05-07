@@ -1,0 +1,87 @@
+{
+  "build_run_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+  "task_id": "scratch_minidb",
+  "manifest": {
+    "run_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "af21212b92d10200",
+    "agent": {
+      "id": "claude_code_mimo_v2_5_low",
+      "adapter": "claude_code",
+      "model_id": "mimo-v2.5",
+      "adapter_version": null
+    },
+    "seed": 20260501,
+    "trial_id": 0,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-01T07:20:29.827038+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "artifact_path": "runs_release/artifacts/build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+  "usage": {
+    "wall_clock_seconds": 1231.0124861249933,
+    "usage_source": "project_log",
+    "session_id": "84ac7aa1-1d92-4f6a-9ec8-a8ea0c9e645c",
+    "prompt_bytes": 8786,
+    "retrieval_payload_bytes": 188098,
+    "tool_input_bytes": 254842,
+    "assistant_message_bytes": 3486,
+    "final_answer_bytes": 921,
+    "bytes_to_model": 196884,
+    "bytes_from_model": 258328,
+    "tool_calls": 140,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 234149,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 11598912,
+      "output_tokens": 76557,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 11909618,
+      "cost_usd": 5.458362000000001
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 337783,
+      "novel_tool_call_bytes": 273566,
+      "novel_tool_call_count": 140,
+      "novel_tool_result_count": 140,
+      "wall_clock_seconds": 1229.8074510097504,
+      "generation_tok_per_s": 111.55363840134257,
+      "tool_names": {
+        "TodoWrite": 7,
+        "Bash": 33,
+        "Write": 35,
+        "Read": 33,
+        "Edit": 29,
+        "Grep": 3
+      },
+      "turn_count": 7,
+      "vendor_tokens": {
+        "total_input_tokens": 12003139,
+        "cached_input_tokens": 11764800,
+        "uncached_input_tokens": 238339,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 80927,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 12084066
+      },
+      "proxy_session_id": "FibML70khZU-RvvN",
+      "request_count": 148,
+      "raw_request_bytes": 51510780,
+      "raw_response_bytes": 1124573
+    }
+  },
+  "validation": {
+    "compile_pass": true,
+    "rust_files": 32,
+    "rust_loc": 6667,
+    "details": {
+      "rust_files": "32",
+      "rust_loc": "6667",
+      "build": "rc=0\nimplementation\n...\n126 |     pub fn is_null(&self) -> bool {\n    |            ^^^^^^^\n\nwarning: struct `RowId` is never constructed\n   --> src/types/mod.rs:132:12\n    |\n132 | pub struct RowId {\n    |            ^^^^^\n\nwarning: associated function `new` is never used\n   --> src/types/mod.rs:138:12\n    |\n137 | impl RowId {\n    | ---------- associated function in this implementation\n138 |     pub fn new(page_id: u64, slot: u16) -> Self {\n    |            ^^^\n\nwarning: function `sql_not` is never used\n   --> src/types/mod.rs:202:8\n    |\n202 | pub fn sql_not(a: Option<bool>) -> Option<bool> {\n    |        ^^^^^^^\n\nwarning: `minidb` (bin \"minidb\") generated 81 warnings (run `cargo fix --bin \"minidb\" -p minidb` to apply 27 suggestions)\n    Finished `release` profile [optimized] target(s) in 0.03s"
+    }
+  },
+  "status": "ok",
+  "error": null
+}

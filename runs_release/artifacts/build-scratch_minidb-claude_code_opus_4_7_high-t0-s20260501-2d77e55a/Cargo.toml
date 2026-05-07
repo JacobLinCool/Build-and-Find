@@ -1,0 +1,32 @@
+[package]
+name = "minidb"
+version = "0.1.0"
+edition = "2021"
+description = "An embeddable SQL-subset relational database with a page-based storage engine, WAL, and Volcano executor."
+license = "MIT OR Apache-2.0"
+
+[[bin]]
+name = "minidb"
+path = "src/main.rs"
+
+[lib]
+name = "minidb"
+path = "src/lib.rs"
+
+[dependencies]
+log = "0.4"
+env_logger = "0.11"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+bincode = "1.3"
+crc32fast = "1.4"
+atty = "0.2"
+
+[dev-dependencies]
+tempfile = "3"
+assert_cmd = "2"
+predicates = "3"
+
+[profile.release]
+opt-level = 3
+lto = "thin"

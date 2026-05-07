@@ -1,0 +1,85 @@
+{
+  "build_run_id": "build-scratch_nanoweb-claude_code_sonnet_4_6_high-t1-s20261502-f19379b3",
+  "task_id": "scratch_nanoweb",
+  "manifest": {
+    "run_id": "build-scratch_nanoweb-claude_code_sonnet_4_6_high-t1-s20261502-f19379b3",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "ed69d16a9010b3bf",
+    "agent": {
+      "id": "claude_code_sonnet_4_6_high",
+      "adapter": "claude_code",
+      "model_id": "claude-sonnet-4-6",
+      "adapter_version": null
+    },
+    "seed": 20261502,
+    "trial_id": 1,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-01T14:30:40.589240+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "artifact_path": "runs_release/artifacts/build-scratch_nanoweb-claude_code_sonnet_4_6_high-t1-s20261502-f19379b3",
+  "usage": {
+    "wall_clock_seconds": 1261.232915917004,
+    "usage_source": "project_log",
+    "session_id": "8282c8ec-cb7c-4dd7-8d41-b04d7a5c4725",
+    "prompt_bytes": 8118,
+    "retrieval_payload_bytes": 24584,
+    "tool_input_bytes": 185018,
+    "assistant_message_bytes": 1628,
+    "final_answer_bytes": 224,
+    "bytes_to_model": 32702,
+    "bytes_from_model": 186646,
+    "tool_calls": 61,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 65,
+      "cache_creation_input_tokens": 170678,
+      "cache_read_input_tokens": 5622243,
+      "output_tokens": 86912,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 5879898,
+      "cost_usd": 4.155812399999999
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 160976,
+      "novel_tool_call_bytes": 196565,
+      "novel_tool_call_count": 61,
+      "novel_tool_result_count": 61,
+      "wall_clock_seconds": 1258.9642000198364,
+      "generation_tok_per_s": 95.31619905074241,
+      "tool_names": {
+        "Bash": 18,
+        "TodoWrite": 2,
+        "Write": 32,
+        "Edit": 9
+      },
+      "turn_count": 7,
+      "vendor_tokens": {
+        "total_input_tokens": 5937948,
+        "cached_input_tokens": 5622243,
+        "uncached_input_tokens": 315705,
+        "cache_creation_input_tokens": 170678,
+        "non_reasoning_output_tokens": 93272,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 6031220
+      },
+      "proxy_session_id": "J50ftYbGhNe6bDV4",
+      "request_count": 68,
+      "raw_request_bytes": 23491027,
+      "raw_response_bytes": 4390904
+    }
+  },
+  "validation": {
+    "compile_pass": true,
+    "rust_files": 29,
+    "rust_loc": 4511,
+    "details": {
+      "rust_files": "29",
+      "rust_loc": "4511",
+      "build": "rc=0\n&str = \"_csrf\";\n  |       ^^^^^^^^^^\n\nwarning: `nanoweb` (lib) generated 10 warnings (run `cargo fix --lib -p nanoweb` to apply 8 suggestions)\nwarning: unused imports: `Response`, `Router`, `error::NanowebError`, `health::HealthState`, and `metrics::Metrics`\n  --> src/main.rs:4:5\n   |\n 4 |     error::NanowebError,\n   |     ^^^^^^^^^^^^^^^^^^^\n 5 |     health::HealthState,\n   |     ^^^^^^^^^^^^^^^^^^^\n 6 |     metrics::Metrics,\n   |     ^^^^^^^^^^^^^^^^\n...\n18 |     Request, Response, Router,\n   |              ^^^^^^^^  ^^^^^^\n   |\n   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default\n\nwarning: `nanoweb` (bin \"nanoweb\") generated 1 warning (run `cargo fix --bin \"nanoweb\" -p nanoweb` to apply 1 suggestion)\n    Finished `release` profile [optimized] target(s) in 4.04s"
+    }
+  },
+  "status": "ok",
+  "error": null
+}

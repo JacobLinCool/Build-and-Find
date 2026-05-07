@@ -1,0 +1,518 @@
+{
+  "generated_at": "2026-05-03T20:04:26.141382+00:00",
+  "panel_definitions": {
+    "all_records": "All scratch-task release records, including diagnostics and controls.",
+    "artifact_present_diagnostic": "Artifact-present diagnostic panel: scratch tasks, final paper agents, status-ok builds whose artifact path exists, including compile-probe failures retained for validity-stress diagnostics.",
+    "build_fidelity_diagnostic": "Status-ok scratch builds excluded from primary panels because the release artifact path is missing, plus their associated finder diagnostics.",
+    "control_all": "Spec-only and question-only control runs.",
+    "cross_effort_panel": "Cross-effort diagnostic slice of paper_final_scratch.",
+    "high_effort_panel": "Primary high-effort slice of paper_final_scratch.",
+    "low_effort_panel": "Primary low-effort slice of paper_final_scratch.",
+    "mimo_extension": "MIMO rows inside paper_final_scratch.",
+    "paper_final_scratch": "Primary paper panel: scratch tasks, final paper agents, status-ok builds whose artifact path exists and whose compile probe passed.",
+    "scratch_all": "All release records for scratch_minidb and scratch_nanoweb."
+  },
+  "panels": {
+    "all_records": {
+      "build_run_count": 52,
+      "builder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low",
+        "control_question_only",
+        "control_spec_only"
+      ],
+      "find_run_count": 1872,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 28080,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "artifact_present_diagnostic": {
+      "build_run_count": 48,
+      "builder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "find_run_count": 1728,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 25920,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "control_all": {
+      "build_run_count": 4,
+      "builder_ids": [
+        "control_question_only",
+        "control_spec_only"
+      ],
+      "find_run_count": 144,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 2160,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "cross_effort_panel": {
+      "build_run_count": 41,
+      "builder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "find_run_count": 738,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 11070,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "high_effort_panel": {
+      "build_run_count": 22,
+      "builder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_opus_4_7_high",
+        "claude_code_sonnet_4_6_high",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_5_high"
+      ],
+      "find_run_count": 396,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_opus_4_7_high",
+        "claude_code_sonnet_4_6_high",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_5_high"
+      ],
+      "question_row_count": 5940,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "low_effort_panel": {
+      "build_run_count": 19,
+      "builder_ids": [
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_low"
+      ],
+      "find_run_count": 342,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 5130,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "mimo_extension": {
+      "build_run_count": 41,
+      "builder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "find_run_count": 732,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 10980,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "paper_final_scratch": {
+      "build_run_count": 41,
+      "builder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "find_run_count": 1476,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 22140,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "question_only": {
+      "build_run_count": 2,
+      "builder_ids": [
+        "control_question_only"
+      ],
+      "find_run_count": 72,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 1080,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "scratch_all": {
+      "build_run_count": 52,
+      "builder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low",
+        "control_question_only",
+        "control_spec_only"
+      ],
+      "find_run_count": 1872,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 28080,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    },
+    "spec_only": {
+      "build_run_count": 2,
+      "builder_ids": [
+        "control_spec_only"
+      ],
+      "find_run_count": 72,
+      "finder_ids": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "question_row_count": 1080,
+      "task_ids": [
+        "scratch_minidb",
+        "scratch_nanoweb"
+      ]
+    }
+  },
+  "records_dir": "runs_release/records",
+  "schema_version": "2.3",
+  "tables": {
+    "build_runs": {
+      "columns": [
+        "build_run_id",
+        "task_id",
+        "builder_id",
+        "builder_adapter",
+        "builder_model_id",
+        "builder_family",
+        "builder_effort",
+        "build_trial_id",
+        "build_seed",
+        "build_status",
+        "build_error",
+        "compile_pass",
+        "rust_files",
+        "rust_loc",
+        "artifact_path",
+        "artifact_exists",
+        "artifact_hash",
+        "build_efficiency_present",
+        "build_retrieval_bytes",
+        "build_tool_call_bytes",
+        "build_total_bytes",
+        "build_tool_call_count",
+        "build_tool_result_count",
+        "build_turn_count",
+        "build_wall_clock_seconds",
+        "build_vendor_total_input_tokens",
+        "build_vendor_cached_input_tokens",
+        "build_vendor_uncached_input_tokens",
+        "build_vendor_cache_creation_input_tokens",
+        "build_vendor_non_reasoning_output_tokens",
+        "build_vendor_reasoning_output_tokens",
+        "build_vendor_total_tokens",
+        "spec_hash",
+        "build_prompt_hash",
+        "build_env_hash",
+        "build_created_at",
+        "bnf_version",
+        "panel_ids"
+      ],
+      "path": "build_runs.csv"
+    },
+    "find_runs": {
+      "columns": [
+        "find_run_id",
+        "build_run_id",
+        "task_id",
+        "builder_id",
+        "builder_adapter",
+        "builder_model_id",
+        "builder_family",
+        "builder_effort",
+        "build_trial_id",
+        "build_seed",
+        "build_status",
+        "compile_pass",
+        "rust_files",
+        "rust_loc",
+        "artifact_hash",
+        "finder_id",
+        "finder_adapter",
+        "finder_model_id",
+        "finder_family",
+        "finder_effort",
+        "finder_trial_id",
+        "finder_seed",
+        "find_status",
+        "find_error",
+        "n_questions",
+        "n_answered",
+        "n_correct",
+        "accuracy",
+        "perfect_run",
+        "efficiency_present",
+        "retrieval_bytes",
+        "tool_call_bytes",
+        "total_bytes",
+        "metric_source",
+        "session_log_retrieval_bytes",
+        "session_log_tool_call_bytes",
+        "session_log_total_bytes",
+        "tool_call_count",
+        "tool_result_count",
+        "turn_count",
+        "wall_clock_seconds",
+        "generation_tok_per_s",
+        "request_count",
+        "proxy_session_id",
+        "vendor_total_input_tokens",
+        "vendor_cached_input_tokens",
+        "vendor_uncached_input_tokens",
+        "vendor_cache_creation_input_tokens",
+        "vendor_non_reasoning_output_tokens",
+        "vendor_reasoning_output_tokens",
+        "vendor_total_tokens",
+        "spec_hash",
+        "find_prompt_hash",
+        "find_env_hash",
+        "find_created_at",
+        "bnf_version",
+        "panel_ids"
+      ],
+      "path": "find_runs.csv"
+    },
+    "panel_membership": {
+      "columns": [
+        "panel_id",
+        "table_name",
+        "row_id"
+      ],
+      "path": "panel_membership.csv"
+    },
+    "question_answers": {
+      "columns": [
+        "question_row_id",
+        "find_run_id",
+        "build_run_id",
+        "task_id",
+        "builder_id",
+        "build_trial_id",
+        "finder_id",
+        "finder_trial_id",
+        "question_id",
+        "question_type",
+        "intention_id",
+        "source_requirement_id",
+        "source_intention_id",
+        "selected_option",
+        "correct_option",
+        "selected_text",
+        "correct_text",
+        "answered",
+        "is_correct",
+        "evidence_files",
+        "evidence_symbols",
+        "rationale",
+        "panel_ids"
+      ],
+      "path": "question_answers.csv"
+    }
+  },
+  "tables_dir": "runs_release/tables"
+}

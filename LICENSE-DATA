@@ -1,0 +1,14 @@
+Copyright 2026 Build-and-Find Authors
+
+The Build-and-Find task specifications, question banks, canonical analysis
+tables (with run-level manifests), generated run records, and derived analysis
+reports are licensed under the Creative Commons Attribution 4.0 International
+Public License. Generated code artifacts are source-code assets licensed under
+Apache-2.0; see LICENSE-CODE.
+
+SPDX-License-Identifier: CC-BY-4.0
+
+Official license text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Attribution should cite the Build-and-Find benchmark repository and the
+associated NeurIPS 2026 Evaluations and Datasets submission.

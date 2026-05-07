@@ -1,0 +1,23 @@
+listen = "127.0.0.1:8080"
+metrics = "/metrics"
+static_mount = "/static"
+graceful_timeout_s = 30
+session_secret = "change-me"
+
+[[routes]]
+method = "GET"
+path = "/hello"
+kind = "text"
+body = "hello from nanoweb"
+
+[[routes]]
+method = "POST"
+path = "/echo"
+kind = "echo_body"
+
+[[routes]]
+method = "GET"
+path = "/greet/:name"
+kind = "template"
+template = "<h1>Hello {{name}}</h1>"
+context = { title = "Greeting" }

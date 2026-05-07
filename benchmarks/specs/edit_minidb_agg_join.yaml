@@ -1,0 +1,192 @@
+spec_version: "0.1"
+
+task_id: edit_minidb_agg_join
+task_family: edit_existing_project
+title: Extend minidb with aggregation, LEFT JOIN, and EXPLAIN; drop legacy cruft
+objective: >
+  A working but early-stage version of the `minidb` SQL database
+  already exists in the workspace. Extend it with GROUP BY / aggregate
+  functions, LEFT OUTER JOIN, and an EXPLAIN-plan output mode. At the
+  same time, remove the legacy ASCII-art pretty-printer module and
+  the `--fast-mode` flag (which bypassed the WAL and has been
+  permanently retired). Preserve the WAL on-disk format, the
+  transaction semantics, and the REPL/CLI surface that existing users
+  depend on.
+
+functional_requirements: []
+
+structural_requirements:
+  - id: SR1
+    statement: >
+      The aggregation operator must be a new physical operator
+      (`HashAggregate` or `SortAggregate`) slotted into the existing
+      Volcano iterator architecture. It must not replace or subsume
+      the existing Project/Filter operators.
+  - id: SR2
+    statement: >
+      EXPLAIN output must be produced by walking the physical plan
+      tree via a dedicated `Explain` visitor, not by interleaving
+      ad-hoc prints inside each operator's `open`/`next`.
+  - id: SR3
+    statement: >
+      LEFT OUTER JOIN is implemented as a distinct physical operator
+      (`HashJoin` or `NestedLoopJoin` with left-outer semantics). It
+      must share its core structure with existing join code where
+      applicable; it must not be a special-case branch inside
+      `SeqScan`.
+
+edit_requirements:
+  - id: ER1
+    kind: add
+    statement: >
+      Add SQL grammar and execution for `GROUP BY col [, col ...]`
+      together with the aggregate functions `COUNT(*)`, `COUNT(expr)`,
+      `SUM(expr)`, `AVG(expr)`, `MIN(expr)`, and `MAX(expr)`. A
+      `HAVING` clause filters grouped rows. Grouping by a NULL value
+      is allowed and produces its own group.
+  - id: ER2
+    kind: add
+    statement: >
+      Add `LEFT OUTER JOIN t2 ON <expr>` (and its alias
+      `LEFT JOIN t2 ON <expr>`) to SELECT. NULLs fill unmatched
+      columns. The executor must use a distinct physical operator
+      for outer joins.
+  - id: ER3
+    kind: add
+    statement: >
+      Add `EXPLAIN <select>` which prints the chosen physical plan
+      tree indented one level per child, one operator per line, with
+      a brief string describing the operator and its projected or
+      filtered columns.
+  - id: ER4
+    kind: remove
+    statement: >
+      Remove the legacy ASCII-art pretty-printer module (the one that
+      draws table borders with Unicode box-drawing characters for
+      SELECT results). This also removes the `.format ascii-art`
+      meta-command and any README mentions. The default `table`
+      formatter that uses plain ASCII bars stays.
+  - id: ER5
+    kind: remove
+    statement: >
+      Remove the `--fast-mode` CLI flag and all code paths gated on
+      it (which previously skipped WAL writes for throughput). A user
+      invoking `--fast-mode` must now receive the standard
+      "unknown argument" error.
+  - id: ER6
+    kind: preserve
+    statement: >
+      Preserve the existing WAL on-disk format byte-for-byte. A
+      database file written by the pre-edit version must remain
+      readable after the edit; recovery replays it identically.
+  - id: ER7
+    kind: preserve
+    statement: >
+      Preserve the REPL meta-commands (`.schema`, `.tables`,
+      `.indexes`, `.exit`, `.format <kind>` minus `ascii-art`) and
+      their output shapes.
+  - id: ER8
+    kind: preserve
+    statement: >
+      Preserve the transaction boundary semantics: statements outside
+      an explicit `BEGIN` continue to auto-commit; `COMMIT` remains
+      the durability point (WAL fsync at commit).
+
+constraints:
+  language: Rust
+  frontend_allowed: false
+  terminal_allowed: true
+  network_allowed: true
+  external_crates_allowed: true
+  target_os: linux
+  rust_toolchain: stable
+  external_hosted_services_allowed: false
+  build_time_budget_s: 5400
+
+seed_project:
+  path: ../seed_projects/minidb_base
+  description: >
+    Baseline minidb (no GROUP BY, no JOIN, no EXPLAIN; includes the
+    legacy ASCII-art pretty-printer and the legacy --fast-mode flag).
+
+deliverables:
+  - cargo_project
+  - readme
+
+validation:
+  notes:
+    - "cargo build --release must succeed at validation time."
+
+intentions:
+  functional: []
+  structural:
+    - id: I-SR1
+      source: SR1
+      kind: structural
+      statement: >
+        Aggregation is a new physical operator that plugs into the
+        existing Volcano iterator architecture rather than replacing
+        Project/Filter.
+    - id: I-SR2
+      source: SR2
+      kind: structural
+      statement: >
+        EXPLAIN is produced by a dedicated visitor over the physical
+        plan tree, not by scattered prints inside operators.
+    - id: I-SR3
+      source: SR3
+      kind: structural
+      statement: >
+        LEFT OUTER JOIN is a distinct physical operator and shares its
+        core with existing join code; it is not a branch inside
+        SeqScan.
+  edit:
+    - id: I-ER1
+      source: ER1
+      kind: edit
+      statement: >
+        GROUP BY with COUNT/SUM/AVG/MIN/MAX (and HAVING) is present;
+        NULL values form their own group.
+    - id: I-ER2
+      source: ER2
+      kind: edit
+      statement: >
+        LEFT OUTER JOIN is present and fills unmatched right-side
+        columns with NULLs.
+    - id: I-ER3
+      source: ER3
+      kind: edit
+      statement: >
+        EXPLAIN on a SELECT statement prints the physical plan tree
+        with one operator per line and one level of indent per child.
+    - id: I-ER4
+      source: ER4
+      kind: edit
+      statement: >
+        The legacy ASCII-art pretty-printer (Unicode box-drawing
+        characters) is removed entirely.
+    - id: I-ER5
+      source: ER5
+      kind: edit
+      statement: >
+        The legacy --fast-mode flag (previously bypassed the WAL) is
+        removed entirely.
+    - id: I-ER6
+      source: ER6
+      kind: edit
+      statement: >
+        The WAL on-disk format is preserved byte-for-byte; a file
+        produced by the pre-edit version is still readable.
+    - id: I-ER7
+      source: ER7
+      kind: edit
+      statement: >
+        REPL meta-commands and their output shapes are preserved.
+    - id: I-ER8
+      source: ER8
+      kind: edit
+      statement: >
+        Transaction boundary semantics (auto-commit outside BEGIN;
+        commit is the durability point) are preserved.
+
+tags: [rust, sql, edit, aggregation, join, explain, wal]

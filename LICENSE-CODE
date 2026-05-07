@@ -1,0 +1,12 @@
+Copyright 2026 Build-and-Find Authors
+
+The software source code in this repository is licensed under the Apache
+License, Version 2.0.
+
+SPDX-License-Identifier: Apache-2.0
+
+Official license text: https://www.apache.org/licenses/LICENSE-2.0
+
+This software license applies to source code, scripts, tests, build
+configuration, and generated code artifacts under release artifact directories.
+Dataset-like assets are licensed separately in LICENSE-DATA.

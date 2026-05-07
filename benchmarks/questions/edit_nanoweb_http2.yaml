@@ -1,0 +1,258 @@
+task_id: edit_nanoweb_http2
+
+# Design note
+# -----------
+# Edit-phase questions probe subtle preservation (middleware order,
+# route API shape, metric series labels) and placement choices for new
+# features (where exactly HTTP/2 lives relative to HTTP/1.1; where the
+# trace-context middleware sits in the chain). Distractors are
+# defensible alternative refactor paths, not obvious strawmen.
+
+questions:
+  - question_id: q_en_01
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-SR1
+    question_type: design_intention_recognition
+    prompt: >
+      How does this edit integrate HTTP/2 next to the existing HTTP/1.1
+      support?
+    options:
+      A: "HTTP/1.1 is removed; HTTP/2 is the only protocol; plain-HTTP clients are no longer served"
+      B: "HTTP/2 lives in a sibling sub-module of the HTTP/1.1 parser; both emit into a shared Request / Response abstraction so routers and middleware are version-agnostic"
+      C: "HTTP/2 requests are translated to HTTP/1.1 at the accept loop before entering the router, so only the HTTP/1.1 code path is ever exercised end-to-end"
+      D: "HTTP/2 and HTTP/1.1 have fully independent handler registries selected by connection type at the server layer"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR1
+      source_intention_id: I-SR1
+    distractor_strategy: plausible_alternative_integration
+
+  - question_id: q_en_02
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-SR2
+    question_type: design_intention_recognition
+    prompt: >
+      How are streaming response bodies expressed to handler authors?
+    options:
+      A: "as a callback: the handler receives a Writer and writes bytes into it synchronously"
+      B: "as an async Stream of byte chunks returned from the handler; the framework frames them as chunked under HTTP/1.1 and as DATA frames under HTTP/2"
+      C: "as a path to a file on disk that the server mmaps and forwards via sendfile"
+      D: "as a channel: the handler spawns a task that pushes chunks into a mpsc::Sender owned by the framework"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR2
+      source_intention_id: I-SR2
+    distractor_strategy: plausible_alternative_streaming_api
+
+  - question_id: q_en_03
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-SR3
+    question_type: design_intention_recognition
+    prompt: >
+      Where in the request lifecycle does trace-context propagation run?
+    options:
+      A: "inside each handler: handlers that want tracing parse the traceparent header themselves"
+      B: "inside the HTTP parser module: traceparent is exposed as a typed field on Request"
+      C: "inside a dedicated middleware installed before the router in the default chain, so every route gets it automatically"
+      D: "inside the metrics module: tracing headers are lifted into Prometheus labels and discarded after that"
+    correct_option: C
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR3
+      source_intention_id: I-SR3
+    distractor_strategy: plausible_alternative_placement
+
+  - question_id: q_en_04
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER7
+    question_type: edit_preserve_recognition
+    prompt: >
+      After the edit, what is the ordering contract for middleware?
+    options:
+      A: "user-registered middleware order is inverted (last-registered runs first) to match typical other frameworks"
+      B: "user-registered middleware order is preserved outer-to-inner; the new built-in trace-context middleware is inserted before the router without reordering any user middleware"
+      C: "middleware order is now determined by a priority attribute; user middleware with no priority runs last"
+      D: "middleware are all executed concurrently; the order is not defined"
+    correct_option: B
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER7
+      source_intention_id: I-ER7
+    distractor_strategy: plausible_alternative_ordering
+
+  - question_id: q_en_05
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER6
+    question_type: edit_preserve_recognition
+    prompt: >
+      What happened to the public router API during this edit?
+    options:
+      A: "it was rewritten on a flat hash map; the trie is gone; registration takes (method, exact_path, handler)"
+      B: "it was moved into a configuration file; there is no longer a programmatic router.register(...) entry point"
+      C: "it is unchanged in shape (trie-backed with literal / param / wildcard segments, HEAD->GET fallback, OPTIONS auto-Allow); the public register / match signatures did not break"
+      D: "it now requires a compile-time macro to register routes; programmatic registration at runtime is deprecated"
+    correct_option: C
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER6
+      source_intention_id: I-ER6
+    distractor_strategy: plausible_alternative_refactor
+
+  - question_id: q_en_06
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER8
+    question_type: edit_preserve_recognition
+    prompt: >
+      How are Prometheus metrics affected by this edit?
+    options:
+      A: "the /metrics endpoint is removed; observability moves to OpenTelemetry OTLP over gRPC"
+      B: "the counter and histogram series are renamed to include a protocol label (e.g. http2_requests_total); the HTTP/1.1 names are removed"
+      C: "the Prometheus endpoint and existing series names/labels are preserved; new HTTP/2 and streaming paths emit into the SAME series"
+      D: "metrics now live in a sidecar process; nanoweb writes raw samples to a Unix socket"
+    correct_option: C
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER8
+      source_intention_id: I-ER8
+    distractor_strategy: plausible_alternative_metric_evolution
+
+  - question_id: q_en_07
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER4
+    question_type: negative_contrast
+    prompt: >
+      The legacy digest-auth middleware is being removed. Which of these
+      actions is INCONSISTENT with what the edit actually does?
+    options:
+      A: "the digest-auth middleware struct, its Middleware impl, its config section, its tests, and its README entry are all deleted"
+      B: "the basic-auth middleware remains in place and continues to be registered in the default chain"
+      C: "the default middleware chain factory no longer references the digest-auth type"
+      D: "the digest-auth middleware module is retained but its constructor is made private and its README entry updated to note it is deprecated"
+    correct_option: D
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER4
+      source_intention_id: I-ER4
+    distractor_strategy: partial_removal_bait
+
+  - question_id: q_en_08
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER5
+    question_type: edit_remove_recognition
+    prompt: >
+      What happened to configuration formats during this edit?
+    options:
+      A: "INI stays as the default; TOML is now an opt-in via --config-format toml"
+      B: "both INI and TOML are kept; a new merged loader picks up whichever the file extension matches"
+      C: "INI support is removed entirely (loader module deleted, --config-format flag deleted); TOML is the sole config format and supplying a .ini file yields a clear error"
+      D: "INI and TOML are both kept; a warning is printed on .ini files but they still load"
+    correct_option: C
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER5
+      source_intention_id: I-ER5
+    distractor_strategy: plausible_alternative_deprecation_paths
+
+  - question_id: q_en_09
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER1
+    question_type: edit_add_recognition
+    prompt: >
+      Under what conditions does the server speak HTTP/2?
+    options:
+      A: "only over TLS, and only when the client successfully negotiates h2 via ALPN"
+      B: "both over plaintext (h2c) and over TLS (h2 via ALPN); plaintext falls back to HTTP/1.1 when the client does not upgrade"
+      C: "only with a specific --http2 CLI flag; by default the server is HTTP/1.1-only"
+      D: "only for localhost connections; remote peers are always served HTTP/1.1"
+    correct_option: B
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER1
+      source_intention_id: I-ER1
+    distractor_strategy: plausible_alternative_negotiation
+
+  - question_id: q_en_10
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER3
+    question_type: edit_add_recognition
+    prompt: >
+      What does the new trace-context middleware do with an incoming
+      request that already carries a traceparent header?
+    options:
+      A: "it overwrites the incoming traceparent with a freshly generated one to guarantee uniqueness"
+      B: "it rejects the request with 400 if the trace id is not in the server's allowlist"
+      C: "it parses the incoming traceparent, attaches the trace id to the per-request log context, and mirrors both traceparent and tracestate on the response"
+      D: "it strips the traceparent header so downstream handlers cannot depend on external trace data"
+    correct_option: C
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER3
+      source_intention_id: I-ER3
+    distractor_strategy: plausible_alternative_tracing_handling
+
+  - question_id: q_en_11
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER9
+    question_type: failure_mode_recognition
+    prompt: >
+      SIGTERM has arrived and the graceful-shutdown sequence is already
+      under way (new connections are being refused; in-flight requests
+      are draining). While draining, a load balancer probe hits
+      `/readyz`. What status code does the server return on that
+      probe?
+    options:
+      A: "200 OK — readiness reports liveness, which is independent of shutdown state"
+      B: "503 Service Unavailable — readiness flips off as soon as graceful shutdown begins, signalling the LB to stop sending new traffic"
+      C: "200 OK for the first probe after SIGTERM, then 503 once `graceful_timeout_s` has fully elapsed"
+      D: "connection refused — the `/readyz` listener is the first socket closed when shutdown starts"
+    correct_option: B
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER9
+      source_intention_id: I-ER9
+    distractor_strategy: readyz_semantics_misread
+
+  - question_id: q_en_12
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-SR1
+    question_type: forbidden_coupling
+    prompt: >
+      Trace the `use` statements in the router module and in the
+      standard middleware modules (logging, CORS, rate-limit, etc.).
+      Which of these imports is NOT present after the edit?
+    options:
+      A: "imports of the common `Request` / `Response` abstraction shared by both protocols"
+      B: "imports of the HTTP/2 module `http::h2` (its connection state, DATA frame types, or stream ids)"
+      C: "imports of the crate-wide error enum"
+      D: "imports of async runtime primitives (tokio or equivalent)"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR1
+      source_intention_id: I-SR1
+    distractor_strategy: protocol_leak_misread
+
+  - question_id: q_en_13
+    codebase_task_id: edit_nanoweb_http2
+    intention_id: I-ER8
+    question_type: multi_spec_interaction
+    prompt: >
+      A single handler is invoked twice with the same URL and method.
+      It returns a streaming body both times. The first invocation
+      arrives over HTTP/1.1 (framed as chunked transfer encoding);
+      the second arrives over HTTP/2 (framed as DATA frames). Where
+      do those two requests show up in the Prometheus text exposition
+      scraped from `/metrics`?
+    options:
+      A: "in separate counter series — there is an `http_version` label that splits 1.1 from 2.0 traffic across every metric family"
+      B: "in the same counter and histogram series — the pre-existing HTTP metric families carry the same label set for both protocols, per the spec's preservation contract"
+      C: "only the HTTP/1.1 request is counted; the HTTP/2 streaming path bypasses the metrics module entirely"
+      D: "in a new dedicated `streaming_*` family disjoint from the pre-existing `http_*` families"
+    correct_option: B
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER8
+      source_intention_id: I-ER8
+    distractor_strategy: metrics_split_misread

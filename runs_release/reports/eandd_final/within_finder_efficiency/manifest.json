@@ -1,0 +1,97 @@
+{
+  "analysis_script": "scripts/analyze_eandd_within_finder_efficiency.py",
+  "generated_at": "2026-05-03T20:04:26.141382+00:00",
+  "input_panel": "runs_release/records compile-pass final logical panel",
+  "metric_contract": {
+    "conditional_gate": "perfect_run: average only find runs whose task accuracy is 1.0; a (builder, finder, task) cell contributes if at least one run is perfect",
+    "headline": "total_bytes = novel_retrieval_bytes + novel_tool_call_bytes",
+    "normalization": "within each (finder, task), divide each builder cell by the minimum builder cost in the same panel",
+    "preferred_recovery": "soft_full_recovery = accuracy ** question_count / inspection bytes, normalized by the maximum builder value within each (finder, task), then geomean across cells",
+    "recovery_diagnostics": {
+      "answer_accuracy": "legacy answer-level accuracy divided by inspection bytes; retained as a diagnostic because it can over-reward low-cost partial recovery",
+      "perfect_run_rate": "observed perfect-task run rate divided by inspection bytes; strict but high variance with six runs per cell"
+    },
+    "secondary_gates": {
+      "all_runs": "average every run, regardless of accuracy",
+      "max_penalty": "use perfect-run mean when available; otherwise assign the max all-run mean cost observed in the same (finder, task)"
+    }
+  },
+  "panels": [
+    {
+      "builders": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_opus_4_7_high",
+        "claude_code_sonnet_4_6_high",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_5_high"
+      ],
+      "description": "Primary high-effort panel: high builders inspected by high finders",
+      "finders": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_opus_4_7_high",
+        "claude_code_sonnet_4_6_high",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_5_high"
+      ],
+      "panel_id": "high_effort",
+      "primary": true
+    },
+    {
+      "builders": [
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_low"
+      ],
+      "description": "Primary low-effort panel: low builders inspected by low finders",
+      "finders": [
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_low"
+      ],
+      "panel_id": "low_effort",
+      "primary": true
+    },
+    {
+      "builders": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "description": "Diagnostic only: all builders and all finders pooled across effort regimes",
+      "finders": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "panel_id": "all_effort_diagnostic",
+      "primary": false
+    }
+  ],
+  "run_rows": 1476
+}

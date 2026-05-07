@@ -1,0 +1,299 @@
+{
+  "find_run_id": "control-find-control-build-question_only--claude_code_sonnet_4_6_high-t0-s20260501-7ad8d495",
+  "build_run_id": "control-build-question_only-scratch_nanoweb-0e7cab7b",
+  "task_id": "scratch_nanoweb",
+  "manifest": {
+    "run_id": "control-find-control-build-question_only--claude_code_sonnet_4_6_high-t0-s20260501-7ad8d495",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "93eff9c7b7f27409",
+    "agent": {
+      "id": "claude_code_sonnet_4_6_high",
+      "adapter": "claude_code",
+      "model_id": "claude-sonnet-4-6",
+      "adapter_version": null
+    },
+    "seed": 20260501,
+    "trial_id": 0,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-02T18:26:21.549394+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "presented_options": {
+        "A": "it is a hand-written parser module that reads bytes directly and that no other layer reaches into — routers and middleware consume typed Request / Response values only",
+        "B": "requests are proxied to a trusted upstream server and the parsed form is ingested; the framework itself doesn't parse HTTP",
+        "C": "parsing is done lazily inside each handler on a per-need basis; there is no central parser module",
+        "D": "it is a thin wrapper around a third-party HTTP library (hyper/httparse) configured for strict mode"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "D",
+      "is_correct": false,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "For a Rust HTTP framework, wrapping httparse (the standard low-level byte-level HTTP/1.x parsing crate) is overwhelmingly common. q_nw_14 option D (likely-true import) mentions 'the bytes crate or equivalent' consistent with a parser that delegates raw parsing to httparse while the outer framework deals only in typed Request/Response values."
+    },
+    {
+      "question_id": "q_nw_02",
+      "presented_options": {
+        "A": "it hashes the full path and looks the handler up in a HashMap<(Method, String), Handler>",
+        "B": "it walks a trie whose node kinds are literal / parameter / wildcard; match is O(path-length) and allocates only the parameter map",
+        "C": "it compiles all registered paths into a single regex at startup and runs captures on each request",
+        "D": "it does a linear scan over a Vec<(Method, String, Handler)> and falls back to a 404 on the first non-match"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A trie router with literal/parameter/wildcard node kinds is the standard modern approach for path-parameter-aware routing. q_nw_03 confirms path parameters exist, and a trie handles them O(path-length) without a full linear scan or regex overhead, fitting a 'nano' but correct framework."
+    },
+    {
+      "question_id": "q_nw_03",
+      "presented_options": {
+        "A": "registering GET /users automatically registers POST /users with the same handler for convenience",
+        "B": "path parameters (e.g. /users/:id) are captured and made available to the handler through a typed params map",
+        "C": "an OPTIONS request on a defined route returns an Allow header listing the methods registered for that path",
+        "D": "a HEAD request reuses the GET handler and omits the body from the response"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "No well-designed HTTP framework automatically registers POST when GET is registered — methods are independent semantics. Options B (path params), C (OPTIONS/Allow), and D (HEAD reuses GET) are all standard, documented HTTP framework behaviors. A is clearly inconsistent."
+    },
+    {
+      "question_id": "q_nw_04",
+      "presented_options": {
+        "A": "each middleware implements a single object-safe trait; the chain is a list of trait objects whose registration order drives outer-to-inner call order",
+        "B": "each middleware is a closure stored in a Vec; the chain is executed by a fold over that Vec each request",
+        "C": "middlewares are composed via tower::Layer and tower::Service; nanoweb re-exports the tower types",
+        "D": "middlewares are chosen per request by a proc-macro that expanded at compile time to a different fn for each route"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A single object-safe middleware trait with a Vec of trait objects and outer-to-inner execution order is the idiomatic Rust approach for a self-contained 'nano' framework. Tower (C) would introduce a heavy external dependency. Proc-macros (D) are too complex for middleware composition."
+    },
+    {
+      "question_id": "q_nw_05",
+      "presented_options": {
+        "A": "TLS is a runtime decision based on the NANOWEB_TLS env var; both code paths are always compiled",
+        "B": "TLS is gated by a Cargo feature (tls) that is enabled by default; with the feature off the crate still builds and the --tls-cert flag emits a clear error",
+        "C": "TLS lives in a separate sibling crate nanoweb-tls that the main crate re-exports",
+        "D": "TLS is a required dependency; the crate does not compile without rustls"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Cargo feature-gating TLS (enabled by default, crate still builds without it, emitting a clear error when TLS flags are used without the feature) is the standard Rust ecosystem pattern. This is also directly confirmed by q_nw_15's scenario setup: 'compiled WITHOUT the optional tls Cargo feature.'"
+    },
+    {
+      "question_id": "q_nw_06",
+      "presented_options": {
+        "A": "it hot-reloads the config without exiting; shutdown requires SIGQUIT",
+        "B": "it exits immediately; in-flight connections are dropped mid-response",
+        "C": "it drains the TCP buffers but keeps the process alive so a supervisor can signal readiness again",
+        "D": "it stops accepting new connections, lets in-flight requests complete up to a bounded graceful_timeout_s, then exits 0"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Graceful shutdown — stop accepting, let in-flight requests complete up to a bounded timeout, then exit 0 — is the standard production web server behavior. The existence of 'graceful_timeout_s' referenced in q_nw_13 confirms this timeout-bounded graceful shutdown pattern."
+    },
+    {
+      "question_id": "q_nw_07",
+      "presented_options": {
+        "A": "it writes one statsd UDP packet per request to localhost:8125",
+        "B": "it mounts a Prometheus text-exposition endpoint at a configurable path with per-method/status/route counters and a request-duration histogram",
+        "C": "it logs one structured JSON line per request; aggregation happens downstream",
+        "D": "it emits OpenTelemetry OTLP over gRPC to a collector configured via env var"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "C",
+      "is_correct": false,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "For a 'nano' minimal framework, structured JSON logging per request is the simplest and most common observability primitive. q_nw_11 lists 'logger' as the outermost default middleware, consistent with per-request structured log lines. Full Prometheus or OTLP would be too heavy for a nano framework."
+    },
+    {
+      "question_id": "q_nw_08",
+      "presented_options": {
+        "A": "it passes an inbound X-Correlation-Id through unchanged and does nothing if the header is absent",
+        "B": "it correlates requests only within a session cookie; there is no per-request id",
+        "C": "it uses the TCP connection's 4-tuple as an implicit id; no HTTP header is set",
+        "D": "it generates a fresh id per request, attaches it to the structured log context for that request, and mirrors it to the response as X-Request-Id"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Generating a fresh UUID/nanoid per request, attaching it to the structured log context, and echoing it as X-Request-Id is the standard modern approach for distributed tracing and log correlation. This pairs naturally with the structured JSON logging (q_nw_07 answer C)."
+    },
+    {
+      "question_id": "q_nw_09",
+      "presented_options": {
+        "A": "scattered across each consuming module — wherever a value is read, the module checks CLI then TOML",
+        "B": "inside main as a long if-else chain immediately before tokio::main boots the server",
+        "C": "inside a single config module that loads TOML, applies CLI overrides, and yields one Config struct that all other modules consume",
+        "D": "inside clap's derive macros via #[arg(default_value_from_fn)] hooks that reach into the TOML at parse time"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A dedicated config module that loads TOML, applies CLI overrides, and yields a single Config struct is the canonical well-designed approach. Scattering the logic across modules (A) or duplicating it in main (B) both violate single-responsibility. Clap hooks into TOML (D) is overly coupled."
+    },
+    {
+      "question_id": "q_nw_10",
+      "presented_options": {
+        "A": "there is no template engine; handlers build HTML by hand",
+        "B": "a compile-time HTML macro (like maud) that produces typed HTML fragments",
+        "C": "a minimal mustache-style renderer with variable interpolation ({{name}}), sections ({{#list}}{{/list}}), and inverted sections ({{^absent}}{{/absent}})",
+        "D": "a full Jinja2-compatible engine with filters, macros, template inheritance, and sandboxed eval"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A minimal mustache-style renderer ({{name}}, {{#section}}, {{^inverted}}) fits the 'nano' philosophy: useful templating without the weight of a full Jinja2 engine or compile-time macros. It provides the 80% use-case with minimal complexity."
+    },
+    {
+      "question_id": "q_nw_11",
+      "presented_options": {
+        "A": "logger, gzip, sliding-window rate limit per API key, CORS, OAuth2 bearer guard",
+        "B": "logger, gzip, token-bucket rate limit per client IP, CORS, double-submit-cookie CSRF, basic auth",
+        "C": "logger, gzip, rate limit, CORS, CSRF, basic auth — exactly the six types registered in the default middleware chain",
+        "D": "logger as the outermost middleware, with basic auth among the inner middlewares"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Option C names the actual six default middleware types (logger, gzip, rate-limit, CORS, CSRF, basic-auth). Option A replaces CSRF+basic-auth with 'OAuth2 bearer guard' and uses 'sliding-window rate limit per API key' — both inconsistent with the default set. A is therefore the inconsistent combination."
+    },
+    {
+      "question_id": "q_nw_12",
+      "presented_options": {
+        "A": "a single NanowebError enum is the return type of top-level fallible entry points; submodule errors convert at their public boundary",
+        "B": "errors are conveyed by panicking on the fallible path and recovering via catch_unwind at the accept loop",
+        "C": "errors are stringly typed: Result<T, String> end to end",
+        "D": "each submodule exposes its own error type; the server returns Box<dyn Error + Send + Sync> and callers downcast"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A single NanowebError enum as the top-level error type, with submodule errors converting via From/Into at their public boundary, is the standard ergonomic Rust error handling pattern for a library crate. It avoids the type-erasure of Box<dyn Error> and the unsoundness of panic/catch_unwind."
+    },
+    {
+      "question_id": "q_nw_13",
+      "presented_options": {
+        "A": "waits indefinitely until every in-flight request completes, then exits with code 0",
+        "B": "exits with code 1 because at least one request was still in flight when the timeout elapsed",
+        "C": "aborts immediately on SIGTERM, replying 503 to all in-flight connections, then exits non-zero",
+        "D": "waits up to ~30 seconds, then exits with code 0; the two long-running handlers are abandoned mid-response"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "With a graceful_timeout_s default (~30 seconds) and two handlers that need 60 seconds, the server will wait approximately 30 seconds then exit 0 (clean shutdown), abandoning the two long-running handlers mid-response. Exit code 0 is consistent with a planned graceful shutdown completing its timeout normally."
+    },
+    {
+      "question_id": "q_nw_14",
+      "presented_options": {
+        "A": "the parser imports its own internal helper submodules (e.g. chunked-body decoder, header folding) but nothing from outside `http::`",
+        "B": "the parser imports the router module (e.g. trie node types or route-match results)",
+        "C": "the parser imports HTTP shape types (Method, Header, Version) from a sibling `http::types` (or equivalent) module",
+        "D": "the parser imports byte-handling helpers (std::str, the `bytes` crate, or equivalent) and the crate's `error` module"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A well-designed HTTP parser module should have no dependency on the router — parsing and routing are independent concerns. Importing router types (trie nodes, route-match results) into the parser would be an architectural violation. All other options (own submodules, HTTP shape types, byte helpers + error module) are expected imports for a parser."
+    },
+    {
+      "question_id": "q_nw_15",
+      "presented_options": {
+        "A": "panics on the unrecognised flag — the TLS-related CLI flags only exist when the feature is on",
+        "B": "starts a plain HTTP listener on 8443 and ignores the TLS flags with a warning on stderr",
+        "C": "starts an HTTPS listener using a self-signed cert generated at startup; the user-supplied cert files are ignored",
+        "D": "prints a clear error explaining TLS support was not compiled in (the `tls` feature is off) and exits non-zero without binding the port"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "From q_nw_05 (B): with the tls feature off, 'the --tls-cert flag emits a clear error.' The CLI flags still exist (so A/panic is wrong), but using them without the feature compiled in prints a clear diagnostic error and exits non-zero without binding the port. This is the standard feature-gate UX pattern."
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 132.36599970795214,
+    "usage_source": "project_log",
+    "session_id": "c6991bbf-1a1b-407f-bcad-a3e6fd8bf7f3",
+    "prompt_bytes": 8515,
+    "retrieval_payload_bytes": 212,
+    "tool_input_bytes": 6946,
+    "assistant_message_bytes": 828,
+    "final_answer_bytes": 667,
+    "bytes_to_model": 8727,
+    "bytes_from_model": 7774,
+    "tool_calls": 1,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 3,
+      "cache_creation_input_tokens": 16577,
+      "cache_read_input_tokens": 54376,
+      "output_tokens": 6635,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 77591,
+      "cost_usd": 0.18066954999999996
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 212,
+      "novel_tool_call_bytes": 7329,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 130.47099494934082,
+      "generation_tok_per_s": 52.82788123829025,
+      "tool_names": {
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 73520,
+        "cached_input_tokens": 54376,
+        "uncached_input_tokens": 19144,
+        "cache_creation_input_tokens": 16577,
+        "non_reasoning_output_tokens": 6654,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 80174
+      },
+      "proxy_session_id": "kNBmNkWLGU-GcfMK",
+      "request_count": 3,
+      "raw_request_bytes": 301200,
+      "raw_response_bytes": 207300
+    }
+  },
+  "status": "ok",
+  "error": null
+}

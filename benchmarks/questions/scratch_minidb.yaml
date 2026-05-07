@@ -1,0 +1,303 @@
+task_id: scratch_minidb
+
+# Design note
+# -----------
+# Each question contrasts the spec-intended design against three plausible
+# alternative designs a different team could have chosen. Distractors are
+# never obvious strawmen (e.g. "delegate to external process", "HTTP/3").
+# The finder must read the implementation, not just grep for keywords, to
+# tell which shape the codebase reflects.
+
+questions:
+  - question_id: q_db_01
+    codebase_task_id: scratch_minidb
+    intention_id: I-FR2
+    question_type: capability_recognition
+    prompt: >
+      Batch mode maps different failure categories to different exit
+      codes. Which mapping does the codebase implement?
+    options:
+      A: "0 = OK, 1 = any error (SQL, CLI, or IO collapsed together), with stderr distinguishing the category"
+      B: "0 = OK, 1 = SQL error, 2 = CLI usage error, 3 = storage/IO error"
+      C: "0 = OK, 64 = usage (sysexits.h), 65 = SQL syntax, 74 = IO"
+      D: "0 = OK, 1 = SQL error, 2 = storage/IO, 3 = CLI usage (CLI last because it's the rarest)"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR2
+      source_intention_id: I-FR2
+    distractor_strategy: plausible_alternative_taxonomy
+
+  - question_id: q_db_02
+    codebase_task_id: scratch_minidb
+    intention_id: I-FR13
+    question_type: capability_recognition
+    prompt: >
+      Outside of an explicit BEGIN, how is a statement's durability
+      handled?
+    options:
+      A: "each statement is implicitly wrapped in its own transaction that commits on success, matching BEGIN/COMMIT semantics"
+      B: "statements run without any transaction; durability is deferred to a periodic checkpoint"
+      C: "statements run under a long-running implicit transaction that commits only when the process exits"
+      D: "statements inherit the transaction of the previous BEGIN if any was ever opened in the session"
+    correct_option: A
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR13
+      source_intention_id: I-FR13
+    distractor_strategy: plausible_alternative_semantics
+
+  - question_id: q_db_03
+    codebase_task_id: scratch_minidb
+    intention_id: I-FR14
+    question_type: design_intention_recognition
+    prompt: >
+      What is the overall shape of the durability/recovery strategy?
+    options:
+      A: "shadow paging: mutations go to a copy page; a pointer swap at commit promotes the copy atomically"
+      B: "an append-only write-ahead log, replayed at startup to re-apply committed transactions and drop the uncommitted suffix"
+      C: "ARIES-style WAL with explicit undo and redo records plus a separate dirty-page table checkpoint"
+      D: "synchronous double-write: every page is written to a scratch region before being written to its home location"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR14
+      source_intention_id: I-FR14
+    distractor_strategy: plausible_alternative_architecture
+
+  - question_id: q_db_04
+    codebase_task_id: scratch_minidb
+    intention_id: I-SR6
+    question_type: design_intention_recognition
+    prompt: >
+      How are individual WAL records protected against torn/partial
+      writes?
+    options:
+      A: "each record carries a CRC32; replay stops at the first record whose CRC fails to verify"
+      B: "records are padded to a fixed 512-byte sector boundary; partial sectors are discarded"
+      C: "no per-record check; a single CRC covers the whole WAL file on clean shutdown"
+      D: "records are written in pairs (main + mirror); replay prefers whichever pair verifies"
+    correct_option: A
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR6
+      source_intention_id: I-SR6
+    distractor_strategy: plausible_alternative_implementation
+
+  - question_id: q_db_05
+    codebase_task_id: scratch_minidb
+    intention_id: I-SR3
+    question_type: design_intention_recognition
+    prompt: >
+      What execution model does the query engine use?
+    options:
+      A: "vectorised/columnar execution where each operator produces and consumes batches of column vectors"
+      B: "a Volcano-style iterator tree: each operator exposes open/next/close and returns one row (or tiny batch) at a time"
+      C: "materialising execution: each operator fully computes its output set before the next operator starts reading"
+      D: "push-based execution where operators drive their children forward via a single dataflow scheduler"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR3
+      source_intention_id: I-SR3
+    distractor_strategy: plausible_alternative_execution_model
+
+  - question_id: q_db_06
+    codebase_task_id: scratch_minidb
+    intention_id: I-SR7
+    question_type: design_intention_recognition
+    prompt: >
+      How are secondary indexes physically organised?
+    options:
+      A: "a hash map keyed by the indexed value alone; collisions chain a Vec<RowId>"
+      B: "a B-tree keyed by the composite (index_key, row_id); duplicates are naturally ordered by row_id"
+      C: "a bitmap per distinct value; looked up with bitwise AND for compound predicates"
+      D: "an inverted list built lazily on first query and cached in memory"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR7
+      source_intention_id: I-SR7
+    distractor_strategy: plausible_alternative_implementation
+
+  - question_id: q_db_07
+    codebase_task_id: scratch_minidb
+    intention_id: I-SR4
+    question_type: negative_contrast
+    prompt: >
+      Which of the following is INCONSISTENT with the set of physical
+      operators this codebase actually provides?
+    options:
+      A: "SeqScan, IndexScan, Filter, Project, NestedLoopJoin, Sort, Limit, Insert, Update, Delete each as a distinct type"
+      B: "IndexScan and SeqScan as two variants of a single ScanKind enum so the executor only has one Scan operator"
+      C: "Filter and Project exist as separate types rather than being fused into one 'SelectExpr' operator"
+      D: "Update and Delete are distinct operators rather than one 'Mutate' operator parameterised by a kind"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR4
+      source_intention_id: I-SR4
+    distractor_strategy: near_miss_consolidation
+    notes: >
+      Spec lists distinct operator types per SR4 / I-SR4. Option B fuses
+      Scan kinds into one operator, violating the "distinct types"
+      contract. A/C/D are all consistent with the spec.
+
+  - question_id: q_db_08
+    codebase_task_id: scratch_minidb
+    intention_id: I-SR2
+    question_type: design_intention_recognition
+    prompt: >
+      Where does index selection (the choice between SeqScan and
+      IndexScan) happen?
+    options:
+      A: "inside the parser, encoded as a special AST node when the WHERE clause mentions an indexed column"
+      B: "inside the planner when lowering the logical plan to a physical plan; the parser only produces ASTs"
+      C: "inside the executor at open() time, after consulting the catalog to see whether an index is applicable"
+      D: "inside the storage layer, which transparently redirects SeqScan calls through the index when available"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR2
+      source_intention_id: I-SR2
+    distractor_strategy: plausible_alternative_placement
+
+  - question_id: q_db_09
+    codebase_task_id: scratch_minidb
+    intention_id: I-SR9
+    question_type: design_intention_recognition
+    prompt: >
+      How do distinct error sources (IO, parse, type-check, runtime) flow
+      out of this crate?
+    options:
+      A: "each subsystem defines its own error type; the CLI sees a Box<dyn Error> and pattern-matches on downcast"
+      B: "a single crate-wide error enum with one variant per source is the return type of top-level entry points; lower modules convert at their public boundary"
+      C: "errors are encoded as strings (Result<T, String>) so every caller formats them uniformly"
+      D: "errors are propagated via panics with typed payloads and caught at the CLI via std::panic::catch_unwind"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR9
+      source_intention_id: I-SR9
+    distractor_strategy: plausible_alternative_error_strategy
+
+  - question_id: q_db_10
+    codebase_task_id: scratch_minidb
+    intention_id: I-FR15
+    question_type: capability_recognition
+    prompt: >
+      Which set of SELECT output formats is implemented, with what switch
+      mechanism?
+    options:
+      A: "the format is fixed at build time via a Cargo feature (--features=json)"
+      B: "table / csv / json selectable via a --format CLI flag or a .format meta-command in the REPL"
+      C: "table output only; downstream callers are expected to parse and re-format it themselves"
+      D: "table / json / messagepack selectable only via an environment variable MINIDB_FORMAT"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR15
+      source_intention_id: I-FR15
+    distractor_strategy: plausible_alternative_switch_mechanism
+
+  - question_id: q_db_11
+    codebase_task_id: scratch_minidb
+    intention_id: I-FR16
+    question_type: negative_contrast
+    prompt: >
+      The CLI tries to make scripted use pleasant by separating "data
+      output" from "progress output". Which of these behaviours would be
+      INCONSISTENT with the codebase's contract on that separation?
+    options:
+      A: "per-statement summary lines (e.g. `ok 3 rows`) go to stderr, letting callers pipe stdout straight into another tool"
+      B: "when --format json is active, the JSON value is the only thing on stdout — no banner lines, no trailing 'ok' line"
+      C: "--quiet suppresses the per-statement summary entirely; stdout still carries the data stream"
+      D: "the per-statement summary is written to stdout immediately before the data so callers see it arrive first"
+    correct_option: D
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR16
+      source_intention_id: I-FR16
+    distractor_strategy: near_miss_routing_violation
+
+  - question_id: q_db_12
+    codebase_task_id: scratch_minidb
+    intention_id: I-SR5
+    question_type: negative_contrast
+    prompt: >
+      Which statement about the on-disk storage layer would be
+      INCONSISTENT with how the codebase actually organises pages?
+    options:
+      A: "the page size is a single compile-time constant referenced throughout storage"
+      B: "pages are identified by a newtype over u64 (PageId) rather than a bare integer"
+      C: "pages are a mixed size; the header chooses between 4 KiB and 16 KiB per table based on row width"
+      D: "the heap stores rows inside fixed-size pages rather than one file per row"
+    correct_option: C
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR5
+      source_intention_id: I-SR5
+    distractor_strategy: near_miss_variable_size
+
+  - question_id: q_db_13
+    codebase_task_id: scratch_minidb
+    intention_id: I-FR14
+    question_type: failure_mode_recognition
+    prompt: >
+      A transaction wrote three INSERT statements; their WAL records
+      all reached durable storage (fsync returned). The COMMIT record
+      was never written before the process crashed. The next `minidb`
+      startup completes its recovery routine and a fresh SELECT runs
+      against the affected table. What does the SELECT see?
+    options:
+      A: "all three rows — every fsynced WAL record is replayed on startup"
+      B: "no rows — a transaction whose WAL trail has no COMMIT record is treated as an uncommitted prefix and discarded"
+      C: "the two earliest rows — only WAL records that survive the CRC check are replayed; the trailing one is dropped"
+      D: "an error at startup demanding manual recovery before any SELECT can run"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR14
+      source_intention_id: I-FR14
+    distractor_strategy: failure_scenario_misreading
+
+  - question_id: q_db_14
+    codebase_task_id: scratch_minidb
+    intention_id: I-SR12
+    question_type: forbidden_coupling
+    prompt: >
+      Search this codebase for direct uses of the `eprintln!` macro
+      OUTSIDE the `cli` module (i.e. anywhere under `src/` other than
+      the CLI entry-point file or the `cli/` subtree). What does the
+      search return?
+    options:
+      A: "zero hits — every diagnostic outside the CLI boundary goes through the `log` facade"
+      B: "a small number of hits inside `exec` operators, used to print per-row debugging during EXPLAIN"
+      C: "scattered hits across most modules; the codebase routinely uses `eprintln!` for diagnostics"
+      D: "hits only in `parser` and `error`, where the modules format diagnostic messages directly"
+    correct_option: A
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR12
+      source_intention_id: I-SR12
+    distractor_strategy: plausible_logging_pattern
+
+  - question_id: q_db_15
+    codebase_task_id: scratch_minidb
+    intention_id: I-FR15
+    question_type: multi_spec_interaction
+    prompt: >
+      The user invokes `minidb --format yaml --eval "SELECT 1;"`.
+      `yaml` is not a supported value for `--format`. What does the
+      process do?
+    options:
+      A: "exits with code 2 and prints a CLI usage error on stderr naming the bad value"
+      B: "exits with code 1 and prints a SQL error pointing at the SELECT"
+      C: "executes the SELECT and silently falls back to the default `table` format"
+      D: "panics with an unwrap on the unrecognised format string"
+    correct_option: A
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR15
+      source_intention_id: I-FR15
+    distractor_strategy: cross_section_misclassification

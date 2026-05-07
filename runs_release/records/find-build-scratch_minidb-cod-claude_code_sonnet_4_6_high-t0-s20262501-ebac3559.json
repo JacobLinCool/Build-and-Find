@@ -1,0 +1,368 @@
+{
+  "find_run_id": "find-build-scratch_minidb-cod-claude_code_sonnet_4_6_high-t0-s20262501-ebac3559",
+  "build_run_id": "build-scratch_minidb-codex_gpt5_5_high-t1-s20260502-0c54a173",
+  "task_id": "scratch_minidb",
+  "manifest": {
+    "run_id": "find-build-scratch_minidb-cod-claude_code_sonnet_4_6_high-t0-s20262501-ebac3559",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "6f0408db7ce832f4",
+    "agent": {
+      "id": "claude_code_sonnet_4_6_high",
+      "adapter": "claude_code",
+      "model_id": "claude-sonnet-4-6",
+      "adapter_version": null
+    },
+    "seed": 20262501,
+    "trial_id": 0,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-02T08:18:43.136272+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "presented_options": {
+        "A": "0 = OK, 1 = SQL error, 2 = storage/IO, 3 = CLI usage (CLI last because it's the rarest)",
+        "B": "0 = OK, 1 = SQL error, 2 = CLI usage error, 3 = storage/IO error",
+        "C": "0 = OK, 1 = any error (SQL, CLI, or IO collapsed together), with stderr distinguishing the category",
+        "D": "0 = OK, 64 = usage (sysexits.h), 65 = SQL syntax, 74 = IO"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [
+        "src/error.rs"
+      ],
+      "evidence_symbols": [
+        "MiniDbError::exit_code"
+      ],
+      "rationale": "exit_code() returns 1 for Parse/Sql/Type, 2 for Cli, 3 for Io/Storage errors."
+    },
+    {
+      "question_id": "q_db_02",
+      "presented_options": {
+        "A": "statements run under a long-running implicit transaction that commits only when the process exits",
+        "B": "statements inherit the transaction of the previous BEGIN if any was ever opened in the session",
+        "C": "statements run without any transaction; durability is deferred to a periodic checkpoint",
+        "D": "each statement is implicitly wrapped in its own transaction that commits on success, matching BEGIN/COMMIT semantics"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [
+        "src/txn.rs"
+      ],
+      "evidence_symbols": [
+        "TransactionManager::execute_auto"
+      ],
+      "rationale": "execute_auto() wraps each non-transactional statement in Begin/Statement/Commit WAL records."
+    },
+    {
+      "question_id": "q_db_03",
+      "presented_options": {
+        "A": "synchronous double-write: every page is written to a scratch region before being written to its home location",
+        "B": "shadow paging: mutations go to a copy page; a pointer swap at commit promotes the copy atomically",
+        "C": "an append-only write-ahead log, replayed at startup to re-apply committed transactions and drop the uncommitted suffix",
+        "D": "ARIES-style WAL with explicit undo and redo records plus a separate dirty-page table checkpoint"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "src/storage/wal.rs"
+      ],
+      "evidence_symbols": [
+        "Wal::replay"
+      ],
+      "rationale": "WAL is append-only; on startup, replay() reads records sequentially and only applies statements from committed transactions, discarding uncommitted tails."
+    },
+    {
+      "question_id": "q_db_04",
+      "presented_options": {
+        "A": "each record carries a CRC32; replay stops at the first record whose CRC fails to verify",
+        "B": "records are written in pairs (main + mirror); replay prefers whichever pair verifies",
+        "C": "no per-record check; a single CRC covers the whole WAL file on clean shutdown",
+        "D": "records are padded to a fixed 512-byte sector boundary; partial sectors are discarded"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [
+        "src/storage/wal.rs"
+      ],
+      "evidence_symbols": [
+        "Wal::write_record",
+        "Wal::replay"
+      ],
+      "rationale": "Each record is written as [len:u32][crc32:u32][payload]; replay stops at the first record whose CRC fails to verify."
+    },
+    {
+      "question_id": "q_db_05",
+      "presented_options": {
+        "A": "push-based execution where operators drive their children forward via a single dataflow scheduler",
+        "B": "vectorised/columnar execution where each operator produces and consumes batches of column vectors",
+        "C": "a Volcano-style iterator tree: each operator exposes open/next/close and returns one row (or tiny batch) at a time",
+        "D": "materialising execution: each operator fully computes its output set before the next operator starts reading"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "src/exec/mod.rs"
+      ],
+      "evidence_symbols": [
+        "PhysicalOperator"
+      ],
+      "rationale": "PhysicalOperator trait exposes open(), next(), close() — classic Volcano iterator model returning one row at a time."
+    },
+    {
+      "question_id": "q_db_06",
+      "presented_options": {
+        "A": "a hash map keyed by the indexed value alone; collisions chain a Vec<RowId>",
+        "B": "a B-tree keyed by the composite (index_key, row_id); duplicates are naturally ordered by row_id",
+        "C": "an inverted list built lazily on first query and cached in memory",
+        "D": "a bitmap per distinct value; looked up with bitwise AND for compound predicates"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [
+        "src/storage/btree.rs"
+      ],
+      "evidence_symbols": [
+        "BTreeIndex"
+      ],
+      "rationale": "BTreeIndex uses BTreeMap<ValueKey, BTreeSet<RowId>>, a B-tree structure where the index key maps to an ordered set of row IDs, supporting range queries."
+    },
+    {
+      "question_id": "q_db_07",
+      "presented_options": {
+        "A": "SeqScan, IndexScan, Filter, Project, NestedLoopJoin, Sort, Limit, Insert, Update, Delete each as a distinct type",
+        "B": "Filter and Project exist as separate types rather than being fused into one 'SelectExpr' operator",
+        "C": "IndexScan and SeqScan as two variants of a single ScanKind enum so the executor only has one Scan operator",
+        "D": "Update and Delete are distinct operators rather than one 'Mutate' operator parameterised by a kind"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "src/exec/mod.rs"
+      ],
+      "evidence_symbols": [
+        "SeqScan",
+        "IndexScan"
+      ],
+      "rationale": "SeqScan and IndexScan are defined as two separate distinct structs, not as variants of a single ScanKind enum."
+    },
+    {
+      "question_id": "q_db_08",
+      "presented_options": {
+        "A": "inside the parser, encoded as a special AST node when the WHERE clause mentions an indexed column",
+        "B": "inside the planner when lowering the logical plan to a physical plan; the parser only produces ASTs",
+        "C": "inside the executor at open() time, after consulting the catalog to see whether an index is applicable",
+        "D": "inside the storage layer, which transparently redirects SeqScan calls through the index when available"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [
+        "src/plan.rs",
+        "src/exec/mod.rs"
+      ],
+      "evidence_symbols": [
+        "plan",
+        "execute_statement"
+      ],
+      "rationale": "plan.rs lowers the logical plan to a physical plan (choosing SeqScan vs IndexScan based on available indexes); the parser only produces ASTs."
+    },
+    {
+      "question_id": "q_db_09",
+      "presented_options": {
+        "A": "errors are encoded as strings (Result<T, String>) so every caller formats them uniformly",
+        "B": "each subsystem defines its own error type; the CLI sees a Box<dyn Error> and pattern-matches on downcast",
+        "C": "errors are propagated via panics with typed payloads and caught at the CLI via std::panic::catch_unwind",
+        "D": "a single crate-wide error enum with one variant per source is the return type of top-level entry points; lower modules convert at their public boundary"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [
+        "src/error.rs"
+      ],
+      "evidence_symbols": [
+        "MiniDbError"
+      ],
+      "rationale": "A single crate-wide MiniDbError enum with variants Cli, Io, Parse, Sql, Type, Storage is the return type of top-level entry points."
+    },
+    {
+      "question_id": "q_db_10",
+      "presented_options": {
+        "A": "the format is fixed at build time via a Cargo feature (--features=json)",
+        "B": "table output only; downstream callers are expected to parse and re-format it themselves",
+        "C": "table / csv / json selectable via a --format CLI flag or a .format meta-command in the REPL",
+        "D": "table / json / messagepack selectable only via an environment variable MINIDB_FORMAT"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "src/cli.rs"
+      ],
+      "evidence_symbols": [
+        "OutputFormat",
+        "Cli"
+      ],
+      "rationale": "OutputFormat enum has Table/Csv/Json variants selectable via --format CLI flag or .format meta-command in the REPL."
+    },
+    {
+      "question_id": "q_db_11",
+      "presented_options": {
+        "A": "when --format json is active, the JSON value is the only thing on stdout — no banner lines, no trailing 'ok' line",
+        "B": "the per-statement summary is written to stdout immediately before the data so callers see it arrive first",
+        "C": "--quiet suppresses the per-statement summary entirely; stdout still carries the data stream",
+        "D": "per-statement summary lines (e.g. `ok 3 rows`) go to stderr, letting callers pipe stdout straight into another tool"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [
+        "src/cli.rs"
+      ],
+      "evidence_symbols": [
+        "eprintln"
+      ],
+      "rationale": "Per-statement summaries are written to stderr (via eprintln), not to stdout before the data; writing them to stdout would be inconsistent."
+    },
+    {
+      "question_id": "q_db_12",
+      "presented_options": {
+        "A": "pages are a mixed size; the header chooses between 4 KiB and 16 KiB per table based on row width",
+        "B": "pages are identified by a newtype over u64 (PageId) rather than a bare integer",
+        "C": "the heap stores rows inside fixed-size pages rather than one file per row",
+        "D": "the page size is a single compile-time constant referenced throughout storage"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [
+        "src/storage/mod.rs"
+      ],
+      "evidence_symbols": [
+        "PAGE_SIZE"
+      ],
+      "rationale": "PAGE_SIZE is a single compile-time constant (4096); there is no mixed 4 KiB/16 KiB page sizing based on row width."
+    },
+    {
+      "question_id": "q_db_13",
+      "presented_options": {
+        "A": "no rows — a transaction whose WAL trail has no COMMIT record is treated as an uncommitted prefix and discarded",
+        "B": "all three rows — every fsynced WAL record is replayed on startup",
+        "C": "an error at startup demanding manual recovery before any SELECT can run",
+        "D": "the two earliest rows — only WAL records that survive the CRC check are replayed; the trailing one is dropped"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [
+        "src/storage/wal.rs"
+      ],
+      "evidence_symbols": [
+        "Wal::replay"
+      ],
+      "rationale": "replay() only applies statements from transactions that have a Commit record; without one, the transaction's writes are discarded, so SELECT sees no rows."
+    },
+    {
+      "question_id": "q_db_14",
+      "presented_options": {
+        "A": "hits only in `parser` and `error`, where the modules format diagnostic messages directly",
+        "B": "a small number of hits inside `exec` operators, used to print per-row debugging during EXPLAIN",
+        "C": "zero hits — every diagnostic outside the CLI boundary goes through the `log` facade",
+        "D": "scattered hits across most modules; the codebase routinely uses `eprintln!` for diagnostics"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "src/exec/mod.rs",
+        "src/storage/wal.rs",
+        "src/error.rs"
+      ],
+      "evidence_symbols": [],
+      "rationale": "All diagnostics outside cli.rs go through the log facade; there are zero eprintln! calls outside the CLI module."
+    },
+    {
+      "question_id": "q_db_15",
+      "presented_options": {
+        "A": "panics with an unwrap on the unrecognised format string",
+        "B": "exits with code 2 and prints a CLI usage error on stderr naming the bad value",
+        "C": "executes the SELECT and silently falls back to the default `table` format",
+        "D": "exits with code 1 and prints a SQL error pointing at the SELECT"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [
+        "src/cli.rs"
+      ],
+      "evidence_symbols": [
+        "OutputFormat",
+        "Cli"
+      ],
+      "rationale": "clap validates the --format enum at argument-parse time and exits with code 2 printing a usage error naming the unrecognised value 'yaml'."
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 164.89325616601855,
+    "usage_source": "project_log",
+    "session_id": "12805b54-b242-4839-a3ee-6ea49370aa48",
+    "prompt_bytes": 8962,
+    "retrieval_payload_bytes": 7760,
+    "tool_input_bytes": 5936,
+    "assistant_message_bytes": 192,
+    "final_answer_bytes": 83,
+    "bytes_to_model": 16722,
+    "bytes_from_model": 6128,
+    "tool_calls": 2,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 40816,
+      "cache_read_input_tokens": 67481,
+      "output_tokens": 5944,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 114245,
+      "cost_usd": 0.4102583
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 147902,
+      "novel_tool_call_bytes": 10407,
+      "novel_tool_call_count": 23,
+      "novel_tool_result_count": 23,
+      "wall_clock_seconds": 163.34407305717468,
+      "generation_tok_per_s": 78.90499702450266,
+      "tool_names": {
+        "Agent": 1,
+        "Bash": 2,
+        "Read": 19,
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 525389,
+        "cached_input_tokens": 413771,
+        "uncached_input_tokens": 111618,
+        "cache_creation_input_tokens": 108916,
+        "non_reasoning_output_tokens": 11010,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 536399
+      },
+      "proxy_session_id": "NoKj8NcAoeAla5Sd",
+      "request_count": 15,
+      "raw_request_bytes": 1864075,
+      "raw_response_bytes": 301884
+    }
+  },
+  "status": "ok",
+  "error": null
+}

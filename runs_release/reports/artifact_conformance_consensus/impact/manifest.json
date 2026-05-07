@@ -1,0 +1,36 @@
+{
+  "analysis_command": "scripts/analyze_artifact_conformance_impact.py",
+  "analysis_id": "artifact_conformance_impact_v1",
+  "analysis_script": "scripts/analyze_artifact_conformance_impact.py",
+  "artifact_present_panel_id": "artifact_present_diagnostic",
+  "conditioned_effort_rule": "Each conditioned run keeps the observed full-run inspection effort while recomputing accuracy/perfect-run status over implemented_gold questions only.",
+  "conformance_condition": "Only artifact-question pairs labeled implemented_gold contribute to conditioned finder scores.",
+  "final_labels": {
+    "absent_or_ambiguous": 5,
+    "implemented_gold": 687,
+    "implemented_non_gold": 28
+  },
+  "generated_at": "2026-05-06T19:52:00.962068+00:00",
+  "input_hashes": {
+    "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv": "fda6afc775bcf50724632d8295989a5cd04561a46b6b992017e638c50704dfd4",
+    "runs_release/tables/build_runs.csv": "5955be048aff64d406ec59e6ad50011a2dde68e9fc394fc5cd3a2792fc8ce01e",
+    "runs_release/tables/find_runs.csv": "3d327214f19c5983adc0c5c7c34935cbdf1ef886ee8895ef7fdf837186ebcb40",
+    "runs_release/tables/question_answers.csv": "586290493ae3dc388e040e565cd30fb600ffd940c0d99cfb1df1f2985d3bbb74"
+  },
+  "input_paths": [
+    "runs_release/tables/build_runs.csv",
+    "runs_release/tables/find_runs.csv",
+    "runs_release/tables/question_answers.csv",
+    "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv"
+  ],
+  "output_dir": "runs_release/reports/artifact_conformance_consensus/impact",
+  "primary_panel_id": "paper_final_scratch",
+  "row_counts": {
+    "conditioned_answer_rows": 21312,
+    "conditioned_run_rows": 1476,
+    "conformance_rows": 720,
+    "gate_summary_rows": 9,
+    "low_prior_conditioned_run_rows": 1476,
+    "score_comparison_rows": 24
+  }
+}

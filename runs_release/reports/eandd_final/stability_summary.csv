@@ -1,0 +1,10 @@
+condition,task_id,question_count,answer_rows,answer_accuracy,stable_cells,total_cells,stable_cell_rate,stable_questions_ge_090,all_attempts_correct_questions,majority_stable_questions
+with_codebase,all,30,22140,0.967164,6983,7380,0.946206,23,8,30
+with_codebase,scratch_minidb,15,11340,0.964198,3546,3780,0.938095,9,3,15
+with_codebase,scratch_nanoweb,15,10800,0.970278,3437,3600,0.954722,14,5,15
+spec_only,all,30,1080,0.999074,359,360,0.997222,30,29,30
+spec_only,scratch_minidb,15,540,0.998148,179,180,0.994444,15,14,15
+spec_only,scratch_nanoweb,15,540,1.000000,180,180,1.000000,15,15,15
+question_only,all,30,1080,0.945370,312,360,0.866667,20,3,30
+question_only,scratch_minidb,15,540,0.946296,155,180,0.861111,10,1,15
+question_only,scratch_nanoweb,15,540,0.944444,157,180,0.872222,10,2,15

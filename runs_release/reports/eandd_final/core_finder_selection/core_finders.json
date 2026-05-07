@@ -1,0 +1,55 @@
+{
+  "analysis_script": "scripts/select_eandd_core_finders.py",
+  "default_core_finders": [
+    "claude_code_sonnet_4_6_low",
+    "claude_code_sonnet_4_6_high"
+  ],
+  "generated_at": "2026-05-03T20:04:26.141382+00:00",
+  "input_hashes": {
+    "runs_release/reports/eandd_final/finder_summary.csv": "35e996598762aa8e8f4f6c933b06ced9eb3f53096d9ae9efed8322f42815ba19",
+    "runs_release/reports/eandd_final/pivots/affinity_by_agent.csv": "876221f0745cd29feb40198fd80c1417c00ac1b66e0020184adcb4adb7a2f17b",
+    "runs_release/reports/eandd_final/pivots/manifest.json": "f327294d9f0e37343fdff0393ea1ecade43d7e6576739ea18b7031ff10416817",
+    "runs_release/reports/eandd_final/within_finder_efficiency/within_finder_cells.csv": "bfe1f7c1dc43e43c55010304c3615766dd8e9fd07ca99a556e0d1802f4ac56cd",
+    "runs_release/tables/MANIFEST.json": "6dfde1595a078787b518afd72f6968307e92b11055b161f37ceabd6b068b9a80",
+    "runs_release/tables/question_answers.csv": "586290493ae3dc388e040e565cd30fb600ffd940c0d99cfb1df1f2985d3bbb74"
+  },
+  "input_paths": [
+    "runs_release/reports/eandd_final/finder_summary.csv",
+    "runs_release/reports/eandd_final/pivots/manifest.json",
+    "runs_release/reports/eandd_final/pivots/affinity_by_agent.csv",
+    "runs_release/reports/eandd_final/within_finder_efficiency/within_finder_cells.csv",
+    "runs_release/tables/question_answers.csv",
+    "runs_release/tables/MANIFEST.json"
+  ],
+  "notes": [
+    "Spec-only controls are saturated in this task pack and are recorded as validity context, not used as a hard inclusion gate.",
+    "Routine future panels should use default_core_finders; prior_stress_audit_finders are optional calibration checks."
+  ],
+  "prior_stress_audit_finders": [
+    "claude_code_mimo_v2_5_pro_low"
+  ],
+  "rules": {
+    "default_core": {
+      "abs_same_base_minus_different_base_max": 0.05,
+      "abs_same_family_minus_different_family_max": 0.05,
+      "formal_ci_width_max": 0.015,
+      "formal_minus_question_only_min_exclusive": 0.0,
+      "formal_run_ci95_low_min": 0.97,
+      "implementation_signal_lift_min_exclusive": 0.0,
+      "low_prior_lift_min_exclusive": 0.0,
+      "mean_find_tokens_max": 150000,
+      "rank_stability_mean_tau_min": 0.4
+    },
+    "prior_stress_audit": {
+      "abs_same_base_minus_different_base_max": 0.05,
+      "abs_same_family_minus_different_family_max": 0.05,
+      "formal_accuracy_min": 0.965,
+      "implementation_signal_lift_min": 0.1,
+      "low_prior_lift_min": 0.1,
+      "mean_find_tokens_max": 500000,
+      "rank_stability_mean_tau_min": 0.4,
+      "selection_policy": "pick the audit candidate with the largest min(low_prior_lift, implementation_signal_lift)"
+    }
+  },
+  "selection_id": "eandd_core_finders_v1"
+}

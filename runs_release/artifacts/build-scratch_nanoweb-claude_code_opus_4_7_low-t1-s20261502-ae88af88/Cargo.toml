@@ -1,0 +1,45 @@
+[package]
+name = "nanoweb"
+version = "0.1.0"
+edition = "2021"
+description = "A self-contained HTTP/1.1 web framework and server"
+license = "MIT"
+
+[features]
+default = ["tls"]
+tls = ["dep:rustls", "dep:tokio-rustls", "dep:rustls-pemfile"]
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+clap = { version = "4", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+hmac = "0.12"
+sha2 = "0.10"
+base64 = "0.22"
+flate2 = "1"
+rand = "0.8"
+percent-encoding = "2"
+hex = "0.4"
+bytes = "1"
+httparse = { version = "1", optional = true }
+rustls = { version = "0.23", optional = true }
+tokio-rustls = { version = "0.26", optional = true }
+rustls-pemfile = { version = "2", optional = true }
+async-trait = "0.1"
+parking_lot = "0.12"
+
+[dev-dependencies]
+reqwest = { version = "0.12", features = ["json", "gzip"], default-features = false }
+tempfile = "3"
+
+[[bin]]
+name = "nanoweb"
+path = "src/bin/nanoweb.rs"
+
+[profile.release]
+opt-level = 3
+lto = "thin"

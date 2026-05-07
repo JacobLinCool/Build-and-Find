@@ -1,0 +1,11 @@
+listen = "127.0.0.1:8080"
+metrics = "/metrics"
+log_level = "info"
+graceful_timeout_s = 30
+session_secret = "change-me-please"
+
+[[routes]]
+method = "GET"
+path = "/"
+kind = "html"
+body = "<html><body><h1>nanoweb</h1></body></html>"

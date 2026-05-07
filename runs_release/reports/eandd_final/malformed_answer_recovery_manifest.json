@@ -1,0 +1,54 @@
+{
+  "method": "Recovered complete structured answers from repairable malformed find_answers.json files and Codex stdout aggregated output.",
+  "records": [
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/malformed_answer_recovery_originals/find-build-scratch_nanoweb-co-claude_code_mimo_v2_5_high-t0-s20260501-89091ef1.json",
+      "correct_after_recovery": 15,
+      "original_record_sha256": "5b06ff3eaf066e6824e91ba0488650768f302ef54dbd9d514d421e63db623104",
+      "record_path": "runs_release/records/find-build-scratch_nanoweb-co-claude_code_mimo_v2_5_high-t0-s20260501-89091ef1.json",
+      "run_id": "find-build-scratch_nanoweb-co-claude_code_mimo_v2_5_high-t0-s20260501-89091ef1",
+      "source_kind": "malformed_find_answers_json",
+      "source_path": "runs/find_workspaces/find-build-scratch_nanoweb-co-claude_code_mimo_v2_5_high-t0-s20260501-89091ef1/find_answers.json",
+      "source_sha256": "30d7574ad9479414215ba6041ad6a59eecf14db367a88945e9059e2b90c1ab1f",
+      "updated_record_sha256": "1f485ef21b7c30c5e651b7c6bdef9d643bb8b27aa7300f19dbeecc73074e34df"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/malformed_answer_recovery_originals/find-build-scratch_nanoweb-co-claude_code_mimo_v2_5_low-t0-s20260501-3d7d1c4e.json",
+      "correct_after_recovery": 15,
+      "original_record_sha256": "e9bc1548e445e9363985be8878a4fc44fc8e0db1a62f65f991bfdd2a44041930",
+      "record_path": "runs_release/records/find-build-scratch_nanoweb-co-claude_code_mimo_v2_5_low-t0-s20260501-3d7d1c4e.json",
+      "run_id": "find-build-scratch_nanoweb-co-claude_code_mimo_v2_5_low-t0-s20260501-3d7d1c4e",
+      "source_kind": "malformed_find_answers_json",
+      "source_path": "runs/find_workspaces/find-build-scratch_nanoweb-co-claude_code_mimo_v2_5_low-t0-s20260501-3d7d1c4e/find_answers.json",
+      "source_sha256": "c6daa8a168aa0f29dd7d99a3a628a9c9a77a575d8ccada305602678106c1e3de",
+      "updated_record_sha256": "729aa8f6c0498088b5fa3015d10326e30932a6c3e4ac97103ce378433e07cac9"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/malformed_answer_recovery_originals/find-build-scratch_nanoweb-cl-claude_code_mimo_v2_5_pro_high-t2-s20260503-0881bd04.json",
+      "correct_after_recovery": 14,
+      "original_record_sha256": "d3388aefe352ff3d065e18176a145e344c1da28756005a4c595d7cc1e4e28671",
+      "record_path": "runs_release/records/find-build-scratch_nanoweb-cl-claude_code_mimo_v2_5_pro_high-t2-s20260503-0881bd04.json",
+      "run_id": "find-build-scratch_nanoweb-cl-claude_code_mimo_v2_5_pro_high-t2-s20260503-0881bd04",
+      "source_kind": "malformed_find_answers_json",
+      "source_path": "runs/find_workspaces/find-build-scratch_nanoweb-cl-claude_code_mimo_v2_5_pro_high-t2-s20260503-0881bd04/find_answers.json",
+      "source_sha256": "9d1bc010066b2e57a7a2229868e80f5a93b0699c4def5f48a726c74cd5e038e6",
+      "updated_record_sha256": "01c47df56f3502faf6dcaf712541e8d578ae45753d8b8106536ac463e4fdf682"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/malformed_answer_recovery_originals/control-find-control-build-question_only--codex_gpt5_4_mini_low-t1-s20260502-873ad3a5.json",
+      "correct_after_recovery": 15,
+      "original_record_sha256": "7965ef0a1478a525ef5cc9d8df175c70468bdcd1c248e5fcfd3ebddad9649e8b",
+      "record_path": "runs_release/records/control-find-control-build-question_only--codex_gpt5_4_mini_low-t1-s20260502-873ad3a5.json",
+      "run_id": "control-find-control-build-question_only--codex_gpt5_4_mini_low-t1-s20260502-873ad3a5",
+      "source_kind": "stdout_aggregated_output",
+      "source_path": "runs_release/records/control-find-control-build-question_only--codex_gpt5_4_mini_low-t1-s20260502-873ad3a5.logs/stdout.txt",
+      "source_sha256": "fc22c5d2322c49cee3703d735bb3ad993904b8cf6555c947d92ee0f4ba9d1dea",
+      "updated_record_sha256": "47d53f0a6a9bdb8d33908f73cc79b29239a0bb61eceda8900824e577131958bb"
+    }
+  ],
+  "recovered_at": "2026-05-03T19:59:09.690638+00:00"
+}

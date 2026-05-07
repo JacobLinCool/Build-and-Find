@@ -1,0 +1,265 @@
+task_id: edit_minidb_agg_join
+
+# Design note
+# -----------
+# Edit-phase questions probe two hard things:
+#
+# 1. "Was the new feature grafted coherently onto the existing architecture,
+#     or did it bolt on as a special case?"
+# 2. "Was the preserved behaviour preserved at the implementation level
+#     (byte-for-byte WAL format, exit codes, REPL meta-command shape) or
+#     merely kept 'working enough'?"
+#
+# Distractors describe defensible alternative refactor paths a different
+# team could have taken. The correct option corresponds to the
+# spec-intended approach.
+
+questions:
+  - question_id: q_em_01
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-SR1
+    question_type: design_intention_recognition
+    prompt: >
+      How was aggregation grafted onto the existing executor?
+    options:
+      A: "as a new physical operator (HashAggregate or SortAggregate) that participates in the Volcano iterator chain alongside the existing Project / Filter operators"
+      B: "as an extra branch inside Project that collapses groups when the AST carries a GROUP BY clause"
+      C: "as a post-execution pass in the CLI layer that buffers the full result set, reshapes it into groups, and applies aggregate functions"
+      D: "as a transformation the planner performs on the AST, rewriting SELECT ... GROUP BY into a self-join over the logical table"
+    correct_option: A
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR1
+      source_intention_id: I-SR1
+    distractor_strategy: plausible_alternative_refactor
+
+  - question_id: q_em_02
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-SR3
+    question_type: design_intention_recognition
+    prompt: >
+      Where in the codebase does LEFT OUTER JOIN's NULL-padding logic
+      (the rows emitted when the outer side has no match) live?
+    options:
+      A: "inside a join operator (HashJoin or NestedLoopJoin), as part of the join's row-emission path, sharing scaffolding with the inner-join code"
+      B: "inside the SeqScan operator, in a special branch triggered when the outer iterator finds no match"
+      C: "inside the parser, by rewriting `LEFT JOIN` into `(INNER JOIN) UNION (anti-semi-join)` during AST construction"
+      D: "inside a post-processing pass in the result-set printer that scans output rows and inserts NULL placeholders"
+    correct_option: A
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR3
+      source_intention_id: I-SR3
+    distractor_strategy: misplaced_concern
+
+  - question_id: q_em_03
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-SR2
+    question_type: design_intention_recognition
+    prompt: >
+      How is EXPLAIN output produced?
+    options:
+      A: "by letting each physical operator's open() or new() call println! with its own description; the CLI captures and indents them at the end"
+      B: "by a dedicated visitor that walks the physical plan tree and emits one line per operator at a time; operators expose a describe()/schema() accessor but do not print themselves"
+      C: "by letting the parser emit an EXPLAIN-shaped string as it reads the statement, before the plan even exists"
+      D: "by serialising the physical plan to JSON and post-processing it into a tree in the CLI via an external jq-style formatter"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR2
+      source_intention_id: I-SR2
+    distractor_strategy: plausible_alternative_explain_strategy
+
+  - question_id: q_em_04
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER1
+    question_type: capability_recognition
+    prompt: >
+      How does GROUP BY treat a grouping column whose value is NULL?
+    options:
+      A: "rows with NULL in the grouping column are silently dropped before grouping runs"
+      B: "all NULLs are coalesced into the first non-NULL group so the output contains no explicit NULL group"
+      C: "NULL forms its own group, distinct from any non-NULL group"
+      D: "grouping by a NULL column raises a runtime error because NULL is not equal to itself"
+    correct_option: C
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER1
+      source_intention_id: I-ER1
+    distractor_strategy: plausible_alternative_null_semantics
+
+  - question_id: q_em_05
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER6
+    question_type: edit_preserve_recognition
+    prompt: >
+      A database file produced by the pre-edit version of minidb is
+      opened by the post-edit version. What happens?
+    options:
+      A: "the post-edit binary refuses to open the file; a one-shot --migrate subcommand is required to upgrade it"
+      B: "the post-edit binary opens the file and lazily rewrites each page on first access into the new format"
+      C: "the post-edit binary opens the file as-is; the on-disk WAL format is byte-for-byte identical to the pre-edit version"
+      D: "the post-edit binary opens the file but silently skips any WAL records whose layout version field does not match a new MINIDB_VERSION constant"
+    correct_option: C
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER6
+      source_intention_id: I-ER6
+    distractor_strategy: plausible_alternative_evolution_strategy
+
+  - question_id: q_em_06
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER4
+    question_type: negative_contrast
+    prompt: >
+      The legacy ASCII-art pretty-printer (the renderer that drew table
+      borders with Unicode box-drawing characters) is being retired.
+      Which of the following does NOT happen as part of the actual edit?
+    options:
+      A: "the Unicode box-drawing renderer module is deleted from the source tree"
+      B: "the `.format ascii-art` meta-command is de-registered; the REPL returns an unknown-value error if a user types it"
+      C: "every README mention of the ASCII-art format is removed"
+      D: "the renderer module is kept functional and the `.format ascii-art` meta-command continues to work; only the README entry is removed so users stop using it"
+    correct_option: D
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER4
+      source_intention_id: I-ER4
+    distractor_strategy: documentation_only_removal_bait
+
+  - question_id: q_em_07
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER5
+    question_type: edit_remove_recognition
+    prompt: >
+      --fast-mode (the legacy WAL-bypass flag) is gone. Which of these
+      describes the actual end state?
+    options:
+      A: "the flag is still parsed for backward compatibility; when set, it now emits a deprecation warning but takes no effect"
+      B: "the flag is no longer recognised; passing --fast-mode yields a standard unknown-argument error at CLI parse time, and the WAL-bypass code path is deleted"
+      C: "the flag is renamed to --unsafe-fast-mode and gated behind a hidden env var"
+      D: "the flag is kept but its meaning is flipped: --fast-mode now means strict fsync-every-write mode"
+    correct_option: B
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER5
+      source_intention_id: I-ER5
+    distractor_strategy: plausible_alternative_deprecation_paths
+
+  - question_id: q_em_08
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER8
+    question_type: edit_preserve_recognition
+    prompt: >
+      How does this edit treat transactional durability?
+    options:
+      A: "the WAL is now a background write; COMMIT returns as soon as the write is buffered in memory, trading durability for throughput"
+      B: "COMMIT now waits for a periodic group-commit tick (every 10 ms) to amortise fsync over many transactions"
+      C: "COMMIT still fsyncs the WAL synchronously; statements outside an explicit BEGIN still auto-commit with the same guarantee"
+      D: "COMMIT only fsyncs when a configuration key wal_sync=true is set; the default is now async commit"
+    correct_option: C
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER8
+      source_intention_id: I-ER8
+    distractor_strategy: plausible_alternative_durability_tradeoff
+
+  - question_id: q_em_09
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER3
+    question_type: edit_add_recognition
+    prompt: >
+      What does running `EXPLAIN SELECT ...` produce?
+    options:
+      A: "a DOT-language graph that tooling can pipe through Graphviz"
+      B: "a textual plan tree: one operator per line, indented one level per child, each line naming the operator and summarising its projected columns or predicates"
+      C: "a JSON document whose nested structure mirrors the plan tree"
+      D: "a single-line description of the outermost operator only; deeper layers require separate EXPLAIN VERBOSE"
+    correct_option: B
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER3
+      source_intention_id: I-ER3
+    distractor_strategy: plausible_alternative_explain_format
+
+  - question_id: q_em_10
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER7
+    question_type: edit_preserve_recognition
+    prompt: >
+      Which statement about the REPL meta-commands after the edit is
+      correct?
+    options:
+      A: "the meta-commands and their output shapes are preserved unchanged, minus the now-retired '.format ascii-art' value"
+      B: "the meta-commands were unified under a single `.meta <subcommand>` prefix; `.schema` no longer works"
+      C: "the meta-commands were moved out of the REPL into a separate `minidb meta` subcommand; the REPL no longer recognises them"
+      D: "`.schema` / `.tables` / `.indexes` return JSON in this edit so downstream tooling can parse them; the prior plain-text shape is gone"
+    correct_option: A
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER7
+      source_intention_id: I-ER7
+    distractor_strategy: plausible_alternative_meta_refactor
+
+  - question_id: q_em_11
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER6
+    question_type: failure_mode_recognition
+    prompt: >
+      A database file written by the PRE-edit version of `minidb`
+      contains a transaction whose WAL has START, three INSERT records,
+      and then nothing — the pre-edit process crashed before writing
+      the COMMIT record. The post-edit binary is now invoked against
+      this file and finishes recovery; a SELECT then runs against the
+      affected table. What does the SELECT see?
+    options:
+      A: "the same as the pre-edit binary would have seen — the uncommitted prefix is discarded during replay because the post-edit WAL format and recovery semantics are byte-for-byte identical"
+      B: "an error at startup — the post-edit binary refuses to open files whose WAL contains records without a matching COMMIT"
+      C: "all three rows — the post-edit binary is more aggressive about replay and treats fsynced records as committed"
+      D: "the same as the pre-edit binary, but only after the operator runs a `--migrate` step on the file"
+    correct_option: A
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER6
+      source_intention_id: I-ER6
+    distractor_strategy: failure_scenario_misreading
+
+  - question_id: q_em_12
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-SR1
+    question_type: forbidden_coupling
+    prompt: >
+      Search for the existing `Project` physical operator in this
+      post-edit codebase (the one that handles SELECT projection).
+      What's its status?
+    options:
+      A: "still defined as its own distinct operator type and still used directly by SELECT projection paths that have no aggregation"
+      B: "removed; its responsibilities were folded into the new HashAggregate / SortAggregate operator so that all projection now flows through aggregation"
+      C: "removed; its responsibilities were folded into SeqScan, which now also handles column selection"
+      D: "preserved as a type but no longer instantiated by the planner — it survives only for backwards-compatible deserialisation of saved plans"
+    correct_option: A
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR1
+      source_intention_id: I-SR1
+    distractor_strategy: subsumed_operator_misread
+
+  - question_id: q_em_13
+    codebase_task_id: edit_minidb_agg_join
+    intention_id: I-ER3
+    question_type: multi_spec_interaction
+    prompt: >
+      The user runs `EXPLAIN SELECT a, COUNT(*) FROM giant_table GROUP BY a`
+      against a table containing 100 million rows. Roughly how long
+      does the EXPLAIN command take, and why?
+    options:
+      A: "milliseconds — EXPLAIN walks the chosen physical plan tree without executing it; the cost is proportional to the number of operators, not the number of rows"
+      B: "tens of seconds — EXPLAIN streams through every row in giant_table to collect the per-group counts before printing them"
+      C: "milliseconds for the first run, then seconds — EXPLAIN re-runs the query each time to refresh the printed cost estimates"
+      D: "depends on whether the planner chose HashAggregate or SortAggregate — SortAggregate forces a full table scan even under EXPLAIN"
+    correct_option: A
+    source_trace:
+      spec_section: edit_requirements
+      source_requirement_id: ER3
+      source_intention_id: I-ER3
+    distractor_strategy: explain_executes_misread

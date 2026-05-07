@@ -1,0 +1,32 @@
+{
+  "files": {
+    "build_runs.csv": {
+      "bytes": 30331,
+      "row_count": 52,
+      "sha256": "5955be048aff64d406ec59e6ad50011a2dde68e9fc394fc5cd3a2792fc8ce01e"
+    },
+    "experiments.json": {
+      "bytes": 15526,
+      "row_count": "",
+      "sha256": "00c4fa6e46eda9a11bbac210bdda06f5d33faa87905011b5c69f0e9cd3df0b5d"
+    },
+    "find_runs.csv": {
+      "bytes": 1324240,
+      "row_count": 1872,
+      "sha256": "3d327214f19c5983adc0c5c7c34935cbdf1ef886ee8895ef7fdf837186ebcb40"
+    },
+    "panel_membership.csv": {
+      "bytes": 18354189,
+      "row_count": 151428,
+      "sha256": "1b6dce751931238968e65651de7944d90947672a3e972c801bb7221164f0b37b"
+    },
+    "question_answers.csv": {
+      "bytes": 24582905,
+      "row_count": 28080,
+      "sha256": "586290493ae3dc388e040e565cd30fb600ffd940c0d99cfb1df1f2985d3bbb74"
+    }
+  },
+  "generated_at": "2026-05-03T20:04:26.141382+00:00",
+  "schema_version": "2.3",
+  "table_dir": "runs_release/tables"
+}

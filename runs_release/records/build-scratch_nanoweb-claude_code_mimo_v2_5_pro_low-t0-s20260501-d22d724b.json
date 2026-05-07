@@ -1,0 +1,87 @@
+{
+  "build_run_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t0-s20260501-d22d724b",
+  "task_id": "scratch_nanoweb",
+  "manifest": {
+    "run_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t0-s20260501-d22d724b",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "ed69d16a9010b3bf",
+    "agent": {
+      "id": "claude_code_mimo_v2_5_pro_low",
+      "adapter": "claude_code",
+      "model_id": "mimo-v2.5-pro",
+      "adapter_version": null
+    },
+    "seed": 20260501,
+    "trial_id": 0,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-01T17:24:33.102814+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "artifact_path": "runs_release/artifacts/build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t0-s20260501-d22d724b",
+  "usage": {
+    "wall_clock_seconds": 1237.7325017090188,
+    "usage_source": "project_log",
+    "session_id": "0a0d491f-2e5f-42ea-9bea-a72d5c66ab28",
+    "prompt_bytes": 8118,
+    "retrieval_payload_bytes": 38079,
+    "tool_input_bytes": 239313,
+    "assistant_message_bytes": 3642,
+    "final_answer_bytes": 1235,
+    "bytes_to_model": 46197,
+    "bytes_from_model": 242955,
+    "tool_calls": 79,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 135146,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 5613952,
+      "output_tokens": 64605,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 5813703,
+      "cost_usd": 3.058698599999999
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 152548,
+      "novel_tool_call_bytes": 254070,
+      "novel_tool_call_count": 79,
+      "novel_tool_result_count": 79,
+      "wall_clock_seconds": 1236.5704259872437,
+      "generation_tok_per_s": 72.4492188973975,
+      "tool_names": {
+        "TodoWrite": 4,
+        "Bash": 12,
+        "Write": 47,
+        "Read": 4,
+        "Edit": 11,
+        "Grep": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 5749098,
+        "cached_input_tokens": 5613952,
+        "uncached_input_tokens": 135146,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 64605,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 5813703
+      },
+      "proxy_session_id": "8L317O5unYSekpNx",
+      "request_count": 81,
+      "raw_request_bytes": 24703551,
+      "raw_response_bytes": 543442
+    }
+  },
+  "validation": {
+    "compile_pass": false,
+    "rust_files": 28,
+    "rust_loc": 3803,
+    "details": {
+      "rust_files": "28",
+      "rust_loc": "3803",
+      "error": "no Cargo.toml at workspace root"
+    }
+  },
+  "status": "ok",
+  "error": null
+}

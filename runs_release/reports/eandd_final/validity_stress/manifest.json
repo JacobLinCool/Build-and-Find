@@ -1,0 +1,13 @@
+{
+  "analysis_script": "scripts/analyze_eandd_validity_stress.py",
+  "artifact_present_panel": "artifact_present_diagnostic",
+  "diagnostic_rule": "artifact_present_all and excluded slices preserve release evidence for construct-validity stress tests",
+  "generated_at": "2026-05-06T10:53:22.219542+00:00",
+  "input_tables": {
+    "build_runs": "runs_release/tables/build_runs.csv",
+    "find_runs": "runs_release/tables/find_runs.csv",
+    "question_answers": "runs_release/tables/question_answers.csv"
+  },
+  "primary_panel": "paper_final_scratch",
+  "primary_rule": "compile_pass_primary excludes artifact-present builds whose compile probe failed"
+}

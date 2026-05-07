@@ -1,0 +1,398 @@
+{
+  "find_run_id": "find-build-scratch_minidb-cla-codex_gpt5_5_high-t0-s20260501-04951845",
+  "build_run_id": "build-scratch_minidb-claude_code_mimo_v2_5_pro_low-t0-s20260501-f53e2357",
+  "task_id": "scratch_minidb",
+  "manifest": {
+    "run_id": "find-build-scratch_minidb-cla-codex_gpt5_5_high-t0-s20260501-04951845",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "41797b04738e9c9b",
+    "agent": {
+      "id": "codex_gpt5_5_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.5",
+      "adapter_version": null
+    },
+    "seed": 20260501,
+    "trial_id": 0,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-02T01:01:51.019871+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "presented_options": {
+        "A": "0 = OK, 1 = any error (SQL, CLI, or IO collapsed together), with stderr distinguishing the category",
+        "B": "0 = OK, 1 = SQL error, 2 = storage/IO, 3 = CLI usage (CLI last because it's the rarest)",
+        "C": "0 = OK, 1 = SQL error, 2 = CLI usage error, 3 = storage/IO error",
+        "D": "0 = OK, 64 = usage (sysexits.h), 65 = SQL syntax, 74 = IO"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/main.rs",
+        "minidb/src/cli/mod.rs"
+      ],
+      "evidence_symbols": [
+        "CliArgs::parse",
+        "cli::run",
+        "execute_sql",
+        "execute_file"
+      ],
+      "rationale": "CLI parse errors exit 2, SQL execution errors exit 1, and storage or IO open/read/init failures exit 3."
+    },
+    {
+      "question_id": "q_db_02",
+      "presented_options": {
+        "A": "statements run under a long-running implicit transaction that commits only when the process exits",
+        "B": "statements run without any transaction; durability is deferred to a periodic checkpoint",
+        "C": "statements inherit the transaction of the previous BEGIN if any was ever opened in the session",
+        "D": "each statement is implicitly wrapped in its own transaction that commits on success, matching BEGIN/COMMIT semantics"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/txn/mod.rs",
+        "minidb/src/exec/mod.rs",
+        "minidb/README.md"
+      ],
+      "evidence_symbols": [
+        "TransactionManager::auto_txn_id",
+        "TransactionManager::auto_commit",
+        "Engine::execute_insert"
+      ],
+      "rationale": "DML outside an active transaction gets a fresh transaction id and writes a COMMIT record immediately after success."
+    },
+    {
+      "question_id": "q_db_03",
+      "presented_options": {
+        "A": "shadow paging: mutations go to a copy page; a pointer swap at commit promotes the copy atomically",
+        "B": "an append-only write-ahead log, replayed at startup to re-apply committed transactions and drop the uncommitted suffix",
+        "C": "synchronous double-write: every page is written to a scratch region before being written to its home location",
+        "D": "ARIES-style WAL with explicit undo and redo records plus a separate dirty-page table checkpoint"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/storage/wal.rs",
+        "minidb/src/txn/mod.rs",
+        "minidb/README.md"
+      ],
+      "evidence_symbols": [
+        "Wal::read_committed_records",
+        "TransactionManager::replay_wal"
+      ],
+      "rationale": "The storage design is an append-only WAL with commit records used to identify committed transactions during startup recovery."
+    },
+    {
+      "question_id": "q_db_04",
+      "presented_options": {
+        "A": "records are padded to a fixed 512-byte sector boundary; partial sectors are discarded",
+        "B": "records are written in pairs (main + mirror); replay prefers whichever pair verifies",
+        "C": "each record carries a CRC32; replay stops at the first record whose CRC fails to verify",
+        "D": "no per-record check; a single CRC covers the whole WAL file on clean shutdown"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/storage/wal.rs"
+      ],
+      "evidence_symbols": [
+        "Wal::encode_record",
+        "Wal::read_record_from_reader"
+      ],
+      "rationale": "Each encoded WAL record stores a CRC32, and reading stops when a record cannot be read or verified."
+    },
+    {
+      "question_id": "q_db_05",
+      "presented_options": {
+        "A": "vectorised/columnar execution where each operator produces and consumes batches of column vectors",
+        "B": "push-based execution where operators drive their children forward via a single dataflow scheduler",
+        "C": "materialising execution: each operator fully computes its output set before the next operator starts reading",
+        "D": "a Volcano-style iterator tree: each operator exposes open/next/close and returns one row (or tiny batch) at a time"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "C",
+      "is_correct": false,
+      "evidence_files": [
+        "minidb/src/exec/mod.rs"
+      ],
+      "evidence_symbols": [
+        "Engine::execute_query"
+      ],
+      "rationale": "The engine recursively evaluates logical plans into Vec<Row> outputs before parent plan nodes consume them."
+    },
+    {
+      "question_id": "q_db_06",
+      "presented_options": {
+        "A": "an inverted list built lazily on first query and cached in memory",
+        "B": "a bitmap per distinct value; looked up with bitwise AND for compound predicates",
+        "C": "a hash map keyed by the indexed value alone; collisions chain a Vec<RowId>",
+        "D": "a B-tree keyed by the composite (index_key, row_id); duplicates are naturally ordered by row_id"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/storage/btree.rs",
+        "minidb/README.md"
+      ],
+      "evidence_symbols": [
+        "BTreeIndex",
+        "IndexEntry",
+        "BTreeIndex::insert_into_leaf"
+      ],
+      "rationale": "Secondary indexes are B-tree pages storing key values together with row page and row slot identifiers."
+    },
+    {
+      "question_id": "q_db_07",
+      "presented_options": {
+        "A": "IndexScan and SeqScan as two variants of a single ScanKind enum so the executor only has one Scan operator",
+        "B": "Filter and Project exist as separate types rather than being fused into one 'SelectExpr' operator",
+        "C": "Update and Delete are distinct operators rather than one 'Mutate' operator parameterised by a kind",
+        "D": "SeqScan, IndexScan, Filter, Project, NestedLoopJoin, Sort, Limit, Insert, Update, Delete each as a distinct type"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/exec/operators.rs",
+        "minidb/src/plan/mod.rs"
+      ],
+      "evidence_symbols": [
+        "SeqScanOp",
+        "IndexScanOp",
+        "LogicalPlan::SeqScan",
+        "LogicalPlan::IndexScan"
+      ],
+      "rationale": "SeqScan and IndexScan are separate operator and plan variants, not variants of a shared ScanKind enum."
+    },
+    {
+      "question_id": "q_db_08",
+      "presented_options": {
+        "A": "inside the executor at open() time, after consulting the catalog to see whether an index is applicable",
+        "B": "inside the storage layer, which transparently redirects SeqScan calls through the index when available",
+        "C": "inside the planner when lowering the logical plan to a physical plan; the parser only produces ASTs",
+        "D": "inside the parser, encoded as a special AST node when the WHERE clause mentions an indexed column"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/plan/mod.rs"
+      ],
+      "evidence_symbols": [
+        "Planner::try_index_scan",
+        "Planner::match_index_predicate"
+      ],
+      "rationale": "The planner lowers suitable indexed predicates to LogicalPlan::IndexScan while the parser only creates statements and expressions."
+    },
+    {
+      "question_id": "q_db_09",
+      "presented_options": {
+        "A": "errors are propagated via panics with typed payloads and caught at the CLI via std::panic::catch_unwind",
+        "B": "errors are encoded as strings (Result<T, String>) so every caller formats them uniformly",
+        "C": "a single crate-wide error enum with one variant per source is the return type of top-level entry points; lower modules convert at their public boundary",
+        "D": "each subsystem defines its own error type; the CLI sees a Box<dyn Error> and pattern-matches on downcast"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/error.rs"
+      ],
+      "evidence_symbols": [
+        "MiniDbError",
+        "Result"
+      ],
+      "rationale": "The crate uses a single MiniDbError enum with variants for IO, parse, type, constraint, catalog, runtime, WAL, and CLI errors."
+    },
+    {
+      "question_id": "q_db_10",
+      "presented_options": {
+        "A": "table / json / messagepack selectable only via an environment variable MINIDB_FORMAT",
+        "B": "the format is fixed at build time via a Cargo feature (--features=json)",
+        "C": "table output only; downstream callers are expected to parse and re-format it themselves",
+        "D": "table / csv / json selectable via a --format CLI flag or a .format meta-command in the REPL"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/cli/mod.rs",
+        "minidb/README.md"
+      ],
+      "evidence_symbols": [
+        "OutputFormat",
+        "CliArgs::parse",
+        "ExecResult::SetFormat"
+      ],
+      "rationale": "Table, CSV, and JSON output are selected through --format or the .format meta-command."
+    },
+    {
+      "question_id": "q_db_11",
+      "presented_options": {
+        "A": "when --format json is active, the JSON value is the only thing on stdout — no banner lines, no trailing 'ok' line",
+        "B": "per-statement summary lines (e.g. `ok 3 rows`) go to stderr, letting callers pipe stdout straight into another tool",
+        "C": "the per-statement summary is written to stdout immediately before the data so callers see it arrive first",
+        "D": "--quiet suppresses the per-statement summary entirely; stdout still carries the data stream"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/cli/mod.rs"
+      ],
+      "evidence_symbols": [
+        "print_result",
+        "print_json",
+        "print_csv",
+        "print_table"
+      ],
+      "rationale": "Data is printed to stdout while per-statement ok summaries are printed to stderr and can be suppressed with --quiet."
+    },
+    {
+      "question_id": "q_db_12",
+      "presented_options": {
+        "A": "the heap stores rows inside fixed-size pages rather than one file per row",
+        "B": "the page size is a single compile-time constant referenced throughout storage",
+        "C": "pages are a mixed size; the header chooses between 4 KiB and 16 KiB per table based on row width",
+        "D": "pages are identified by a newtype over u64 (PageId) rather than a bare integer"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/storage/page.rs",
+        "minidb/src/storage/heap.rs"
+      ],
+      "evidence_symbols": [
+        "PAGE_SIZE",
+        "PageId",
+        "HeapFile::init_page"
+      ],
+      "rationale": "Pages use a fixed compile-time PAGE_SIZE of 4096 and PageId is a u64 newtype."
+    },
+    {
+      "question_id": "q_db_13",
+      "presented_options": {
+        "A": "all three rows — every fsynced WAL record is replayed on startup",
+        "B": "the two earliest rows — only WAL records that survive the CRC check are replayed; the trailing one is dropped",
+        "C": "no rows — a transaction whose WAL trail has no COMMIT record is treated as an uncommitted prefix and discarded",
+        "D": "an error at startup demanding manual recovery before any SELECT can run"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "A",
+      "is_correct": false,
+      "evidence_files": [
+        "minidb/src/exec/mod.rs",
+        "minidb/src/txn/mod.rs",
+        "minidb/src/storage/heap.rs"
+      ],
+      "evidence_symbols": [
+        "Engine::execute_insert",
+        "TransactionManager::replay_wal",
+        "HeapFile::insert_row"
+      ],
+      "rationale": "In practice the heap rows are written before COMMIT and startup recovery does not undo uncommitted heap writes, so the rows remain visible."
+    },
+    {
+      "question_id": "q_db_14",
+      "presented_options": {
+        "A": "zero hits — every diagnostic outside the CLI boundary goes through the `log` facade",
+        "B": "scattered hits across most modules; the codebase routinely uses `eprintln!` for diagnostics",
+        "C": "hits only in `parser` and `error`, where the modules format diagnostic messages directly",
+        "D": "a small number of hits inside `exec` operators, used to print per-row debugging during EXPLAIN"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/main.rs",
+        "minidb/src/cli/mod.rs",
+        "minidb/src/txn/mod.rs"
+      ],
+      "evidence_symbols": [
+        "log::debug!",
+        "log::info!"
+      ],
+      "rationale": "Direct eprintln! calls are confined to the CLI boundary, while non-CLI diagnostics use the log facade."
+    },
+    {
+      "question_id": "q_db_15",
+      "presented_options": {
+        "A": "exits with code 2 and prints a CLI usage error on stderr naming the bad value",
+        "B": "panics with an unwrap on the unrecognised format string",
+        "C": "executes the SELECT and silently falls back to the default `table` format",
+        "D": "exits with code 1 and prints a SQL error pointing at the SELECT"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [
+        "minidb/src/main.rs",
+        "minidb/src/cli/mod.rs"
+      ],
+      "evidence_symbols": [
+        "CliArgs::parse"
+      ],
+      "rationale": "An unknown --format value is rejected during CLI parsing, main prints the usage error to stderr, and exits with code 2."
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 188.1263553329918,
+    "usage_source": "session_log",
+    "session_id": "019de631-e615-7812-9dca-ccfed35b903f",
+    "prompt_bytes": 8962,
+    "retrieval_payload_bytes": 202008,
+    "tool_input_bytes": 15205,
+    "assistant_message_bytes": 729,
+    "final_answer_bytes": 48,
+    "bytes_to_model": 210970,
+    "bytes_from_model": 15934,
+    "tool_calls": 36,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 859354,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 789760,
+      "output_tokens": 7402,
+      "reasoning_output_tokens": 1863,
+      "total_tokens": 866756,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 201885,
+      "novel_tool_call_bytes": 9545,
+      "novel_tool_call_count": 35,
+      "novel_tool_result_count": 35,
+      "wall_clock_seconds": 185.52599811553955,
+      "generation_tok_per_s": 45.96993909472531,
+      "tool_names": {
+        "exec_command": 33,
+        "write_stdin": 2
+      },
+      "turn_count": 1,
+      "vendor_tokens": {
+        "total_input_tokens": 859354,
+        "cached_input_tokens": 789760,
+        "uncached_input_tokens": 69594,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 5539,
+        "reasoning_output_tokens": 1863,
+        "total_tokens": 866756
+      },
+      "proxy_session_id": "YDtqlGP9yG7K6Ng9",
+      "request_count": 14,
+      "raw_request_bytes": 3996642,
+      "raw_response_bytes": 4984810
+    }
+  },
+  "status": "ok",
+  "error": null
+}

@@ -1,0 +1,47 @@
+{
+  "build_run_id": "control-build-question_only-scratch_minidb-a0fed459",
+  "task_id": "scratch_minidb",
+  "manifest": {
+    "run_id": "control-build-question_only-scratch_minidb-a0fed459",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "2067f9d6cf54e7fe",
+    "agent": {
+      "id": "control_question_only",
+      "adapter": "codex",
+      "model_id": "question_only",
+      "adapter_version": null
+    },
+    "seed": 0,
+    "trial_id": 0,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-02T18:04:23.884024+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "artifact_path": "runs_release/artifacts/control-build-question_only-scratch_minidb-a0fed459",
+  "usage": {
+    "wall_clock_seconds": 0.0,
+    "usage_source": null,
+    "session_id": null,
+    "prompt_bytes": 0,
+    "retrieval_payload_bytes": 0,
+    "tool_input_bytes": 0,
+    "assistant_message_bytes": 0,
+    "final_answer_bytes": 0,
+    "bytes_to_model": 0,
+    "bytes_from_model": 0,
+    "tool_calls": 0,
+    "network_requests": 0,
+    "vendor_usage": null,
+    "efficiency": null
+  },
+  "validation": {
+    "compile_pass": false,
+    "rust_files": 0,
+    "rust_loc": 0,
+    "details": {
+      "control_condition": "question_only"
+    }
+  },
+  "status": "ok",
+  "error": null
+}

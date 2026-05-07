@@ -1,0 +1,390 @@
+# Experiment Spec
+
+## Experiment ID
+
+`eandd_final_2026`
+
+## Research Question / Claim
+
+Build-and-Find measures whether generated repositories preserve hidden design
+intent in a form that downstream coding agents can recover by inspecting the
+codebase.
+
+The final E&D experiment asks:
+
+1. Can a held-out finder recover specification-traced design intentions from a
+   generated codebase above prior-only control baselines?
+2. Conditional on successful recovery, how much observable inspection effort is
+   required?
+3. Which parts of the measurement are stable enough for a reusable benchmark,
+   and which parts are finder-policy or model-family affinity diagnostics?
+
+The paper must present this as an evaluation protocol and calibrated benchmark
+artifact, not as a universal coding-model leaderboard.
+
+## Scope
+
+Only build-from-scratch tasks are in scope.
+
+Primary task set:
+
+- `scratch_minidb`
+- `scratch_nanoweb`
+
+The paper, final experiment, final analysis, and final release claims are
+restricted to this primary task set.
+
+## Experimental Unit
+
+The primary execution unit is:
+
+```text
+task_id x builder_id x build_trial_id x finder_id x finder_trial_id
+```
+
+The artifact unit is:
+
+```text
+task_id x builder_id x build_trial_id
+```
+
+Question-level observations are nested under a finder run:
+
+```text
+find_run_id x question_id
+```
+
+Builder-level summaries must preserve build-trial variance. Do not collapse
+the two build trials before recording artifact-level status, size, and hash.
+
+## Systems / Conditions Compared
+
+The final run uses large/small model pairs where available.
+
+Codex family:
+
+- `codex_gpt5_5_high`
+- `codex_gpt5_5_low`
+- `codex_gpt5_4_mini_high`
+- `codex_gpt5_4_mini_low`
+
+Claude Code family:
+
+- `claude_code_opus_4_7_high`
+- `claude_code_opus_4_7_low`
+- `claude_code_sonnet_4_6_high`
+- `claude_code_sonnet_4_6_low`
+
+MIMO family:
+
+- `claude_code_mimo_v2_5_pro_high`
+- `claude_code_mimo_v2_5_pro_low`
+- `claude_code_mimo_v2_5_high`
+- `claude_code_mimo_v2_5_low`
+
+MIMO is included in both the model-scale comparison and the high/low effort
+contrast. Before the final paid run, run the MIMO smoke command and verify that
+both variants complete with distinct run manifests carrying the requested
+effort flag.
+
+## Benchmark / Dataset / Task Version
+
+The final run uses the checked-in task specifications and question banks under:
+
+- `benchmarks/specs/scratch_minidb.yaml`
+- `benchmarks/specs/scratch_nanoweb.yaml`
+- `benchmarks/questions/scratch_minidb.yaml`
+- `benchmarks/questions/scratch_nanoweb.yaml`
+
+Each run record must preserve:
+
+- task id
+- spec hash
+- prompt hash
+- question-bank prompt hash for find runs
+- agent id and model id
+- seed
+- trial id
+- environment hash
+- artifact path and artifact hash
+
+## Primary Metrics
+
+### Recovery Accuracy
+
+`recovery_accuracy = n_correct / n_questions`
+
+This measures whether a finder recovered hidden design intentions from the
+artifact. It is a validity and gating metric, not an effort metric.
+
+### Novel Inspection Effort
+
+The primary effort metric is:
+
+```text
+inspection_effort_bytes =
+  novel_retrieval_bytes + novel_tool_call_bytes
+```
+
+Definitions:
+
+- `novel_retrieval_bytes`: UTF-8 bytes of distinct `tool_result` content fed to
+  the model, deduplicated across replayed history.
+- `novel_tool_call_bytes`: UTF-8 bytes of `tool_call` arguments emitted by the
+  model.
+
+The canonical table fields `retrieval_bytes`, `tool_call_bytes`, and
+`total_bytes` must use these proxy-observed novel definitions. Session-log
+bytes, raw transport bytes, vendor tokens, wall time, and dollar cost are
+diagnostics only.
+
+## Secondary / Diagnostic Metrics
+
+- `tool_call_count`
+- `tool_result_count`
+- `turn_count`
+- `wall_clock_seconds`
+- `generation_tok_per_s`
+- vendor input/output/reasoning tokens
+- artifact compile status
+- Rust file count and LOC
+- artifact hash and gzip/source-size diagnostics
+- family-affinity effort gaps
+- prior-control accuracy gaps
+
+No combined accuracy-effort scalar is a primary metric.
+
+## Planned Panels / Slices
+
+### Calibration Panel
+
+The calibration panel may run a full builder x finder matrix for the final
+families listed above. It is used to estimate finder validity, finder variance,
+family affinity, and rank stability.
+
+### Core Finder Panel
+
+The long-term benchmark should use a fixed core finder panel selected before
+future builders are evaluated. Selection criteria:
+
+- high recovery accuracy on artifact-present runs
+- low run-to-run variance
+- acceptable cost
+- rank stability with other reliable finders
+- no extreme family affinity
+- low prior-only and spec-only accuracy relative to artifact-present accuracy
+
+Core finder selection must be scripted from frozen calibration data, not chosen
+by manual cherry-picking after seeing a target builder result.
+
+Post-calibration v1 selection is recorded at
+`runs_release/reports/eandd_final/core_finder_selection/core_finders.json` and
+generated by `scripts/select_eandd_core_finders.py`.
+
+- Default future core finders: `claude_code_sonnet_4_6_low`,
+  `claude_code_sonnet_4_6_high`.
+- Prior-stress audit finder: `claude_code_mimo_v2_5_pro_low`.
+- The strict spec-only-relative criterion is recorded as saturated in this task
+  pack: spec-only controls are near ceiling and select no clean routine finder
+  by themselves. The v1 selector therefore uses finder-specific question-only
+  lift, low-prior lift, and implementation-signal lift as the discriminating
+  prior controls, while preserving spec-only saturation as a limitation.
+
+### Affinity Audit Panel
+
+The affinity audit panel includes same-family finders for each builder family.
+It is reported separately from the primary score and is used to quantify whether
+builders are easier for same-family agents to inspect.
+
+## Failure, Timeout, and Exclusion Rules
+
+Build runs:
+
+- `ok`: agent completed and an artifact path exists.
+- `error`: agent failed before producing a usable artifact.
+- `timeout`: agent exceeded the configured timeout.
+
+Artifact build fidelity:
+
+- Compile pass/fail is recorded for every artifact.
+- For the reported primary analysis, compile-pass is the primary-panel gate.
+- Non-compiling status-ok builds with existing release paths are retained in the
+  release only as validity-stress diagnostics, not in the primary recovery,
+  builder-ranking, or within-finder effort estimands.
+- The canonical `paper_final_scratch`, `high_effort_panel`,
+  `low_effort_panel`, `cross_effort_panel`, and `mimo_extension` panels require
+  a status-ok build record, an existing artifact path, and a passing compile
+  probe.
+- The `artifact_present_diagnostic` panel keeps status-ok scratch builds whose
+  release artifact path exists, including compile-probe failures retained for
+  validity-stress analysis.
+- Status-ok builds whose recorded artifact path is missing are assigned to
+  `build_fidelity_diagnostic` instead of primary panels.
+
+Find runs:
+
+- Failed, timeout, invalid, and unanswered runs remain in raw records and
+  canonical tables with explicit status and error fields.
+- Perfect-run-gated effort analyses may include only `recovery_accuracy == 1.0`
+  cells, but excluded records must remain visible in diagnostics.
+
+No metric, panel, or exclusion rule may be changed after final data collection
+starts without a revision log entry and a new analysis label.
+
+## Trial Plan / Seeds / Budget
+
+Build phase:
+
+- 2 build trials per `(task_id, builder_id)`.
+- Base seed: `20260501`.
+- Build seeds: `20260501`, `20260502`.
+
+Find phase:
+
+- 3 find trials per `(artifact, finder_id)`.
+- Find seeds: `20260501`, `20260502`, `20260503`.
+
+Controls:
+
+- Run controls before or alongside the full artifact-present final run.
+- Control runs use the same finder configurations and seeds where practical.
+
+Stopping rule:
+
+- Run the full frozen matrix once.
+- Rerun only records with infrastructure failure proven not to be an agent
+  outcome, preserving the failed attempt as raw evidence.
+- Do not rerun to improve a model or panel result.
+
+## Execution Code / Run Command
+
+Execution code:
+
+- `src/bnf/cli.py`
+- `src/bnf/build/`
+- `src/bnf/find/`
+- `src/bnf/runners/`
+- `src/bnf/proxy/`
+
+Primary dry-run/smoke commands:
+
+```bash
+uv run bnf specs validate
+make eandd-dry-run
+uv run bnf analyze tables
+```
+
+Final run command:
+
+```bash
+make eandd-final
+```
+
+`scripts/run_eandd_final_2026.sh` freezes `BNF_FINAL_SEED=20260501` by
+default to avoid deterministic run-id collisions with earlier pilot records.
+Changing `BNF_FINAL_SEED` after final data collection starts requires a
+revision log entry and a new analysis label.
+
+## Raw Evidence to Collect
+
+Raw evidence is append-only and lives under `runs/`.
+
+Required raw evidence:
+
+- `runs/records/build-*.json`
+- `runs/records/find-*.json`
+- run log directories containing prompts, stdout, stderr, answers, and usage
+  events
+- `runs/artifacts/<build_run_id>/`
+- `runs/find_workspaces/<find_run_id>/`
+- proxy usage events and session ids
+- failed and timeout records
+
+Every raw record must contain enough provenance to trace back to the execution
+code, task spec, prompt, agent config, seed, trial, environment, and artifact.
+
+## Canonical Tables to Produce
+
+Canonical tables live under `runs/tables/` and are regenerated from raw records:
+
+- `build_runs.csv`
+- `find_runs.csv`
+- `question_answers.csv`
+- `panel_membership.csv`
+- `MANIFEST.json`
+
+Canonical table row grains:
+
+- `build_runs.csv`: one row per build artifact.
+- `find_runs.csv`: one row per finder invocation.
+- `question_answers.csv`: one row per answered or unanswered question in a
+  finder invocation.
+- `panel_membership.csv`: one row per `(panel_id, table_name, row_id)`.
+
+The table manifest records source paths, row counts, table hashes,
+transformation command, schema version, generated time, code version, and dirty
+state.
+
+## Planned Analysis Outputs
+
+Primary outputs:
+
+- calibration finder validity table
+- control baseline table
+- builder build-fidelity table
+- builder effort table within frozen panels
+- rank-stability diagnostics
+- family-affinity diagnostics
+- anchor-normalized long-term benchmark score
+
+Release outputs:
+
+- `runs/reports/claim_evidence.md`
+- paper-ready figures and tables
+- Croissant metadata for released task/run-record dataset
+- explicit code and data licenses
+
+## Normalization Policy
+
+The paper may report within-finder ratios over the frozen final panel.
+
+For the long-term benchmark, scores must use a frozen anchor set rather than
+`min over all reported builders`, because an expanding minimum would change
+historical scores when a new builder is added.
+
+Anchor-normalized effort:
+
+```text
+anchor_normalized_effort(builder, finder, task) =
+  effort(builder, finder, task) / anchor_effort(finder, task)
+```
+
+where `anchor_effort(finder, task)` is computed from frozen v1 anchor builders.
+
+## Known Limitations
+
+- The final task set is build-from-scratch Rust only.
+- The benchmark measures agent-facing intent recoverability, not human
+  maintainability, software security, deployment safety, or full functional
+  correctness.
+- Finder policies are part of the measurement instrument; family affinity is
+  expected and must be reported.
+- Reasoning-effort controls are harness-local and not semantically identical
+  across providers.
+- MIMO high/low effort support must be smoke-tested before final execution.
+
+## Spec Revision Log
+
+- 2026-05-01: Initial final-run spec. Scope frozen to build-from-scratch tasks
+  only. Set high/low effort as the final provider-effort contrast where a
+  verified effort knob exists. Added MIMO large/small plus high/low comparison.
+  Added two build trials, controls, proxy-novel metric contract, core finder
+  panel plan, affinity audit, and anchor-normalized long-term scoring.
+- 2026-05-05: Clarified the compile-pass gate for primary panels.
+  Non-compiling status-ok builds with existing release paths remain in the
+  release only as validity-stress diagnostics; primary recovery, builder
+  ranking, and within-finder effort analyses use compile-passing artifacts.
+- 2026-05-06: Added scripted post-calibration core finder panel v1. Future
+  routine builder and harness comparisons should use the selected Sonnet 4.6
+  low/high core finders, with MiMo v2.5 pro low retained as a prior-stress audit
+  finder.

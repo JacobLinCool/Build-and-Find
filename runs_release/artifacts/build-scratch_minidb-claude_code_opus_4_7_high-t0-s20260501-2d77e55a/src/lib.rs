@@ -1,0 +1,16 @@
+//! minidb — an embeddable SQL-subset relational database.
+
+pub mod catalog;
+pub mod cli;
+pub mod error;
+pub mod exec;
+pub mod lexer;
+pub mod parser;
+pub mod plan;
+pub mod storage;
+pub mod txn;
+pub mod types;
+
+pub mod engine;
+
+pub use error::{MiniDbError, Result};

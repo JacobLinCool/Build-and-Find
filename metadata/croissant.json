@@ -1,0 +1,1122 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "arrayShape": "cr:arrayShape",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "containedIn": "cr:containedIn",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "description": {
+      "@container": "@language"
+    },
+    "equivalentProperty": "cr:equivalentProperty",
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isArray": "cr:isArray",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "name": {
+      "@container": "@language"
+    },
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "samplingRate": "cr:samplingRate",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "annotation": "cr:annotation",
+    "excludes": "cr:excludes",
+    "readLines": "cr:readLines",
+    "sdVersion": "cr:sdVersion",
+    "unArchive": "cr:unArchive",
+    "value": "cr:value"
+  },
+  "@type": "sc:Dataset",
+  "@id": "build_and_find_scratch_task_pack_v1",
+  "name": "Build and Find Scratch Task Pack and Canonical Analysis Tables",
+  "description": "Machine-readable metadata for the Build and Find final-study scratch task pack, question banks, canonical analysis tables with run-level manifests, and derived analysis reports.",
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "url": "https://anonymous.4open.science/r/Build-and-Find/",
+  "version": "1.0.0",
+  "dateCreated": "2026-05-01",
+  "datePublished": "2026-05-04",
+  "dateModified": "2026-05-07",
+  "creator": [
+    {
+      "@type": "sc:Person",
+      "name": "Build and Find Authors"
+    }
+  ],
+  "citation": {
+    "@type": "sc:CreativeWork",
+    "name": "Build and Find: A benchmark for coding-agent project legibility and intent recovery",
+    "url": "https://anonymous.4open.science/r/Build-and-Find/"
+  },
+  "citeAs": "Build and Find: A benchmark for coding-agent project legibility and intent recovery. NeurIPS 2026 Evaluations and Datasets submission.",
+  "keywords": [
+    "coding agents",
+    "benchmark",
+    "intent recovery",
+    "software engineering",
+    "agent evaluation"
+  ],
+  "isAccessibleForFree": true,
+  "isLiveDataset": false,
+  "includedInDataCatalog": {
+    "@type": "sc:DataCatalog",
+    "name": "Build and Find Repository",
+    "url": "https://anonymous.4open.science/r/Build-and-Find/"
+  },
+  "rai:dataLimitations": [
+    "The released task pack contains two Rust build-from-scratch task families and is high-prior: accuracy is a validity gate and calibration signal, not a standalone artifact-quality leaderboard.",
+    "Conditional inspection effort is an agent-facing proxy for builder artifact quality only after recovery and stability gates are satisfied.",
+    "Builder-finder affinity is panel-local and diagnostic; it should not be interpreted as a universal model-family ranking.",
+    "Broad model ranking, language-general claims, runtime correctness, deployment safety, security, and human maintainability require separate evidence.",
+    "Empirical claims are panel-local to the frozen builder and finder systems, CLI adapters, prompts, seeds, and benchmark harness recorded in the release manifests.",
+    "Multiple-choice Find questions intentionally preserve ordinary software-engineering priors; question-only and spec-only controls quantify but do not remove those priors.",
+    "Released task content may enter future model training data. Contamination-resistant follow-up studies should use private task packs with the same schema."
+  ],
+  "rai:dataBiases": [
+    "The task pack is Rust-only and emphasizes systems-programming artifacts: an SQL-subset database and an HTTP framework.",
+    "Question banks focus on source-traceable implementation intent, protocol choices, and failure modes, which may underrepresent other kinds of software legibility.",
+    "The final model panel is limited to the recorded Codex and Claude Code adapters and model families; results should not be generalized to all coding agents without new trials."
+  ],
+  "rai:personalSensitiveInformation": [
+    "No human-subject data, demographic attributes, health data, political or religious beliefs, or other personal or sensitive information are intentionally included.",
+    "Generated run tables identify synthetic task ids, model ids, adapter ids, seeds, prompt hashes, environment hashes, and benchmark metrics; they do not include user personal data."
+  ],
+  "rai:dataUseCases": [
+    "Recommended use: evaluating generated coding-agent artifacts by artifact-evidenced recovery of specification-traced design intent within a calibrated finder-task panel.",
+    "Recommended use: validating finder panels, inspecting analysis scripts, reproducing canonical tables and derived reports, and comparing new agents against the frozen evidence contract.",
+    "Not recommended use: certifying deployment safety, security, runtime correctness beyond the recorded compile probe, human maintainability, public-task-pack leaderboards, or universal single-axis model rankings."
+  ],
+  "rai:dataSocialImpact": "The dataset can improve transparency around coding-agent collaboration by making artifact legibility and inspection effort measurable. Misuse risks include overgeneralizing panel-local benchmark scores, treating compile-probe artifacts as deployment-ready software, or optimizing agents narrowly for released public tasks. The release mitigates these risks through explicit scope notes, controls, manifests, task/versioning discipline, and separate code and data licenses.",
+  "rai:hasSyntheticData": true,
+  "rai:dataCollection": "The dataset was produced by author-defined synthetic software task specifications, source-traced multiple-choice question banks, benchmark harness executions, and deterministic analysis projections from append-only run records.",
+  "rai:dataPreprocessingProtocol": "Append-only run records were sanitized into canonical CSV and JSON tables under runs_release/tables. The table manifest records source paths, row counts, table hashes, schema version, generated time, and transform provenance.",
+  "rai:dataAnnotationProtocol": "Question banks and gold answers were authored and manually reviewed by the benchmark authors. No crowdsourced annotation or human-subject labeling was used.",
+  "rai:dataReleaseMaintenancePlan": "The reported artifact is a fixed release. Task packs and canonical tables are versioned; corrections to specifications, questions, gold answers, or analysis transforms should be released as new evidence layers while preserving prior records.",
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "benchmarks/specs/scratch_minidb.yaml"
+    },
+    {
+      "@id": "benchmarks/specs/scratch_nanoweb.yaml"
+    },
+    {
+      "@id": "benchmarks/questions/scratch_minidb.yaml"
+    },
+    {
+      "@id": "benchmarks/questions/scratch_nanoweb.yaml"
+    },
+    {
+      "@id": "runs_release/tables/MANIFEST.json"
+    }
+  ],
+  "prov:wasGeneratedBy": [
+    {
+      "@type": "prov:Activity",
+      "@id": "activity_task_and_question_authoring",
+      "name": "Task and question authoring",
+      "description": "Synthetic scratch task specifications and source-traced Find question banks were authored and reviewed for traceability to intended behaviors and design choices."
+    },
+    {
+      "@type": "prov:Activity",
+      "@id": "activity_agent_run_collection",
+      "name": "Agent run collection",
+      "description": "The Build and Find harness collected builder and finder runs with recorded model ids, adapter ids, seeds, prompt hashes, environment hashes, trial ids, timestamps, and bnf_version values."
+    },
+    {
+      "@type": "prov:Activity",
+      "@id": "activity_canonical_table_projection",
+      "name": "Canonical table projection",
+      "description": "Deterministic transforms projected append-only records into release CSV and JSON tables, reports, and claim-evidence artifacts with checksums recorded in the table manifest."
+    }
+  ],
+  "distribution": [
+    {
+      "@type": "cr:FileSet",
+      "@id": "scratch_task_spec_files",
+      "name": "scratch_task_specs",
+      "description": "Final-study build-from-scratch task specifications.",
+      "encodingFormat": "application/x-yaml",
+      "includes": "benchmarks/specs/scratch_*.yaml"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "scratch_question_bank_files",
+      "name": "scratch_question_banks",
+      "description": "Source-traced multiple-choice Find question banks for the final-study scratch tasks.",
+      "encodingFormat": "application/x-yaml",
+      "includes": "benchmarks/questions/scratch_*.yaml"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "build_runs_csv",
+      "name": "build_runs.csv",
+      "description": "Canonical build-run table.",
+      "contentUrl": "runs_release/tables/build_runs.csv",
+      "contentSize": "30331",
+      "encodingFormat": "text/csv",
+      "sha256": "5955be048aff64d406ec59e6ad50011a2dde68e9fc394fc5cd3a2792fc8ce01e"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "find_runs_csv",
+      "name": "find_runs.csv",
+      "description": "Canonical finder-run table with run-level metrics and manifest fields.",
+      "contentUrl": "runs_release/tables/find_runs.csv",
+      "contentSize": "1324240",
+      "encodingFormat": "text/csv",
+      "sha256": "3d327214f19c5983adc0c5c7c34935cbdf1ef886ee8895ef7fdf837186ebcb40"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "question_answers_csv",
+      "name": "question_answers.csv",
+      "description": "Canonical per-question answer table.",
+      "contentUrl": "runs_release/tables/question_answers.csv",
+      "contentSize": "24582905",
+      "encodingFormat": "text/csv",
+      "sha256": "586290493ae3dc388e040e565cd30fb600ffd940c0d99cfb1df1f2985d3bbb74"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "panel_membership_csv",
+      "name": "panel_membership.csv",
+      "description": "Panel membership table linking named analysis panels to table row ids.",
+      "contentUrl": "runs_release/tables/panel_membership.csv",
+      "contentSize": "18354189",
+      "encodingFormat": "text/csv",
+      "sha256": "1b6dce751931238968e65651de7944d90947672a3e972c801bb7221164f0b37b"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "experiments_json",
+      "name": "experiments.json",
+      "description": "Experiment and panel metadata for released analysis tables.",
+      "contentUrl": "runs_release/tables/experiments.json",
+      "contentSize": "15526",
+      "encodingFormat": "application/json",
+      "sha256": "00c4fa6e46eda9a11bbac210bdda06f5d33faa87905011b5c69f0e9cd3df0b5d"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "table_manifest_json",
+      "name": "MANIFEST.json",
+      "description": "Canonical table manifest with file sizes, row counts, hashes, schema version, and generation timestamp.",
+      "contentUrl": "runs_release/tables/MANIFEST.json",
+      "contentSize": "963",
+      "encodingFormat": "application/json",
+      "sha256": "6dfde1595a078787b518afd72f6968307e92b11055b161f37ceabd6b068b9a80"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "claim_evidence_md",
+      "name": "claim_evidence.md",
+      "description": "Claim-evidence map for paper claims and released reports.",
+      "contentUrl": "runs_release/reports/claim_evidence.md",
+      "contentSize": "6900",
+      "encodingFormat": "text/markdown",
+      "sha256": "d08ddaf54414fde854d90011a649040cda1fd926654ad7bfbd148f8285cf8438"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "derived_analysis_report_files",
+      "name": "derived_analysis_reports",
+      "description": "Final-study analysis reports, pivots, plots, and recovery diagnostics derived from the released analysis tables.",
+      "encodingFormat": "application/octet-stream",
+      "includes": "runs_release/reports/**"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "scratch_task_specs",
+      "name": "scratch_task_specs",
+      "description": "One record per released scratch task specification file.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "scratch_task_specs/path",
+          "name": "path",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "scratch_task_spec_files"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "scratch_task_specs/encoding_format",
+          "name": "encoding_format",
+          "dataType": "sc:Text",
+          "value": "application/x-yaml"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "scratch_question_banks",
+      "name": "scratch_question_banks",
+      "description": "One record per released scratch task question-bank file.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "scratch_question_banks/path",
+          "name": "path",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "scratch_question_bank_files"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "scratch_question_banks/encoding_format",
+          "name": "encoding_format",
+          "dataType": "sc:Text",
+          "value": "application/x-yaml"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "build_runs",
+      "name": "build_runs",
+      "description": "Selected schema for the canonical build-run table.",
+      "key": [
+        {
+          "@id": "build_runs/build_run_id"
+        }
+      ],
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/build_run_id",
+          "name": "build_run_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "build_run_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/task_id",
+          "name": "task_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "task_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/builder_id",
+          "name": "builder_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "builder_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/build_trial_id",
+          "name": "build_trial_id",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "build_trial_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/build_seed",
+          "name": "build_seed",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "build_seed"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/build_status",
+          "name": "build_status",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "build_status"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/compile_pass",
+          "name": "compile_pass",
+          "dataType": "sc:Boolean",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "compile_pass"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/rust_loc",
+          "name": "rust_loc",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "rust_loc"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/artifact_hash",
+          "name": "artifact_hash",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "artifact_hash"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/build_total_bytes",
+          "name": "build_total_bytes",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "build_total_bytes"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/spec_hash",
+          "name": "spec_hash",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "spec_hash"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/build_prompt_hash",
+          "name": "build_prompt_hash",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "build_prompt_hash"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/build_env_hash",
+          "name": "build_env_hash",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "build_env_hash"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/build_created_at",
+          "name": "build_created_at",
+          "dataType": "sc:DateTime",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "build_created_at"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/bnf_version",
+          "name": "bnf_version",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "bnf_version"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "build_runs/panel_ids",
+          "name": "panel_ids",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "build_runs_csv"
+            },
+            "extract": {
+              "column": "panel_ids"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "find_runs",
+      "name": "find_runs",
+      "description": "Selected schema for the canonical finder-run table.",
+      "key": [
+        {
+          "@id": "find_runs/find_run_id"
+        }
+      ],
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/find_run_id",
+          "name": "find_run_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "find_run_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/build_run_id",
+          "name": "build_run_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "build_run_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/task_id",
+          "name": "task_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "task_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/builder_id",
+          "name": "builder_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "builder_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/finder_id",
+          "name": "finder_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "finder_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/finder_trial_id",
+          "name": "finder_trial_id",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "finder_trial_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/finder_seed",
+          "name": "finder_seed",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "finder_seed"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/find_status",
+          "name": "find_status",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "find_status"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/n_questions",
+          "name": "n_questions",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "n_questions"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/n_correct",
+          "name": "n_correct",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "n_correct"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/accuracy",
+          "name": "accuracy",
+          "description": "Exact-match Find accuracy for this finder invocation.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "accuracy"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/perfect_run",
+          "name": "perfect_run",
+          "dataType": "sc:Boolean",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "perfect_run"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/retrieval_bytes",
+          "name": "retrieval_bytes",
+          "description": "Proxy-observed novel tool-result bytes delivered to the finder.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "retrieval_bytes"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/tool_call_bytes",
+          "name": "tool_call_bytes",
+          "description": "Proxy-observed novel tool-call argument bytes emitted by the finder.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "tool_call_bytes"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/total_bytes",
+          "name": "total_bytes",
+          "description": "retrieval_bytes + tool_call_bytes.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "total_bytes"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/spec_hash",
+          "name": "spec_hash",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "spec_hash"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/find_prompt_hash",
+          "name": "find_prompt_hash",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "find_prompt_hash"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/find_env_hash",
+          "name": "find_env_hash",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "find_env_hash"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/find_created_at",
+          "name": "find_created_at",
+          "dataType": "sc:DateTime",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "find_created_at"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/bnf_version",
+          "name": "bnf_version",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "bnf_version"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "find_runs/panel_ids",
+          "name": "panel_ids",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "find_runs_csv"
+            },
+            "extract": {
+              "column": "panel_ids"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "question_answers",
+      "name": "question_answers",
+      "description": "Selected schema for the canonical per-question answer table.",
+      "key": [
+        {
+          "@id": "question_answers/question_row_id"
+        }
+      ],
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/question_row_id",
+          "name": "question_row_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "question_row_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/find_run_id",
+          "name": "find_run_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "find_run_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/task_id",
+          "name": "task_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "task_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/question_id",
+          "name": "question_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "question_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/question_type",
+          "name": "question_type",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "question_type"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/intention_id",
+          "name": "intention_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "intention_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/selected_option",
+          "name": "selected_option",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "selected_option"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/correct_option",
+          "name": "correct_option",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "correct_option"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/answered",
+          "name": "answered",
+          "dataType": "sc:Boolean",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "answered"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/is_correct",
+          "name": "is_correct",
+          "dataType": "sc:Boolean",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "is_correct"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "question_answers/panel_ids",
+          "name": "panel_ids",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "question_answers_csv"
+            },
+            "extract": {
+              "column": "panel_ids"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "panel_membership",
+      "name": "panel_membership",
+      "description": "Named panel membership over released table rows.",
+      "key": [
+        {
+          "@id": "panel_membership/panel_id"
+        },
+        {
+          "@id": "panel_membership/table_name"
+        },
+        {
+          "@id": "panel_membership/row_id"
+        }
+      ],
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "panel_membership/panel_id",
+          "name": "panel_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "panel_membership_csv"
+            },
+            "extract": {
+              "column": "panel_id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "panel_membership/table_name",
+          "name": "table_name",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "panel_membership_csv"
+            },
+            "extract": {
+              "column": "table_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "panel_membership/row_id",
+          "name": "row_id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "panel_membership_csv"
+            },
+            "extract": {
+              "column": "row_id"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "derived_analysis_reports",
+      "name": "derived_analysis_reports",
+      "description": "One record per released derived analysis report file.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "derived_analysis_reports/path",
+          "name": "path",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "derived_analysis_report_files"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

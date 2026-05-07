@@ -1,0 +1,211 @@
+spec_version: "0.1"
+
+task_id: edit_nanoweb_http2
+task_family: edit_existing_project
+title: Evolve nanoweb - add HTTP/2 and streaming bodies, drop legacy digest-auth and INI config
+objective: >
+  A working but early-stage version of the `nanoweb` HTTP framework
+  already exists in the workspace. Extend it with HTTP/2 support,
+  streaming response bodies, and W3C traceparent / tracestate
+  propagation. At the same time, remove the legacy digest-auth
+  middleware (the basic-auth middleware stays) and the long-deprecated
+  INI config parser (TOML remains the sole config format). Preserve
+  the routing semantics, the middleware ordering contract, the
+  Prometheus metrics endpoint shape, and the health endpoints.
+
+functional_requirements: []
+
+structural_requirements:
+  - id: SR1
+    statement: >
+      HTTP/2 and HTTP/1.1 must share a common `Request` / `Response`
+      abstraction. The HTTP/2 implementation lives in
+      `http::h2` (or analogous) and the HTTP/1.1 parser stays in
+      `http::h1`; routers and middleware must not know which version
+      served a request.
+  - id: SR2
+    statement: >
+      Streaming response bodies are expressed as an async stream of
+      byte chunks at the framework level. Handlers opt in by
+      returning a body type that is a stream rather than a materialised
+      Vec<u8>.
+  - id: SR3
+    statement: >
+      Trace-context propagation (`traceparent`, `tracestate`) lives
+      inside a dedicated middleware that sits before the router in the
+      middleware chain, and it is wired up by default.
+
+edit_requirements:
+  - id: ER1
+    kind: add
+    statement: >
+      Add HTTP/2 support for both plaintext (h2c) and TLS-over-ALPN
+      (h2). When rustls is enabled and the TLS cert negotiates h2 via
+      ALPN, serve the connection as HTTP/2; otherwise continue as
+      HTTP/1.1.
+  - id: ER2
+    kind: add
+    statement: >
+      Add streaming response bodies. Handlers can return a body that
+      yields chunks over time; the framework writes them out with
+      appropriate framing (chunked transfer encoding under HTTP/1.1,
+      DATA frames under HTTP/2) without materialising the entire
+      response first.
+  - id: ER3
+    kind: add
+    statement: >
+      Add a `TraceContext` middleware that parses incoming W3C
+      `traceparent` (and optional `tracestate`) headers, generates one
+      if absent, attaches the trace id to the per-request log context,
+      and mirrors both headers on the response. It is installed by
+      default before the router.
+  - id: ER4
+    kind: remove
+    statement: >
+      Remove the legacy digest-auth middleware (the basic-auth
+      middleware stays). This includes its middleware struct, its
+      registration in the default stack, its config section, its
+      tests, and its README entry.
+  - id: ER5
+    kind: remove
+    statement: >
+      Remove the legacy INI config parser and the associated
+      `--config-format ini` branch. TOML is now the sole supported
+      config format; supplying an `.ini` file or the `--config-format`
+      flag must produce a clear error.
+  - id: ER6
+    kind: preserve
+    statement: >
+      Preserve the routing semantics: trie-based router with literal,
+      parameter, and wildcard segments; HEAD falls back to GET;
+      OPTIONS auto-lists allowed methods. The router API surface
+      (register/match) must not change in a breaking way.
+  - id: ER7
+    kind: preserve
+    statement: >
+      Preserve the middleware ordering contract: user-registered
+      middleware still runs in the order they were registered
+      (outer-to-inner). New built-in middleware (trace context) is
+      inserted before the router; it must not change the relative
+      order of user middleware.
+  - id: ER8
+    kind: preserve
+    statement: >
+      Preserve the Prometheus metrics endpoint and its existing
+      counter/histogram series. New HTTP/2 and streaming paths must
+      emit the same metric families using the same labels where
+      applicable.
+  - id: ER9
+    kind: preserve
+    statement: >
+      Preserve the health endpoints `/healthz` and `/readyz` and their
+      exact status-code semantics.
+
+constraints:
+  language: Rust
+  frontend_allowed: false
+  terminal_allowed: true
+  network_allowed: true
+  external_crates_allowed: true
+  target_os: linux
+  rust_toolchain: stable
+  external_hosted_services_allowed: false
+  build_time_budget_s: 5400
+
+seed_project:
+  path: ../seed_projects/nanoweb_base
+  description: >
+    Baseline nanoweb (HTTP/1.1 only; no streaming bodies; no trace-
+    context middleware). Includes the legacy digest-auth middleware
+    and the legacy INI config parser.
+
+deliverables:
+  - cargo_project
+  - readme
+
+validation:
+  notes:
+    - "cargo build --release must succeed at validation time."
+
+intentions:
+  functional: []
+  structural:
+    - id: I-SR1
+      source: SR1
+      kind: structural
+      statement: >
+        HTTP/2 and HTTP/1.1 share a common Request/Response
+        abstraction; H2 lives in its own sub-module and routers and
+        middleware are version-agnostic.
+    - id: I-SR2
+      source: SR2
+      kind: structural
+      statement: >
+        Streaming response bodies are expressed as an async stream of
+        byte chunks at the framework level; handlers opt in by
+        returning a stream body.
+    - id: I-SR3
+      source: SR3
+      kind: structural
+      statement: >
+        Trace-context propagation is implemented as a dedicated
+        middleware installed before the router in the default chain.
+  edit:
+    - id: I-ER1
+      source: ER1
+      kind: edit
+      statement: >
+        HTTP/2 is supported over both h2c (plaintext) and h2 (TLS via
+        ALPN).
+    - id: I-ER2
+      source: ER2
+      kind: edit
+      statement: >
+        Streaming response bodies are supported end to end, framed as
+        chunked under HTTP/1.1 and as DATA frames under HTTP/2.
+    - id: I-ER3
+      source: ER3
+      kind: edit
+      statement: >
+        W3C traceparent/tracestate headers are parsed, generated if
+        absent, attached to the per-request log context, and mirrored
+        on the response.
+    - id: I-ER4
+      source: ER4
+      kind: edit
+      statement: >
+        The legacy digest-auth middleware is removed entirely; basic
+        auth remains.
+    - id: I-ER5
+      source: ER5
+      kind: edit
+      statement: >
+        The legacy INI config parser is removed entirely; TOML is the
+        sole config format.
+    - id: I-ER6
+      source: ER6
+      kind: edit
+      statement: >
+        Routing semantics (trie, params, wildcards, HEAD->GET, OPTIONS
+        auto-allow) are preserved; the public router API is not
+        broken.
+    - id: I-ER7
+      source: ER7
+      kind: edit
+      statement: >
+        User middleware ordering is preserved; new default middleware
+        is inserted before the router without reordering user
+        middleware.
+    - id: I-ER8
+      source: ER8
+      kind: edit
+      statement: >
+        Prometheus metric families and labels are preserved; new
+        paths emit the same series.
+    - id: I-ER9
+      source: ER9
+      kind: edit
+      statement: >
+        /healthz and /readyz status-code semantics are preserved.
+
+tags: [rust, http, web, edit, http2, streaming, tracing]

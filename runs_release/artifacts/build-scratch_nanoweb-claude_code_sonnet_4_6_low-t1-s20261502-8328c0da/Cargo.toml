@@ -1,0 +1,45 @@
+[package]
+name = "nanoweb"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "nanoweb"
+path = "src/main.rs"
+
+[lib]
+name = "nanoweb"
+path = "src/lib.rs"
+
+[features]
+default = ["tls"]
+tls = ["rustls", "rustls-pemfile", "tokio-rustls"]
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+tokio-rustls = { version = "0.26", optional = true }
+rustls = { version = "0.23", optional = true }
+rustls-pemfile = { version = "2", optional = true }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_urlencoded = "0.7"
+toml = "0.8"
+clap = { version = "4", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+flate2 = "1"
+hmac = "0.12"
+sha2 = "0.10"
+uuid = { version = "1", features = ["v4"] }
+multer = "3"
+prometheus = { version = "0.13", features = ["process"] }
+tokio-stream = "0.1"
+bytes = "1"
+mime = "0.3"
+base64 = "0.22"
+rand = "0.8"
+hex = "0.4"
+
+[dev-dependencies]
+reqwest = { version = "0.12", features = ["json", "blocking", "multipart"] }
+tokio-test = "0.4"

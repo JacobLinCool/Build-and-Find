@@ -1,0 +1,83 @@
+{
+  "method": "Copied valid nested find_answers.json selections into all-null selected raw records.",
+  "records": [
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/nested_answer_recovery_originals/find-build-scratch_minidb-cla-codex_gpt5_4_mini_low-t1-s20260502-5cd1177e.json",
+      "correct_after_recovery": 15,
+      "nested_answers_path": "runs/find_workspaces/find-build-scratch_minidb-cla-codex_gpt5_4_mini_low-t1-s20260502-5cd1177e/minidb/find_answers.json",
+      "nested_answers_sha256": "b89b18d9979bb336797922822e2fd677a5a097fd45c17ae7ecd079d23621fb13",
+      "original_record_sha256": "ba5639b962edf388faff6cc67a7f16f7c6e4419be08e821b5f795a06ecb89a26",
+      "record_path": "runs_release/records/find-build-scratch_minidb-cla-codex_gpt5_4_mini_low-t1-s20260502-5cd1177e.json",
+      "run_id": "find-build-scratch_minidb-cla-codex_gpt5_4_mini_low-t1-s20260502-5cd1177e",
+      "updated_record_sha256": "e2bd98e55352194b616b3b2f4f1cab49341c9aa2f6d7a2823c07861e3af30de0"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/nested_answer_recovery_originals/find-build-scratch_minidb-cla-codex_gpt5_4_mini_low-t1-s20260502-04af73ee.json",
+      "correct_after_recovery": 13,
+      "nested_answers_path": "runs/find_workspaces/find-build-scratch_minidb-cla-codex_gpt5_4_mini_low-t1-s20260502-04af73ee/minidb/find_answers.json",
+      "nested_answers_sha256": "f3fe5d5edfc616d39366c9438d3bea1797ead55e8f118574e805598356460154",
+      "original_record_sha256": "663416a61ef32cbdc8dcee95929d37563d52365708aa206573b5bf9654e02fe2",
+      "record_path": "runs_release/records/find-build-scratch_minidb-cla-codex_gpt5_4_mini_low-t1-s20260502-04af73ee.json",
+      "run_id": "find-build-scratch_minidb-cla-codex_gpt5_4_mini_low-t1-s20260502-04af73ee",
+      "updated_record_sha256": "189b14ca1e326f5dc8f33f67c26b1db19f3d7b60aa3aab44513a42f58c6dcd96"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/nested_answer_recovery_originals/find-build-scratch_minidb-cla-claude_code_mimo_v2_5_pro_low-t0-s20260501-bbdbba55.json",
+      "correct_after_recovery": 14,
+      "nested_answers_path": "runs/find_workspaces/find-build-scratch_minidb-cla-claude_code_mimo_v2_5_pro_low-t0-s20260501-bbdbba55/minidb/find_answers.json",
+      "nested_answers_sha256": "656008308a25cf4a20cc3658f340c69681c0101ee45c80647f609983417944ae",
+      "original_record_sha256": "2d8f0b11df0cf5af6a38bfeec8b4702ed06a1fbd60231d8a20b0624b93b8ad47",
+      "record_path": "runs_release/records/find-build-scratch_minidb-cla-claude_code_mimo_v2_5_pro_low-t0-s20260501-bbdbba55.json",
+      "run_id": "find-build-scratch_minidb-cla-claude_code_mimo_v2_5_pro_low-t0-s20260501-bbdbba55",
+      "updated_record_sha256": "3ec90ecda71f5e195b8dfe1f16fffd9dc4c7407cb574f5ca242ac93372a05ee1"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/nested_answer_recovery_originals/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t2-s20260503-0950c712.json",
+      "correct_after_recovery": 14,
+      "nested_answers_path": "runs/find_workspaces/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t2-s20260503-0950c712/nanoweb/find_answers.json",
+      "nested_answers_sha256": "dddfc6249fbf9e130f3b72ee0fa29e788ee3539bdea2af4693e74f67e66bb33d",
+      "original_record_sha256": "e2f22dcb5585cd4eb274e5863b856203aaf11cd85720359bdb9617cb6dd445ca",
+      "record_path": "runs_release/records/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t2-s20260503-0950c712.json",
+      "run_id": "find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t2-s20260503-0950c712",
+      "updated_record_sha256": "700d4cc5f67b2b93e4d9da0f511e0bcc321bde08059d976669a5fa1e87a37a47"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/nested_answer_recovery_originals/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t0-s20260501-319d9a6a.json",
+      "correct_after_recovery": 14,
+      "nested_answers_path": "runs/find_workspaces/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t0-s20260501-319d9a6a/nanoweb/find_answers.json",
+      "nested_answers_sha256": "dc1d2318951da6524591584281cf9e3a3fa02c99de7bff73acd3be6a4b1928de",
+      "original_record_sha256": "0a7f81a8015db5857d2878cc393e01f2a9f4c5fdee334afb53011d2f1755aa36",
+      "record_path": "runs_release/records/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t0-s20260501-319d9a6a.json",
+      "run_id": "find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t0-s20260501-319d9a6a",
+      "updated_record_sha256": "fb82ed99b524b5542521e91795c5e005416f5feb4afc68766469c08f755417fb"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/nested_answer_recovery_originals/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t2-s20260503-c5cb9ca2.json",
+      "correct_after_recovery": 13,
+      "nested_answers_path": "runs/find_workspaces/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t2-s20260503-c5cb9ca2/nanoweb/find_answers.json",
+      "nested_answers_sha256": "9e23c9911ef528815adf37d27fd499623cc6c61c64a486143cd492f8e47b4eee",
+      "original_record_sha256": "b49eb12b8d737542e78617b2e4188ac63c019437bbe112786f4901bf95ab0290",
+      "record_path": "runs_release/records/find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t2-s20260503-c5cb9ca2.json",
+      "run_id": "find-build-scratch_nanoweb-cl-codex_gpt5_4_mini_low-t2-s20260503-c5cb9ca2",
+      "updated_record_sha256": "855a5f148afe44cebab76992d5a6039e8d576dcc1d78fe9b4f5604b3a87bd5bc"
+    },
+    {
+      "answer_count": 15,
+      "backup_path": "runs_release/reports/eandd_final/nested_answer_recovery_originals/control-find-control-build-spec_only-scra-claude_code_opus_4_7_low-t1-s20260502-f4147751.json",
+      "correct_after_recovery": 15,
+      "nested_answers_path": "runs/find_workspaces/control-find-control-build-spec_only-scra-claude_code_opus_4_7_low-t1-s20260502-f4147751/control-build-spec_only-scratch_nanoweb-4ad902c7/find_answers.json",
+      "nested_answers_sha256": "07e25541e0d062e0925655702ab323e50b57e83af228dff590660cfdee7ea2c7",
+      "original_record_sha256": "234dc6ec658e6e04736765041168401489cf19c2672cac1697ace69a78bac9b4",
+      "record_path": "runs_release/records/control-find-control-build-spec_only-scra-claude_code_opus_4_7_low-t1-s20260502-f4147751.json",
+      "run_id": "control-find-control-build-spec_only-scra-claude_code_opus_4_7_low-t1-s20260502-f4147751",
+      "updated_record_sha256": "b806c65b6b2b1366d11eace978075a0c056edb77b53acb2443206d2c492233c0"
+    }
+  ],
+  "recovered_at": "2026-05-03T19:30:41.608210+00:00"
+}

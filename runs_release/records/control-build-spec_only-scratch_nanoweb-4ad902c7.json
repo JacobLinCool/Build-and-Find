@@ -1,0 +1,47 @@
+{
+  "build_run_id": "control-build-spec_only-scratch_nanoweb-4ad902c7",
+  "task_id": "scratch_nanoweb",
+  "manifest": {
+    "run_id": "control-build-spec_only-scratch_nanoweb-4ad902c7",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "b8149bbd7bf2b4d7",
+    "agent": {
+      "id": "control_spec_only",
+      "adapter": "codex",
+      "model_id": "spec_only",
+      "adapter_version": null
+    },
+    "seed": 0,
+    "trial_id": 0,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-02T18:04:23.885388+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "artifact_path": "runs_release/artifacts/control-build-spec_only-scratch_nanoweb-4ad902c7",
+  "usage": {
+    "wall_clock_seconds": 0.0,
+    "usage_source": null,
+    "session_id": null,
+    "prompt_bytes": 0,
+    "retrieval_payload_bytes": 0,
+    "tool_input_bytes": 0,
+    "assistant_message_bytes": 0,
+    "final_answer_bytes": 0,
+    "bytes_to_model": 0,
+    "bytes_from_model": 0,
+    "tool_calls": 0,
+    "network_requests": 0,
+    "vendor_usage": null,
+    "efficiency": null
+  },
+  "validation": {
+    "compile_pass": false,
+    "rust_files": 0,
+    "rust_loc": 0,
+    "details": {
+      "control_condition": "spec_only"
+    }
+  },
+  "status": "ok",
+  "error": null
+}

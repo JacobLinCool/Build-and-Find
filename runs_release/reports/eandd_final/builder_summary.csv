@@ -1,0 +1,13 @@
+builder_id,family,base_model,effort,downstream_accuracy,downstream_run_ci95_low,downstream_run_ci95_high,median_build_tokens,mean_build_tokens,total_build_tokens,total_build_cost_usd,build_runs,question_rows
+claude_code_opus_4_7_high,claude,claude_code_opus_4_7,high,0.994444,0.991161,0.997728,5891623,6418914,25675659,31.4761,4,2160
+claude_code_mimo_v2_5_pro_low,mimo,claude_code_mimo_v2_5_pro,low,0.992593,0.985651,0.999534,7278835,7278835,7278835,3.5121,1,540
+claude_code_opus_4_7_low,claude,claude_code_opus_4_7,low,0.992593,0.989159,0.996027,4507726,4744350,18977400,21.9518,4,2160
+codex_gpt5_4_mini_high,codex,codex_gpt5_4_mini,high,0.991667,0.987620,0.995713,7304000,7470920,29883683,0.0000,4,2160
+codex_gpt5_5_high,codex,codex_gpt5_5,high,0.988889,0.984618,0.993160,3185167,3216598,12866393,0.0000,4,2160
+codex_gpt5_5_low,codex,codex_gpt5_5,low,0.986574,0.981829,0.991320,1884608,1921738,7686954,0.0000,4,2160
+claude_code_sonnet_4_6_high,claude,claude_code_sonnet_4_6,high,0.967130,0.961517,0.972742,6900882,7709126,30836507,19.4583,4,2160
+claude_code_mimo_v2_5_pro_high,mimo,claude_code_mimo_v2_5_pro,high,0.960185,0.951747,0.968624,22845676,22845676,45691352,19.8670,2,1080
+claude_code_sonnet_4_6_low,claude,claude_code_sonnet_4_6,low,0.949074,0.939018,0.959131,3034817,3280869,13123479,12.5481,4,2160
+claude_code_mimo_v2_5_low,mimo,claude_code_mimo_v2_5,low,0.944444,0.930964,0.957925,11909618,13859479,41578437,18.0834,3,1620
+codex_gpt5_4_mini_low,codex,codex_gpt5_4_mini,low,0.921605,0.909111,0.934099,3043780,2536506,7609518,0.0000,3,1620
+claude_code_mimo_v2_5_high,mimo,claude_code_mimo_v2_5,high,0.915278,0.903046,0.927509,14120147,15334640,61338562,26.1003,4,2160

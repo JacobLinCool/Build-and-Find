@@ -1,0 +1,8 @@
+build_run_id,task_id,builder_id,build_trial_id,compile_pass,rust_files,rust_loc,empty_artifact,artifact_path
+build-scratch_minidb-claude_code_mimo_v2_5_pro_low-t0-s20260501-f53e2357,scratch_minidb,claude_code_mimo_v2_5_pro_low,0,false,18,7037,0,runs_release/artifacts/build-scratch_minidb-claude_code_mimo_v2_5_pro_low-t0-s20260501-f53e2357
+build-scratch_minidb-claude_code_mimo_v2_5_pro_low-t1-s20260502-e387a96b,scratch_minidb,claude_code_mimo_v2_5_pro_low,1,false,20,7374,0,runs_release/artifacts/build-scratch_minidb-claude_code_mimo_v2_5_pro_low-t1-s20260502-e387a96b
+build-scratch_minidb-codex_gpt5_4_mini_low-t0-s20260501-6923533c,scratch_minidb,codex_gpt5_4_mini_low,0,false,16,2157,0,runs_release/artifacts/build-scratch_minidb-codex_gpt5_4_mini_low-t0-s20260501-6923533c
+build-scratch_nanoweb-claude_code_mimo_v2_5_low-t0-s20260501-957fa423,scratch_nanoweb,claude_code_mimo_v2_5_low,0,false,0,0,1,runs_release/artifacts/build-scratch_nanoweb-claude_code_mimo_v2_5_low-t0-s20260501-957fa423
+build-scratch_nanoweb-claude_code_mimo_v2_5_pro_high-t0-s20260501-a6d76cc1,scratch_nanoweb,claude_code_mimo_v2_5_pro_high,0,false,28,3559,0,runs_release/artifacts/build-scratch_nanoweb-claude_code_mimo_v2_5_pro_high-t0-s20260501-a6d76cc1
+build-scratch_nanoweb-claude_code_mimo_v2_5_pro_high-t1-s20260502-beb8c87d,scratch_nanoweb,claude_code_mimo_v2_5_pro_high,1,false,28,3907,0,runs_release/artifacts/build-scratch_nanoweb-claude_code_mimo_v2_5_pro_high-t1-s20260502-beb8c87d
+build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t0-s20260501-d22d724b,scratch_nanoweb,claude_code_mimo_v2_5_pro_low,0,false,28,3803,0,runs_release/artifacts/build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t0-s20260501-d22d724b

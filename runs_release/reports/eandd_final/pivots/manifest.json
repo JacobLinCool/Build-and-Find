@@ -1,0 +1,79 @@
+{
+  "analysis_script": "scripts/analyze_eandd_pivots.py",
+  "generated_at": "2026-05-03T20:04:26.141382+00:00",
+  "hard_formal_questions": [
+    "scratch_minidb:q_db_15",
+    "scratch_nanoweb:q_nw_15"
+  ],
+  "implementation_signal_questions": [
+    "scratch_minidb:q_db_01",
+    "scratch_minidb:q_db_02",
+    "scratch_minidb:q_db_03",
+    "scratch_minidb:q_db_05",
+    "scratch_minidb:q_db_06",
+    "scratch_minidb:q_db_07",
+    "scratch_minidb:q_db_09",
+    "scratch_minidb:q_db_10",
+    "scratch_minidb:q_db_11",
+    "scratch_minidb:q_db_12",
+    "scratch_minidb:q_db_14",
+    "scratch_nanoweb:q_nw_01",
+    "scratch_nanoweb:q_nw_03",
+    "scratch_nanoweb:q_nw_04",
+    "scratch_nanoweb:q_nw_07",
+    "scratch_nanoweb:q_nw_09",
+    "scratch_nanoweb:q_nw_10",
+    "scratch_nanoweb:q_nw_11",
+    "scratch_nanoweb:q_nw_12",
+    "scratch_nanoweb:q_nw_14"
+  ],
+  "input_panel": "runs_release/reports/eandd_final compile-pass logical panel regenerated from raw JSON",
+  "low_prior_questions": [
+    "scratch_minidb:q_db_01",
+    "scratch_minidb:q_db_05",
+    "scratch_minidb:q_db_06",
+    "scratch_minidb:q_db_07",
+    "scratch_minidb:q_db_15",
+    "scratch_nanoweb:q_nw_01",
+    "scratch_nanoweb:q_nw_04",
+    "scratch_nanoweb:q_nw_07",
+    "scratch_nanoweb:q_nw_10",
+    "scratch_nanoweb:q_nw_11"
+  ],
+  "positive_lift_finders": [
+    "claude_code_sonnet_4_6_low",
+    "claude_code_sonnet_4_6_high",
+    "claude_code_mimo_v2_5_high",
+    "claude_code_mimo_v2_5_low",
+    "claude_code_mimo_v2_5_pro_low",
+    "claude_code_mimo_v2_5_pro_high"
+  ],
+  "top4_builders": [
+    "claude_code_opus_4_7_high",
+    "claude_code_opus_4_7_low",
+    "claude_code_mimo_v2_5_pro_low",
+    "codex_gpt5_4_mini_high"
+  ],
+  "top4_finders": [
+    "claude_code_sonnet_4_6_low",
+    "claude_code_sonnet_4_6_high",
+    "claude_code_opus_4_7_low",
+    "claude_code_opus_4_7_high"
+  ],
+  "top6_builders": [
+    "claude_code_opus_4_7_high",
+    "claude_code_opus_4_7_low",
+    "claude_code_mimo_v2_5_pro_low",
+    "codex_gpt5_4_mini_high",
+    "codex_gpt5_5_high",
+    "codex_gpt5_5_low"
+  ],
+  "top6_finders": [
+    "claude_code_sonnet_4_6_low",
+    "claude_code_sonnet_4_6_high",
+    "claude_code_opus_4_7_low",
+    "claude_code_opus_4_7_high",
+    "claude_code_mimo_v2_5_high",
+    "claude_code_mimo_v2_5_low"
+  ]
+}

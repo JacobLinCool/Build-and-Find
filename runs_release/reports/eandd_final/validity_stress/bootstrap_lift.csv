@@ -1,0 +1,4 @@
+contrast_id,cluster_unit,clusters,treatment_answer_rows,control_answer_rows,difference,ci_low,ci_high,bootstrap_samples,bootstrap_seed
+artifact_present_minus_question_only,task_question,30,25920,1080,0.018403,-0.007523,0.043364,2000,20260602
+compile_pass_minus_question_only,task_question,30,22140,1080,0.021793,-0.002985,0.046459,2000,20260602
+low_prior_compile_pass_minus_question_only,task_question,10,7380,360,0.063821,0.018210,0.112184,2000,20260602

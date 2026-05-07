@@ -1,0 +1,302 @@
+{
+  "find_run_id": "control-find-control-build-question_only--claude_code_mimo_v2_5_high-t2-s20260503-15c61aa9",
+  "build_run_id": "control-build-question_only-scratch_minidb-a0fed459",
+  "task_id": "scratch_minidb",
+  "manifest": {
+    "run_id": "control-find-control-build-question_only--claude_code_mimo_v2_5_high-t2-s20260503-15c61aa9",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "af5289efa1da735f",
+    "agent": {
+      "id": "claude_code_mimo_v2_5_high",
+      "adapter": "claude_code",
+      "model_id": "mimo-v2.5",
+      "adapter_version": null
+    },
+    "seed": 20260503,
+    "trial_id": 2,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-02T18:18:14.234726+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "presented_options": {
+        "A": "0 = OK, 1 = SQL error, 2 = storage/IO, 3 = CLI usage (CLI last because it's the rarest)",
+        "B": "0 = OK, 1 = any error (SQL, CLI, or IO collapsed together), with stderr distinguishing the category",
+        "C": "0 = OK, 64 = usage (sysexits.h), 65 = SQL syntax, 74 = IO",
+        "D": "0 = OK, 1 = SQL error, 2 = CLI usage error, 3 = storage/IO error"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A minimal database CLI typically maps exit codes as 0=OK, 1=SQL error, 2=CLI usage error, 3=storage/IO error. This ordering is natural because CLI usage errors (e.g., invalid flag) are checked early, storage errors are rarer, and the numbering follows the order of evaluation. Option A swaps CLI last which contradicts common ordering patterns. Option B collapses all errors into code 1 which defeats the purpose of distinguishing categories. Option C uses sysexits.h values which is more Unix-daemon convention than typical for a small educational DB."
+    },
+    {
+      "question_id": "q_db_02",
+      "presented_options": {
+        "A": "statements run without any transaction; durability is deferred to a periodic checkpoint",
+        "B": "statements run under a long-running implicit transaction that commits only when the process exits",
+        "C": "statements inherit the transaction of the previous BEGIN if any was ever opened in the session",
+        "D": "each statement is implicitly wrapped in its own transaction that commits on success, matching BEGIN/COMMIT semantics"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Standard SQL behavior is auto-commit: each statement outside an explicit BEGIN/COMMIT block is implicitly wrapped in its own transaction. This is the universal default in relational databases (SQLite, PostgreSQL, MySQL). Option A (no transaction at all) would lose durability. Option B (long-running implicit transaction) would be unusual and break isolation. Option C (inheriting previous BEGIN) contradicts how transaction boundaries work."
+    },
+    {
+      "question_id": "q_db_03",
+      "presented_options": {
+        "A": "ARIES-style WAL with explicit undo and redo records plus a separate dirty-page table checkpoint",
+        "B": "shadow paging: mutations go to a copy page; a pointer swap at commit promotes the copy atomically",
+        "C": "synchronous double-write: every page is written to a scratch region before being written to its home location",
+        "D": "an append-only write-ahead log, replayed at startup to re-apply committed transactions and drop the uncommitted suffix"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "An append-only write-ahead log is the simplest durability mechanism for a small database. Committed transactions are logged, and at startup the log is replayed: committed records are re-applied and any uncommitted suffix (no COMMIT record) is discarded. Option A (ARIES-style WAL) is too complex for an educational minidb. Option B (shadow paging) is a valid but different approach. Option C (synchronous double-write) is a page-level technique, not a full recovery strategy."
+    },
+    {
+      "question_id": "q_db_04",
+      "presented_options": {
+        "A": "each record carries a CRC32; replay stops at the first record whose CRC fails to verify",
+        "B": "records are padded to a fixed 512-byte sector boundary; partial sectors are discarded",
+        "C": "records are written in pairs (main + mirror); replay prefers whichever pair verifies",
+        "D": "no per-record check; a single CRC covers the whole WAL file on clean shutdown"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A CRC32 checksum per WAL record is the standard lightweight integrity mechanism. Replay reads records sequentially and stops at the first CRC failure, which cleanly detects partial/torn writes. Option B (sector padding) is more of a filesystem-level technique. Option C (mirror pairs) adds complexity without clear benefit for a minimal system. Option D (single file CRC) would not protect individual records."
+    },
+    {
+      "question_id": "q_db_05",
+      "presented_options": {
+        "A": "a Volcano-style iterator tree: each operator exposes open/next/close and returns one row (or tiny batch) at a time",
+        "B": "push-based execution where operators drive their children forward via a single dataflow scheduler",
+        "C": "materialising execution: each operator fully computes its output set before the next operator starts reading",
+        "D": "vectorised/columnar execution where each operator produces and consumes batches of column vectors"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A Volcano-style (iterator/pull-based) execution model is the classic approach for educational and small database systems. Each operator implements open/next/close and returns one row at a time. This is simple to implement and reason about. Option B (push-based dataflow) is more complex. Option C (materializing) is a variant but less standard as a named model. Option D (vectorised/columnar) is a modern optimization technique used in analytical systems."
+    },
+    {
+      "question_id": "q_db_06",
+      "presented_options": {
+        "A": "an inverted list built lazily on first query and cached in memory",
+        "B": "a B-tree keyed by the composite (index_key, row_id); duplicates are naturally ordered by row_id",
+        "C": "a hash map keyed by the indexed value alone; collisions chain a Vec<RowId>",
+        "D": "a bitmap per distinct value; looked up with bitwise AND for compound predicates"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A B-tree keyed by (index_key, row_id) is the classic secondary index structure. This allows efficient point lookups and range scans while naturally handling duplicate index keys by ordering them by row_id. Option A (inverted list) is for full-text search. Option C (hash map) only supports equality lookups. Option D (bitmap) is for low-cardinality analytical queries."
+    },
+    {
+      "question_id": "q_db_07",
+      "presented_options": {
+        "A": "Filter and Project exist as separate types rather than being fused into one 'SelectExpr' operator",
+        "B": "IndexScan and SeqScan as two variants of a single ScanKind enum so the executor only has one Scan operator",
+        "C": "Update and Delete are distinct operators rather than one 'Mutate' operator parameterised by a kind",
+        "D": "SeqScan, IndexScan, Filter, Project, NestedLoopJoin, Sort, Limit, Insert, Update, Delete each as a distinct type"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "A",
+      "is_correct": false,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "In a minimal educational database, Filter and Project are typically fused into a single SelectExpr or similar combined operator rather than being separate physical operator types. Having them as distinct types would be over-engineering for a small system. Options B, C, and D all describe plausible design choices: ScanKind enum is elegant, distinct Update/Delete is common, and separate operator types is the classic textbook approach."
+    },
+    {
+      "question_id": "q_db_08",
+      "presented_options": {
+        "A": "inside the storage layer, which transparently redirects SeqScan calls through the index when available",
+        "B": "inside the parser, encoded as a special AST node when the WHERE clause mentions an indexed column",
+        "C": "inside the planner when lowering the logical plan to a physical plan; the parser only produces ASTs",
+        "D": "inside the executor at open() time, after consulting the catalog to see whether an index is applicable"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Index selection logically belongs in the planner during logical-to-physical plan conversion. The parser produces a logical AST; the planner examines the catalog to determine available indexes and chooses between SeqScan and IndexScan. Option A (transparent redirection in storage) blurs abstraction layers. Option B (in the parser) conflates parsing with optimization. Option D (at executor open time) is too late and mixes planning with execution."
+    },
+    {
+      "question_id": "q_db_09",
+      "presented_options": {
+        "A": "a single crate-wide error enum with one variant per source is the return type of top-level entry points; lower modules convert at their public boundary",
+        "B": "errors are propagated via panics with typed payloads and caught at the CLI via std::panic::catch_unwind",
+        "C": "errors are encoded as strings (Result<T, String>) so every caller formats them uniformly",
+        "D": "each subsystem defines its own error type; the CLI sees a Box<dyn Error> and pattern-matches on downcast"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A single crate-wide error enum with variants per source (IO, parse, type-check, runtime) is the idiomatic Rust approach. Lower modules convert their errors at their public boundary into this unified type. Option B (panics) is poor error handling. Option C (String errors) loses type information. Option D (Box<dyn Error> with downcasts) is fragile and loses the structured error information that Rust's type system provides."
+    },
+    {
+      "question_id": "q_db_10",
+      "presented_options": {
+        "A": "table / csv / json selectable via a --format CLI flag or a .format meta-command in the REPL",
+        "B": "table output only; downstream callers are expected to parse and re-format it themselves",
+        "C": "the format is fixed at build time via a Cargo feature (--features=json)",
+        "D": "table / json / messagepack selectable only via an environment variable MINIDB_FORMAT"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A minimal database CLI typically supports table (human-readable), csv (machine-readable), and json (structured) output formats. These are selectable via a --format CLI flag and/or a .format meta-command in the REPL for interactive use. Option B (table only) is too limiting. Option C (compile-time feature) is inflexible. Option D (environment variable only) is unconventional for CLI tools."
+    },
+    {
+      "question_id": "q_db_11",
+      "presented_options": {
+        "A": "the per-statement summary is written to stdout immediately before the data so callers see it arrive first",
+        "B": "per-statement summary lines (e.g. `ok 3 rows`) go to stderr, letting callers pipe stdout straight into another tool",
+        "C": "--quiet suppresses the per-statement summary entirely; stdout still carries the data stream",
+        "D": "when --format json is active, the JSON value is the only thing on stdout — no banner lines, no trailing 'ok' line"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Writing per-statement summary to stdout BEFORE the data is inconsistent with the separation of data output (stdout) from progress output (stderr). The summary is progress/status information and should go to stderr (option B), be suppressible with --quiet (option C), or be absent when machine-readable format is active (option D). Mixing status lines into stdout would break piping."
+    },
+    {
+      "question_id": "q_db_12",
+      "presented_options": {
+        "A": "the heap stores rows inside fixed-size pages rather than one file per row",
+        "B": "pages are identified by a newtype over u64 (PageId) rather than a bare integer",
+        "C": "the page size is a single compile-time constant referenced throughout storage",
+        "D": "pages are a mixed size; the header chooses between 4 KiB and 16 KiB per table based on row width"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Mixed page sizes (4 KiB vs 16 KiB chosen per table) is inconsistent with how a minimal database typically organizes storage. A single compile-time constant page size (option C) is standard for simplicity. Options A (fixed-size pages) and B (PageId newtype) are both standard Rust practices for storage layers. Variable page sizes add significant complexity for page management and would be unusual in a minimal implementation."
+    },
+    {
+      "question_id": "q_db_13",
+      "presented_options": {
+        "A": "an error at startup demanding manual recovery before any SELECT can run",
+        "B": "all three rows — every fsynced WAL record is replayed on startup",
+        "C": "no rows — a transaction whose WAL trail has no COMMIT record is treated as an uncommitted prefix and discarded",
+        "D": "the two earliest rows — only WAL records that survive the CRC check are replayed; the trailing one is dropped"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "If the COMMIT record was never written, the transaction is considered uncommitted. On recovery, WAL records without a trailing COMMIT are treated as an uncommitted prefix and discarded. This is standard WAL-based recovery semantics. Option A (error requiring manual recovery) is unnecessarily disruptive. Option B (all rows visible) would violate atomicity. Option D (partial replay based on CRC) conflates corruption detection with transaction recovery."
+    },
+    {
+      "question_id": "q_db_14",
+      "presented_options": {
+        "A": "a small number of hits inside `exec` operators, used to print per-row debugging during EXPLAIN",
+        "B": "hits only in `parser` and `error`, where the modules format diagnostic messages directly",
+        "C": "scattered hits across most modules; the codebase routinely uses `eprintln!` for diagnostics",
+        "D": "zero hits — every diagnostic outside the CLI boundary goes through the `log` facade"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "In a well-structured Rust codebase, direct eprintln! usage outside the CLI boundary would be avoided in favor of the log facade (log crate with env_logger or similar). This keeps diagnostics configurable and filterable. Having scattered eprintln! calls (option C) would be considered poor practice. Having them only in parser/error (option B) or exec operators (option A) would still be inconsistent with using the log facade."
+    },
+    {
+      "question_id": "q_db_15",
+      "presented_options": {
+        "A": "panics with an unwrap on the unrecognised format string",
+        "B": "exits with code 2 and prints a CLI usage error on stderr naming the bad value",
+        "C": "exits with code 1 and prints a SQL error pointing at the SELECT",
+        "D": "executes the SELECT and silently falls back to the default `table` format"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "An unrecognised --format value should be treated as a CLI usage error: exit with code 2 (matching Unix convention for usage errors) and print an error message on stderr naming the invalid value. Option A (panic) is not production-appropriate. Option C (SQL error code 1) misidentifies the source of the error. Option D (silent fallback) would be confusing since the user explicitly requested a format."
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 41.54019037500257,
+    "usage_source": "project_log",
+    "session_id": "1d6e654a-8407-46c8-8ef7-f50da450c5fa",
+    "prompt_bytes": 8311,
+    "retrieval_payload_bytes": 481,
+    "tool_input_bytes": 9531,
+    "assistant_message_bytes": 1727,
+    "final_answer_bytes": 1470,
+    "bytes_to_model": 8792,
+    "bytes_from_model": 11258,
+    "tool_calls": 4,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 28309,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 83200,
+      "output_tokens": 3643,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 115152,
+      "cost_usd": 0.164532
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 481,
+      "novel_tool_call_bytes": 9973,
+      "novel_tool_call_count": 4,
+      "novel_tool_result_count": 4,
+      "wall_clock_seconds": 41.075828075408936,
+      "generation_tok_per_s": 103.55555027230295,
+      "tool_names": {
+        "Bash": 1,
+        "Glob": 1,
+        "Read": 1,
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 111509,
+        "cached_input_tokens": 83200,
+        "uncached_input_tokens": 28309,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 3643,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 115152
+      },
+      "proxy_session_id": "QnvvmS84Cx_rTKIR",
+      "request_count": 5,
+      "raw_request_bytes": 483746,
+      "raw_response_bytes": 77565
+    }
+  },
+  "status": "ok",
+  "error": null
+}

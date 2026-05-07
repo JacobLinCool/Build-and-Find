@@ -1,0 +1,83 @@
+{
+  "build_run_id": "build-scratch_minidb-codex_gpt5_4_mini_high-t1-s20260502-05500a40",
+  "task_id": "scratch_minidb",
+  "manifest": {
+    "run_id": "build-scratch_minidb-codex_gpt5_4_mini_high-t1-s20260502-05500a40",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "af21212b92d10200",
+    "agent": {
+      "id": "codex_gpt5_4_mini_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.4-mini",
+      "adapter_version": null
+    },
+    "seed": 20260502,
+    "trial_id": 1,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-01T02:34:15.382053+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "artifact_path": "runs_release/artifacts/build-scratch_minidb-codex_gpt5_4_mini_high-t1-s20260502-05500a40",
+  "usage": {
+    "wall_clock_seconds": 845.4554798330064,
+    "usage_source": "session_log",
+    "session_id": "019de156-1c4f-7c02-8463-484a213e62a5",
+    "prompt_bytes": 8786,
+    "retrieval_payload_bytes": 38278,
+    "tool_input_bytes": 174012,
+    "assistant_message_bytes": 6341,
+    "final_answer_bytes": 1123,
+    "bytes_to_model": 47064,
+    "bytes_from_model": 180353,
+    "tool_calls": 62,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 6041076,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 5973248,
+      "output_tokens": 90332,
+      "reasoning_output_tokens": 43393,
+      "total_tokens": 6131408,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 32926,
+      "novel_tool_call_bytes": 3877,
+      "novel_tool_call_count": 20,
+      "novel_tool_result_count": 20,
+      "wall_clock_seconds": 842.7076070308685,
+      "generation_tok_per_s": 127.53416102226855,
+      "tool_names": {
+        "exec_command": 13,
+        "write_stdin": 7
+      },
+      "turn_count": 1,
+      "vendor_tokens": {
+        "total_input_tokens": 6041076,
+        "cached_input_tokens": 5973248,
+        "uncached_input_tokens": 67828,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 46939,
+        "reasoning_output_tokens": 43393,
+        "total_tokens": 6131408
+      },
+      "proxy_session_id": "YUyx6lF3IICyXa7s",
+      "request_count": 62,
+      "raw_request_bytes": 33062889,
+      "raw_response_bytes": 30362929
+    }
+  },
+  "validation": {
+    "compile_pass": true,
+    "rust_files": 20,
+    "rust_loc": 4748,
+    "details": {
+      "rust_files": "20",
+      "rust_loc": "4748",
+      "build": "rc=0\nFinished `release` profile [optimized] target(s) in 0.03s"
+    }
+  },
+  "status": "ok",
+  "error": null
+}

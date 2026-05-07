@@ -1,0 +1,292 @@
+task_id: scratch_nanoweb
+
+# Design note
+# -----------
+# Each question pits the spec-intended design against three plausible
+# alternative designs. Distractors are never implausible domains
+# (HTTP/3, shared-memory IPC). The finder must read implementation
+# shape across router, middleware trait, parser module, feature flags,
+# and config loader to answer well.
+
+questions:
+  - question_id: q_nw_01
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-FR2
+    question_type: design_intention_recognition
+    prompt: >
+      How is HTTP/1.1 parsing wired into this framework?
+    options:
+      A: "it is a thin wrapper around a third-party HTTP library (hyper/httparse) configured for strict mode"
+      B: "it is a hand-written parser module that reads bytes directly and that no other layer reaches into — routers and middleware consume typed Request / Response values only"
+      C: "requests are proxied to a trusted upstream server and the parsed form is ingested; the framework itself doesn't parse HTTP"
+      D: "parsing is done lazily inside each handler on a per-need basis; there is no central parser module"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR2
+      source_intention_id: I-FR2
+    distractor_strategy: plausible_alternative_architecture
+
+  - question_id: q_nw_02
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-SR3
+    question_type: design_intention_recognition
+    prompt: >
+      How does the router decide which handler runs for an incoming
+      request path?
+    options:
+      A: "it compiles all registered paths into a single regex at startup and runs captures on each request"
+      B: "it walks a trie whose node kinds are literal / parameter / wildcard; match is O(path-length) and allocates only the parameter map"
+      C: "it does a linear scan over a Vec<(Method, String, Handler)> and falls back to a 404 on the first non-match"
+      D: "it hashes the full path and looks the handler up in a HashMap<(Method, String), Handler>"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR3
+      source_intention_id: I-SR3
+    distractor_strategy: plausible_alternative_router
+
+  - question_id: q_nw_03
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-FR3
+    question_type: negative_contrast
+    prompt: >
+      Which of the following routing behaviours would be INCONSISTENT
+      with how the codebase handles HTTP methods?
+    options:
+      A: "a HEAD request reuses the GET handler and omits the body from the response"
+      B: "an OPTIONS request on a defined route returns an Allow header listing the methods registered for that path"
+      C: "registering GET /users automatically registers POST /users with the same handler for convenience"
+      D: "path parameters (e.g. /users/:id) are captured and made available to the handler through a typed params map"
+    correct_option: C
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR3
+      source_intention_id: I-FR3
+    distractor_strategy: near_miss_aliasing
+
+  - question_id: q_nw_04
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-SR4
+    question_type: design_intention_recognition
+    prompt: >
+      How is the middleware stack composed?
+    options:
+      A: "each middleware is a closure stored in a Vec; the chain is executed by a fold over that Vec each request"
+      B: "each middleware implements a single object-safe trait; the chain is a list of trait objects whose registration order drives outer-to-inner call order"
+      C: "middlewares are chosen per request by a proc-macro that expanded at compile time to a different fn for each route"
+      D: "middlewares are composed via tower::Layer and tower::Service; nanoweb re-exports the tower types"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR4
+      source_intention_id: I-SR4
+    distractor_strategy: plausible_alternative_middleware
+
+  - question_id: q_nw_05
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-SR5
+    question_type: design_intention_recognition
+    prompt: >
+      How is TLS support compiled in?
+    options:
+      A: "TLS is a required dependency; the crate does not compile without rustls"
+      B: "TLS is gated by a Cargo feature (tls) that is enabled by default; with the feature off the crate still builds and the --tls-cert flag emits a clear error"
+      C: "TLS is a runtime decision based on the NANOWEB_TLS env var; both code paths are always compiled"
+      D: "TLS lives in a separate sibling crate nanoweb-tls that the main crate re-exports"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR5
+      source_intention_id: I-SR5
+    distractor_strategy: plausible_alternative_gating
+
+  - question_id: q_nw_06
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-FR10
+    question_type: design_intention_recognition
+    prompt: >
+      What does the server do when it receives SIGINT or SIGTERM?
+    options:
+      A: "it exits immediately; in-flight connections are dropped mid-response"
+      B: "it stops accepting new connections, lets in-flight requests complete up to a bounded graceful_timeout_s, then exits 0"
+      C: "it hot-reloads the config without exiting; shutdown requires SIGQUIT"
+      D: "it drains the TCP buffers but keeps the process alive so a supervisor can signal readiness again"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR10
+      source_intention_id: I-FR10
+    distractor_strategy: plausible_alternative_signal_handling
+
+  - question_id: q_nw_07
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-FR11
+    question_type: design_intention_recognition
+    prompt: >
+      How does the framework expose observability metrics?
+    options:
+      A: "it writes one statsd UDP packet per request to localhost:8125"
+      B: "it mounts a Prometheus text-exposition endpoint at a configurable path with per-method/status/route counters and a request-duration histogram"
+      C: "it emits OpenTelemetry OTLP over gRPC to a collector configured via env var"
+      D: "it logs one structured JSON line per request; aggregation happens downstream"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR11
+      source_intention_id: I-FR11
+    distractor_strategy: plausible_alternative_telemetry
+
+  - question_id: q_nw_08
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-FR14
+    question_type: design_intention_recognition
+    prompt: >
+      How does the framework handle per-request correlation ids?
+    options:
+      A: "it generates a fresh id per request, attaches it to the structured log context for that request, and mirrors it to the response as X-Request-Id"
+      B: "it passes an inbound X-Correlation-Id through unchanged and does nothing if the header is absent"
+      C: "it correlates requests only within a session cookie; there is no per-request id"
+      D: "it uses the TCP connection's 4-tuple as an implicit id; no HTTP header is set"
+    correct_option: A
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR14
+      source_intention_id: I-FR14
+    distractor_strategy: plausible_alternative_correlation
+
+  - question_id: q_nw_09
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-SR7
+    question_type: design_intention_recognition
+    prompt: >
+      Where does the CLI-overrides-TOML precedence logic actually live?
+    options:
+      A: "scattered across each consuming module — wherever a value is read, the module checks CLI then TOML"
+      B: "inside a single config module that loads TOML, applies CLI overrides, and yields one Config struct that all other modules consume"
+      C: "inside clap's derive macros via #[arg(default_value_from_fn)] hooks that reach into the TOML at parse time"
+      D: "inside main as a long if-else chain immediately before tokio::main boots the server"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR7
+      source_intention_id: I-SR7
+    distractor_strategy: plausible_alternative_placement
+
+  - question_id: q_nw_10
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-FR13
+    question_type: design_intention_recognition
+    prompt: >
+      What shape does the framework's built-in template engine take?
+    options:
+      A: "there is no template engine; handlers build HTML by hand"
+      B: "a minimal mustache-style renderer with variable interpolation ({{name}}), sections ({{#list}}{{/list}}), and inverted sections ({{^absent}}{{/absent}})"
+      C: "a full Jinja2-compatible engine with filters, macros, template inheritance, and sandboxed eval"
+      D: "a compile-time HTML macro (like maud) that produces typed HTML fragments"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR13
+      source_intention_id: I-FR13
+    distractor_strategy: plausible_alternative_template_engine
+
+  - question_id: q_nw_11
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-FR5
+    question_type: negative_contrast
+    prompt: >
+      Which combination of standard middleware does the framework
+      explicitly ship? Pick the option that is INCONSISTENT with the
+      actual default set.
+    options:
+      A: "logger, gzip, token-bucket rate limit per client IP, CORS, double-submit-cookie CSRF, basic auth"
+      B: "logger, gzip, sliding-window rate limit per API key, CORS, OAuth2 bearer guard"
+      C: "logger, gzip, rate limit, CORS, CSRF, basic auth — exactly the six types registered in the default middleware chain"
+      D: "logger as the outermost middleware, with basic auth among the inner middlewares"
+    correct_option: B
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR5
+      source_intention_id: I-FR5
+    distractor_strategy: near_miss_wrong_set
+
+  - question_id: q_nw_12
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-SR9
+    question_type: design_intention_recognition
+    prompt: >
+      How do errors cross the crate's public boundary?
+    options:
+      A: "each submodule exposes its own error type; the server returns Box<dyn Error + Send + Sync> and callers downcast"
+      B: "errors are stringly typed: Result<T, String> end to end"
+      C: "a single NanowebError enum is the return type of top-level fallible entry points; submodule errors convert at their public boundary"
+      D: "errors are conveyed by panicking on the fallible path and recovering via catch_unwind at the accept loop"
+    correct_option: C
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR9
+      source_intention_id: I-SR9
+    distractor_strategy: plausible_alternative_error_strategy
+
+  - question_id: q_nw_13
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-FR10
+    question_type: failure_mode_recognition
+    prompt: >
+      The server is running with the default `graceful_timeout_s`.
+      SIGTERM arrives. At that instant five connections are mid-request;
+      two of those handlers won't return for another 60 seconds. After
+      handling SIGTERM, what does the process actually do?
+    options:
+      A: "waits indefinitely until every in-flight request completes, then exits with code 0"
+      B: "aborts immediately on SIGTERM, replying 503 to all in-flight connections, then exits non-zero"
+      C: "waits up to ~30 seconds, then exits with code 0; the two long-running handlers are abandoned mid-response"
+      D: "exits with code 1 because at least one request was still in flight when the timeout elapsed"
+    correct_option: C
+    source_trace:
+      spec_section: functional_requirements
+      source_requirement_id: FR10
+      source_intention_id: I-FR10
+    distractor_strategy: shutdown_timeout_misreading
+
+  - question_id: q_nw_14
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-SR2
+    question_type: forbidden_coupling
+    prompt: >
+      Trace the `use` statements in the HTTP parser module
+      (`src/http/parser.rs` or under `src/http/parser/`). Which of the
+      following dependencies is NOT present?
+    options:
+      A: "the parser imports byte-handling helpers (std::str, the `bytes` crate, or equivalent) and the crate's `error` module"
+      B: "the parser imports HTTP shape types (Method, Header, Version) from a sibling `http::types` (or equivalent) module"
+      C: "the parser imports the router module (e.g. trie node types or route-match results)"
+      D: "the parser imports its own internal helper submodules (e.g. chunked-body decoder, header folding) but nothing from outside `http::`"
+    correct_option: C
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR2
+      source_intention_id: I-SR2
+    distractor_strategy: cross_layer_import
+
+  - question_id: q_nw_15
+    codebase_task_id: scratch_nanoweb
+    intention_id: I-SR5
+    question_type: multi_spec_interaction
+    prompt: >
+      The crate is compiled WITHOUT the optional `tls` Cargo feature.
+      A user invokes
+      `nanoweb --tls-cert ./cert.pem --tls-key ./key.pem --listen 127.0.0.1:8443`.
+      What does the process do?
+    options:
+      A: "starts a plain HTTP listener on 8443 and ignores the TLS flags with a warning on stderr"
+      B: "prints a clear error explaining TLS support was not compiled in (the `tls` feature is off) and exits non-zero without binding the port"
+      C: "panics on the unrecognised flag — the TLS-related CLI flags only exist when the feature is on"
+      D: "starts an HTTPS listener using a self-signed cert generated at startup; the user-supplied cert files are ignored"
+    correct_option: B
+    source_trace:
+      spec_section: structural_requirements
+      source_requirement_id: SR5
+      source_intention_id: I-SR5
+    distractor_strategy: cross_section_misclassification

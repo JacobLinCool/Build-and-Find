@@ -1,0 +1,88 @@
+{
+  "build_run_id": "build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t1-s20260502-b6e82435",
+  "task_id": "scratch_minidb",
+  "manifest": {
+    "run_id": "build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t1-s20260502-b6e82435",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "af21212b92d10200",
+    "agent": {
+      "id": "claude_code_mimo_v2_5_pro_high",
+      "adapter": "claude_code",
+      "model_id": "mimo-v2.5-pro",
+      "adapter_version": null
+    },
+    "seed": 20260502,
+    "trial_id": 1,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-01T04:26:11.856153+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "artifact_path": "runs_release/artifacts/build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t1-s20260502-b6e82435",
+  "usage": {
+    "wall_clock_seconds": 3218.623360291007,
+    "usage_source": "project_log",
+    "session_id": "547127e6-6051-4d01-b1de-5ab27dd6f6b5",
+    "prompt_bytes": 8786,
+    "retrieval_payload_bytes": 374763,
+    "tool_input_bytes": 415548,
+    "assistant_message_bytes": 9672,
+    "final_answer_bytes": 675,
+    "bytes_to_model": 383549,
+    "bytes_from_model": 425220,
+    "tool_calls": 239,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 345127,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 26254784,
+      "output_tokens": 145171,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 26745082,
+      "cost_usd": 11.359597199999994
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 467096,
+      "novel_tool_call_bytes": 443353,
+      "novel_tool_call_count": 239,
+      "novel_tool_result_count": 239,
+      "wall_clock_seconds": 3217.374899148941,
+      "generation_tok_per_s": 71.4459232175558,
+      "tool_names": {
+        "Bash": 64,
+        "TodoWrite": 6,
+        "Write": 33,
+        "Read": 53,
+        "Edit": 72,
+        "Grep": 10,
+        "Glob": 1
+      },
+      "turn_count": 12,
+      "vendor_tokens": {
+        "total_input_tokens": 26943361,
+        "cached_input_tokens": 26583104,
+        "uncached_input_tokens": 360257,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 153593,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 27096954
+      },
+      "proxy_session_id": "XzfDjFfP9QdmqEQz",
+      "request_count": 254,
+      "raw_request_bytes": 113475673,
+      "raw_response_bytes": 2940693
+    }
+  },
+  "validation": {
+    "compile_pass": true,
+    "rust_files": 28,
+    "rust_loc": 8560,
+    "details": {
+      "rust_files": "28",
+      "rust_loc": "8560",
+      "build": "rc=0\n        ^^^^^^^^^^^^^^^^^\n...\n67 |     pub fn has_primary_key(&self) -> bool {\n   |            ^^^^^^^^^^^^^^^\n\nwarning: associated function `from_str` is never used\n  --> src/types/value.rs:37:12\n   |\n36 | impl ColumnType {\n   | --------------- associated function in this implementation\n37 |     pub fn from_str(s: &str) -> Result<Self> {\n   |            ^^^^^^^^\n\nwarning: methods `to_f64` and `to_bool` are never used\n   --> src/types/value.rs:302:12\n    |\n 49 | impl Value {\n    | ---------- methods in this implementation\n...\n302 |     pub fn to_f64(&self) -> Option<f64> {\n    |            ^^^^^^\n...\n310 |     pub fn to_bool(&self) -> Option<bool> {\n    |            ^^^^^^^\n\nwarning: `minidb` (bin \"minidb\") generated 34 warnings\n    Finished `release` profile [optimized] target(s) in 0.05s"
+    }
+  },
+  "status": "ok",
+  "error": null
+}

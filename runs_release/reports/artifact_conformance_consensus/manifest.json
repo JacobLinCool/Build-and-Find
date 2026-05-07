@@ -1,0 +1,55 @@
+{
+  "analysis_command": "scripts/analyze_artifact_conformance_consensus.py",
+  "analysis_id": "artifact_conformance_consensus_v1",
+  "analysis_script": "scripts/analyze_artifact_conformance_consensus.py",
+  "classification_rule": {
+    "implemented_gold": "all selected base-model votes are stable and agree with the canonical gold answer text",
+    "implemented_non_gold": "all selected base-model votes are stable and agree on the same non-gold answer text",
+    "important_note": "This is a triage prelabel derived from finder answer consensus. It is not an independent implementation-conformance annotation.",
+    "manual_review_required": "missing answers, unstable within-model vote, or disagreement between selected base-model votes"
+  },
+  "final_conformance_labels": [
+    "implemented_gold",
+    "implemented_non_gold",
+    "absent_or_ambiguous",
+    "documented_only",
+    "not_applicable_or_invalid"
+  ],
+  "generated_at": "2026-05-06T16:39:08.499320+00:00",
+  "input_hashes": {
+    "benchmarks/questions/scratch_minidb.yaml": "909fadd03099d4f4ab28b11022de8cc433914f1f826470eae8fcf7bed67394d6",
+    "benchmarks/questions/scratch_nanoweb.yaml": "8545b7ade3314805e4a18d57946e2c33789547abd6a21266062820dfc9f97290",
+    "runs_release/tables/build_runs.csv": "5955be048aff64d406ec59e6ad50011a2dde68e9fc394fc5cd3a2792fc8ce01e",
+    "runs_release/tables/find_runs.csv": "3d327214f19c5983adc0c5c7c34935cbdf1ef886ee8895ef7fdf837186ebcb40",
+    "runs_release/tables/question_answers.csv": "586290493ae3dc388e040e565cd30fb600ffd940c0d99cfb1df1f2985d3bbb74"
+  },
+  "input_paths": [
+    "runs_release/tables/build_runs.csv",
+    "runs_release/tables/find_runs.csv",
+    "runs_release/tables/question_answers.csv",
+    "benchmarks/questions/scratch_minidb.yaml",
+    "benchmarks/questions/scratch_nanoweb.yaml"
+  ],
+  "output_dir": "runs_release/reports/artifact_conformance_consensus",
+  "row_counts": {
+    "artifact_question_consensus": 720,
+    "finder_votes": 1440,
+    "manual_review_queue": 24,
+    "model_votes": 1440
+  },
+  "scope": {
+    "answer_panel_id": "artifact_present_diagnostic",
+    "artifact_panel_id": "artifact_present_diagnostic",
+    "base_models": [
+      "codex_gpt5_5",
+      "claude_code_opus_4_7"
+    ],
+    "compile_pass_only": false,
+    "consensus_unit": "base_model",
+    "finder_efforts": [
+      "high"
+    ],
+    "include_compile_failed": true,
+    "min_model_agreement": 0.6666666666666666
+  }
+}

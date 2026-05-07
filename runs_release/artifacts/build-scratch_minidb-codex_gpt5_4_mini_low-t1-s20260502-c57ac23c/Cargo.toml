@@ -1,0 +1,20 @@
+[package]
+name = "minidb"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+csv = "1"
+log = "0.4"
+env_logger = "0.11"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+crc32fast = "1"
+parking_lot = "0.12"
+atty = "0.2"
+
+[dev-dependencies]
+tempfile = "3"
+

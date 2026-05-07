@@ -1,0 +1,10 @@
+{
+  "analysis_script": "scripts/analyze_eandd_calibration_uncertainty.py",
+  "bootstrap_samples": 2000,
+  "bootstrap_seed": 20260602,
+  "cluster_unit": "task_id + question_id",
+  "generated_at": "2026-05-06T10:53:22.808107+00:00",
+  "input_table": "runs_release/tables/question_answers.csv",
+  "interval": "percentile 95% clustered bootstrap over question clusters",
+  "output_table": "runs_release/reports/eandd_final/validity_stress/bootstrap_lift.csv"
+}

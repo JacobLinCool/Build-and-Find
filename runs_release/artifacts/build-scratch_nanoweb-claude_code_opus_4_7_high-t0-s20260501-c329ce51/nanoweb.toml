@@ -1,0 +1,30 @@
+# Example nanoweb configuration. CLI flags override values in this file.
+
+listen = "127.0.0.1:8080"
+metrics = "/metrics"
+log_level = "info"
+graceful_timeout_s = 30
+
+# Session cookie HMAC secret — replace in production.
+session_secret = "change-me-please"
+
+# CORS allowed origins (use "*" to allow any).
+allowed_origins = ["*"]
+
+# Token-bucket rate limit per client IP.
+rate_limit_capacity = 100.0
+rate_limit_refill_per_sec = 50.0
+
+# Optional static files directory served at /static/*.
+# static_dir = "./public"
+
+# Optional TLS. Both must be set together.
+# tls_cert = "./certs/cert.pem"
+# tls_key = "./certs/key.pem"
+# tls_listen = "0.0.0.0:8443"
+
+# Optional basic-auth guard. Omit to disable.
+# basic_auth_realm = "nanoweb"
+# [[basic_auth_users]]
+# user = "admin"
+# password = "swordfish"

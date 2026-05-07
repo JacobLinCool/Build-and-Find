@@ -1,0 +1,87 @@
+{
+  "build_run_id": "build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t0-s20260501-291ba58c",
+  "task_id": "scratch_minidb",
+  "manifest": {
+    "run_id": "build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t0-s20260501-291ba58c",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "af21212b92d10200",
+    "agent": {
+      "id": "claude_code_mimo_v2_5_pro_high",
+      "adapter": "claude_code",
+      "model_id": "mimo-v2.5-pro",
+      "adapter_version": null
+    },
+    "seed": 20260501,
+    "trial_id": 0,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-01T03:32:33.082006+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "artifact_path": "runs_release/artifacts/build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t0-s20260501-291ba58c",
+  "usage": {
+    "wall_clock_seconds": 2861.233032832999,
+    "usage_source": "project_log",
+    "session_id": "04a2186c-bee6-453c-b3c5-c4b10132b3dd",
+    "prompt_bytes": 8786,
+    "retrieval_payload_bytes": 259486,
+    "tool_input_bytes": 328708,
+    "assistant_message_bytes": 9077,
+    "final_answer_bytes": 1158,
+    "bytes_to_model": 268272,
+    "bytes_from_model": 337785,
+    "tool_calls": 202,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 295986,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 18522880,
+      "output_tokens": 127404,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 18946270,
+      "cost_usd": 8.507400600000002
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 379296,
+      "novel_tool_call_bytes": 351269,
+      "novel_tool_call_count": 202,
+      "novel_tool_result_count": 202,
+      "wall_clock_seconds": 2859.6941528320312,
+      "generation_tok_per_s": 67.30236282166184,
+      "tool_names": {
+        "Bash": 65,
+        "TodoWrite": 7,
+        "Write": 23,
+        "Read": 57,
+        "Edit": 46,
+        "Grep": 4
+      },
+      "turn_count": 10,
+      "vendor_tokens": {
+        "total_input_tokens": 18987321,
+        "cached_input_tokens": 18686912,
+        "uncached_input_tokens": 300409,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 133340,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 19120661
+      },
+      "proxy_session_id": "2r1kwXsP4AgDm0ZR",
+      "request_count": 208,
+      "raw_request_bytes": 80908231,
+      "raw_response_bytes": 2834129
+    }
+  },
+  "validation": {
+    "compile_pass": true,
+    "rust_files": 20,
+    "rust_loc": 7655,
+    "details": {
+      "rust_files": "20",
+      "rust_loc": "7655",
+      "build": "rc=0\n\n    |\n 21 | impl TransactionManager {\n    | ----------------------- methods in this implementation\n...\n 46 |     pub fn is_in_transaction(&self) -> bool {\n    |            ^^^^^^^^^^^^^^^^^\n...\n114 |     pub fn buffer_write(&mut self, pid: PageId, page: [u8; 4096]) -> Result<()> {\n    |            ^^^^^^^^^^^^\n...\n168 |     pub fn auto_commit_write(\n    |            ^^^^^^^^^^^^^^^^^\n\nwarning: method `column_type` is never used\n  --> src/types.rs:45:12\n   |\n34 | impl Value {\n   | ---------- method in this implementation\n...\n45 |     pub fn column_type(&self) -> Option<ColumnType> {\n   |            ^^^^^^^^^^^\n\nwarning: `minidb` (bin \"minidb\") generated 42 warnings (run `cargo fix --bin \"minidb\" -p minidb` to apply 1 suggestion)\n    Finished `release` profile [optimized] target(s) in 0.08s"
+    }
+  },
+  "status": "ok",
+  "error": null
+}

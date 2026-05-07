@@ -1,0 +1,112 @@
+{
+  "analysis_script": "scripts/analyze_eandd_low_prior.py",
+  "generated_at": "2026-05-03T20:04:26.141382+00:00",
+  "input_panel": "runs_release/records compile-pass final logical panel",
+  "metric_contract": {
+    "conditional_gate": "perfect_run: average only find runs whose low-prior subset accuracy is 1.0",
+    "effort_attribution": "inspection effort is recorded per find run, so the full run-level effort is assigned to the subset",
+    "headline": "total_bytes = novel_retrieval_bytes + novel_tool_call_bytes",
+    "normalization": "within each (finder, task), divide each builder cell by the minimum builder cost in the same panel",
+    "subset_scoring": "accuracy and perfect-run gates are computed only over low-prior questions for the task"
+  },
+  "panels": [
+    {
+      "builders": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_opus_4_7_high",
+        "claude_code_sonnet_4_6_high",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_5_high"
+      ],
+      "description": "Primary high-effort panel: high builders inspected by high finders",
+      "finders": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_opus_4_7_high",
+        "claude_code_sonnet_4_6_high",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_5_high"
+      ],
+      "panel_id": "high_effort",
+      "primary": true
+    },
+    {
+      "builders": [
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_low"
+      ],
+      "description": "Primary low-effort panel: low builders inspected by low finders",
+      "finders": [
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_low"
+      ],
+      "panel_id": "low_effort",
+      "primary": true
+    },
+    {
+      "builders": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "description": "Diagnostic only: all builders and all finders pooled across effort regimes",
+      "finders": [
+        "claude_code_mimo_v2_5_high",
+        "claude_code_mimo_v2_5_low",
+        "claude_code_mimo_v2_5_pro_high",
+        "claude_code_mimo_v2_5_pro_low",
+        "claude_code_opus_4_7_high",
+        "claude_code_opus_4_7_low",
+        "claude_code_sonnet_4_6_high",
+        "claude_code_sonnet_4_6_low",
+        "codex_gpt5_4_mini_high",
+        "codex_gpt5_4_mini_low",
+        "codex_gpt5_5_high",
+        "codex_gpt5_5_low"
+      ],
+      "panel_id": "all_effort_diagnostic",
+      "primary": false
+    }
+  ],
+  "question_subset": {
+    "definition": "question-only three-trial agreement < 0.90",
+    "question_count": 10,
+    "questions": [
+      "scratch_minidb:q_db_01",
+      "scratch_minidb:q_db_05",
+      "scratch_minidb:q_db_06",
+      "scratch_minidb:q_db_07",
+      "scratch_minidb:q_db_15",
+      "scratch_nanoweb:q_nw_01",
+      "scratch_nanoweb:q_nw_04",
+      "scratch_nanoweb:q_nw_07",
+      "scratch_nanoweb:q_nw_10",
+      "scratch_nanoweb:q_nw_11"
+    ],
+    "questions_per_task": {
+      "scratch_minidb": 5,
+      "scratch_nanoweb": 5
+    },
+    "subset_id": "low_prior_questions",
+    "threshold": 0.9
+  },
+  "run_rows": 1476
+}

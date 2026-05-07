@@ -1,0 +1,299 @@
+{
+  "find_run_id": "control-find-control-build-question_only--claude_code_mimo_v2_5_high-t1-s20260502-50a24fab",
+  "build_run_id": "control-build-question_only-scratch_nanoweb-0e7cab7b",
+  "task_id": "scratch_nanoweb",
+  "manifest": {
+    "run_id": "control-find-control-build-question_only--claude_code_mimo_v2_5_high-t1-s20260502-50a24fab",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "4f02c02cde10799d",
+    "agent": {
+      "id": "claude_code_mimo_v2_5_high",
+      "adapter": "claude_code",
+      "model_id": "mimo-v2.5",
+      "adapter_version": null
+    },
+    "seed": 20260502,
+    "trial_id": 1,
+    "env_hash": "f5f4f4dc9dbe3fc1",
+    "created_at": "2026-05-02T18:38:23.419909+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "presented_options": {
+        "A": "it is a thin wrapper around a third-party HTTP library (hyper/httparse) configured for strict mode",
+        "B": "requests are proxied to a trusted upstream server and the parsed form is ingested; the framework itself doesn't parse HTTP",
+        "C": "parsing is done lazily inside each handler on a per-need basis; there is no central parser module",
+        "D": "it is a hand-written parser module that reads bytes directly and that no other layer reaches into — routers and middleware consume typed Request / Response values only"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A minimalist 'nano' framework would hand-write its HTTP parser to avoid external dependencies like hyper/httparse, keeping routers and middleware consuming typed Request/Response values only — consistent with the framework's lightweight philosophy."
+    },
+    {
+      "question_id": "q_nw_02",
+      "presented_options": {
+        "A": "it does a linear scan over a Vec<(Method, String, Handler)> and falls back to a 404 on the first non-match",
+        "B": "it compiles all registered paths into a single regex at startup and runs captures on each request",
+        "C": "it walks a trie whose node kinds are literal / parameter / wildcard; match is O(path-length) and allocates only the parameter map",
+        "D": "it hashes the full path and looks the handler up in a HashMap<(Method, String), Handler>"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A trie-based router with literal/parameter/wildcard node kinds provides O(path-length) matching with allocation only for parameter maps, which is the standard high-performance approach used in Rust web frameworks like axum."
+    },
+    {
+      "question_id": "q_nw_03",
+      "presented_options": {
+        "A": "registering GET /users automatically registers POST /users with the same handler for convenience",
+        "B": "path parameters (e.g. /users/:id) are captured and made available to the handler through a typed params map",
+        "C": "a HEAD request reuses the GET handler and omits the body from the response",
+        "D": "an OPTIONS request on a defined route returns an Allow header listing the methods registered for that path"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Automatically registering POST alongside GET for the same handler violates HTTP method semantics (GET is safe/idempotent, POST is not). The other options (parameter capture, HEAD reuse, OPTIONS Allow header) are all consistent behaviors."
+    },
+    {
+      "question_id": "q_nw_04",
+      "presented_options": {
+        "A": "middlewares are chosen per request by a proc-macro that expanded at compile time to a different fn for each route",
+        "B": "each middleware is a closure stored in a Vec; the chain is executed by a fold over that Vec each request",
+        "C": "middlewares are composed via tower::Layer and tower::Service; nanoweb re-exports the tower types",
+        "D": "each middleware implements a single object-safe trait; the chain is a list of trait objects whose registration order drives outer-to-inner call order"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "B",
+      "is_correct": false,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A simple Vec of closures executed via fold each request is the most straightforward middleware composition approach, consistent with a minimal framework that avoids external orchestration crates like tower."
+    },
+    {
+      "question_id": "q_nw_05",
+      "presented_options": {
+        "A": "TLS is gated by a Cargo feature (tls) that is enabled by default; with the feature off the crate still builds and the --tls-cert flag emits a clear error",
+        "B": "TLS is a required dependency; the crate does not compile without rustls",
+        "C": "TLS lives in a separate sibling crate nanoweb-tls that the main crate re-exports",
+        "D": "TLS is a runtime decision based on the NANOWEB_TLS env var; both code paths are always compiled"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "TLS gated by a Cargo feature enabled by default, with the crate still building and the --tls-cert flag emitting a clear error when disabled, is the idiomatic Rust pattern for optional platform-specific dependencies."
+    },
+    {
+      "question_id": "q_nw_06",
+      "presented_options": {
+        "A": "it drains the TCP buffers but keeps the process alive so a supervisor can signal readiness again",
+        "B": "it exits immediately; in-flight connections are dropped mid-response",
+        "C": "it hot-reloads the config without exiting; shutdown requires SIGQUIT",
+        "D": "it stops accepting new connections, lets in-flight requests complete up to a bounded graceful_timeout_s, then exits 0"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Graceful shutdown — stop accepting new connections, drain in-flight requests up to a bounded timeout, then exit cleanly — is the standard behavior for production Rust web servers."
+    },
+    {
+      "question_id": "q_nw_07",
+      "presented_options": {
+        "A": "it logs one structured JSON line per request; aggregation happens downstream",
+        "B": "it writes one statsd UDP packet per request to localhost:8125",
+        "C": "it emits OpenTelemetry OTLP over gRPC to a collector configured via env var",
+        "D": "it mounts a Prometheus text-exposition endpoint at a configurable path with per-method/status/route counters and a request-duration histogram"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A Prometheus text-exposition endpoint with per-method/status/route counters and request-duration histograms is the standard observability approach for lightweight Rust web frameworks."
+    },
+    {
+      "question_id": "q_nw_08",
+      "presented_options": {
+        "A": "it uses the TCP connection's 4-tuple as an implicit id; no HTTP header is set",
+        "B": "it generates a fresh id per request, attaches it to the structured log context for that request, and mirrors it to the response as X-Request-Id",
+        "C": "it passes an inbound X-Correlation-Id through unchanged and does nothing if the header is absent",
+        "D": "it correlates requests only within a session cookie; there is no per-request id"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Generating a fresh correlation id per request, attaching it to the structured log context, and mirroring it as X-Request-Id in the response is the standard pattern for request tracing."
+    },
+    {
+      "question_id": "q_nw_09",
+      "presented_options": {
+        "A": "scattered across each consuming module — wherever a value is read, the module checks CLI then TOML",
+        "B": "inside main as a long if-else chain immediately before tokio::main boots the server",
+        "C": "inside clap's derive macros via #[arg(default_value_from_fn)] hooks that reach into the TOML at parse time",
+        "D": "inside a single config module that loads TOML, applies CLI overrides, and yields one Config struct that all other modules consume"
+      },
+      "presented_correct_key": "D",
+      "selected_option": "D",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A single config module that loads TOML, applies CLI overrides, and yields one Config struct consumed by all other modules is the clean, centralized approach to configuration precedence."
+    },
+    {
+      "question_id": "q_nw_10",
+      "presented_options": {
+        "A": "a minimal mustache-style renderer with variable interpolation ({{name}}), sections ({{#list}}{{/list}}), and inverted sections ({{^absent}}{{/absent}})",
+        "B": "a compile-time HTML macro (like maud) that produces typed HTML fragments",
+        "C": "there is no template engine; handlers build HTML by hand",
+        "D": "a full Jinja2-compatible engine with filters, macros, template inheritance, and sandboxed eval"
+      },
+      "presented_correct_key": "A",
+      "selected_option": "A",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A minimal mustache-style renderer with variable interpolation, sections, and inverted sections provides basic templating without heavy dependencies — consistent with a 'nano' framework."
+    },
+    {
+      "question_id": "q_nw_11",
+      "presented_options": {
+        "A": "logger, gzip, rate limit, CORS, CSRF, basic auth — exactly the six types registered in the default middleware chain",
+        "B": "logger as the outermost middleware, with basic auth among the inner middlewares",
+        "C": "logger, gzip, sliding-window rate limit per API key, CORS, OAuth2 bearer guard",
+        "D": "logger, gzip, token-bucket rate limit per client IP, CORS, double-submit-cookie CSRF, basic auth"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Sliding-window rate limit per API key and OAuth2 bearer guard are not typical defaults for a minimal framework. The default set is logger, gzip, token-bucket rate limit per client IP, CORS, CSRF, and basic auth — six middlewares."
+    },
+    {
+      "question_id": "q_nw_12",
+      "presented_options": {
+        "A": "each submodule exposes its own error type; the server returns Box<dyn Error + Send + Sync> and callers downcast",
+        "B": "errors are stringly typed: Result<T, String> end to end",
+        "C": "a single NanowebError enum is the return type of top-level fallible entry points; submodule errors convert at their public boundary",
+        "D": "errors are conveyed by panicking on the fallible path and recovering via catch_unwind at the accept loop"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A single NanowebError enum as the top-level error type, with submodule errors converting at their public boundary, is the idiomatic Rust error handling pattern for crate boundaries."
+    },
+    {
+      "question_id": "q_nw_13",
+      "presented_options": {
+        "A": "exits with code 1 because at least one request was still in flight when the timeout elapsed",
+        "B": "waits indefinitely until every in-flight request completes, then exits with code 0",
+        "C": "waits up to ~30 seconds, then exits with code 0; the two long-running handlers are abandoned mid-response",
+        "D": "aborts immediately on SIGTERM, replying 503 to all in-flight connections, then exits non-zero"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "With a default ~30s graceful_timeout_s, the server waits up to that duration then exits with code 0; the two long-running handlers (needing 60s) are abandoned mid-response."
+    },
+    {
+      "question_id": "q_nw_14",
+      "presented_options": {
+        "A": "the parser imports its own internal helper submodules (e.g. chunked-body decoder, header folding) but nothing from outside `http::`",
+        "B": "the parser imports the router module (e.g. trie node types or route-match results)",
+        "C": "the parser imports byte-handling helpers (std::str, the `bytes` crate, or equivalent) and the crate's `error` module",
+        "D": "the parser imports HTTP shape types (Method, Header, Version) from a sibling `http::types` (or equivalent) module"
+      },
+      "presented_correct_key": "B",
+      "selected_option": "B",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "The parser module should NOT import router types — it deals with raw bytes and HTTP parsing only. The parser imports internal helpers, byte-handling utilities, the error module, and HTTP shape types, but not route-match results."
+    },
+    {
+      "question_id": "q_nw_15",
+      "presented_options": {
+        "A": "panics on the unrecognised flag — the TLS-related CLI flags only exist when the feature is on",
+        "B": "starts a plain HTTP listener on 8443 and ignores the TLS flags with a warning on stderr",
+        "C": "prints a clear error explaining TLS support was not compiled in (the `tls` feature is off) and exits non-zero without binding the port",
+        "D": "starts an HTTPS listener using a self-signed cert generated at startup; the user-supplied cert files are ignored"
+      },
+      "presented_correct_key": "C",
+      "selected_option": "C",
+      "is_correct": true,
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "When the tls feature is off, the CLI flags should not exist (they're behind the feature gate), and clap should print a clear error explaining TLS was not compiled in, exiting non-zero without binding."
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 32.87781895900844,
+    "usage_source": "project_log",
+    "session_id": "a2e93140-52e6-4f87-9607-f726d651fa37",
+    "prompt_bytes": 8515,
+    "retrieval_payload_bytes": 211,
+    "tool_input_bytes": 5595,
+    "assistant_message_bytes": 1326,
+    "final_answer_bytes": 1136,
+    "bytes_to_model": 8726,
+    "bytes_from_model": 6921,
+    "tool_calls": 1,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 27180,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 28864,
+      "output_tokens": 3033,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 59077,
+      "cost_usd": 0.1356942
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 211,
+      "novel_tool_call_bytes": 5978,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 32.28269815444946,
+      "generation_tok_per_s": 106.84663572821015,
+      "tool_names": {
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 56044,
+        "cached_input_tokens": 28864,
+        "uncached_input_tokens": 27180,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 3033,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 59077
+      },
+      "proxy_session_id": "_MfEU8vE_ybhJxYJ",
+      "request_count": 3,
+      "raw_request_bytes": 248573,
+      "raw_response_bytes": 92446
+    }
+  },
+  "status": "ok",
+  "error": null
+}

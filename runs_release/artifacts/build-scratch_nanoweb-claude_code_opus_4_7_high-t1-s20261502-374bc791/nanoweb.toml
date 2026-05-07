@@ -1,0 +1,33 @@
+listen = "127.0.0.1:8080"
+metrics = "/metrics"
+log_level = "info"
+graceful_timeout_s = 30
+session_secret = "change-me-in-production"
+
+[middleware]
+logging = true
+gzip = true
+csrf = false
+
+[middleware.cors]
+allowed_origins = ["*"]
+
+[middleware.rate_limit]
+capacity = 60
+refill_per_sec = 1.0
+
+[[routes]]
+method = "GET"
+path = "/"
+text = "hello from nanoweb"
+
+[[routes]]
+method = "GET"
+path = "/json"
+json = { ok = true, message = "world" }
+
+[[routes]]
+method = "GET"
+path = "/hi"
+template = "<!doctype html><h1>Hello, {{name}}!</h1>"
+context = { name = "Ada" }

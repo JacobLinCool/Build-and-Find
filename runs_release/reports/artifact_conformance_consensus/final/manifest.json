@@ -1,0 +1,32 @@
+{
+  "analysis_command": "scripts/merge_artifact_conformance_annotations.py",
+  "analysis_id": "artifact_conformance_final_v1",
+  "analysis_script": "scripts/merge_artifact_conformance_annotations.py",
+  "final_labels": {
+    "absent_or_ambiguous": 5,
+    "implemented_gold": 687,
+    "implemented_non_gold": 28
+  },
+  "generated_at": "2026-05-06T17:30:15.208541+00:00",
+  "input_hashes": {
+    "runs_release/reports/artifact_conformance_consensus/artifact_question_consensus.csv": "a0509f256b6ba6dee63841d62971bbb8b868d233d4377ee15f0bb0cd240038a3",
+    "runs_release/reports/artifact_conformance_consensus/manual_review_annotations.csv": "51a26d21df27f6c36ef1f5b6dad3314a3f7b1f89e6fd72697bf40bbe1f56d911",
+    "runs_release/reports/artifact_conformance_consensus/manual_review_queue.csv": "23c8f6e11712c34fbf36021acb2846fb14f3024e474bdba5f9ec8b414c3564d8"
+  },
+  "input_paths": [
+    "runs_release/reports/artifact_conformance_consensus/artifact_question_consensus.csv",
+    "runs_release/reports/artifact_conformance_consensus/manual_review_queue.csv",
+    "runs_release/reports/artifact_conformance_consensus/manual_review_annotations.csv"
+  ],
+  "label_sources": {
+    "consensus_prelabel": 696,
+    "manual_review": 24
+  },
+  "output_dir": "runs_release/reports/artifact_conformance_consensus/final",
+  "row_counts": {
+    "consensus_rows": 720,
+    "final_rows": 720,
+    "manual_annotation_rows": 24,
+    "manual_queue_rows": 24
+  }
+}

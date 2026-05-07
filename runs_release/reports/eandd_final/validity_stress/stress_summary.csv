@@ -1,0 +1,15 @@
+slice_id,label,task_id,build_runs,find_runs,question_rows,accuracy,perfect_run_rate,question_only_accuracy,formal_minus_question_only
+question_only_control,Question-only control,scratch_minidb,0,0,540,0.946296,,0.946296,0.000000
+question_only_control,Question-only control,scratch_nanoweb,0,0,540,0.944444,,0.944444,0.000000
+question_only_control,Question-only control,all,0,0,1080,0.945370,,0.945370,0.000000
+artifact_present_all,"All artifact-present builds, including compile failures",scratch_minidb,24,864,12960,0.958333,0.579861,0.946296,0.012037
+artifact_present_all,"All artifact-present builds, including compile failures",scratch_nanoweb,24,864,12960,0.969213,0.667824,0.944444,0.024769
+artifact_present_all,"All artifact-present builds, including compile failures",all,48,1728,25920,0.963773,0.623843,0.945370,0.018403
+compile_pass_primary,Compile-pass primary panel,scratch_minidb,21,756,11340,0.964198,0.613757,0.946296,0.017901
+compile_pass_primary,Compile-pass primary panel,scratch_nanoweb,20,720,10800,0.970278,0.687500,0.944444,0.025833
+compile_pass_primary,Compile-pass primary panel,all,41,1476,22140,0.967164,0.649729,0.945370,0.021793
+compile_failed_excluded,Compile-failed excluded diagnostic artifacts,scratch_minidb,3,108,1620,0.917284,0.342593,0.946296,-0.029012
+compile_failed_excluded,Compile-failed excluded diagnostic artifacts,scratch_nanoweb,4,144,2160,0.963889,0.569444,0.944444,0.019444
+compile_failed_excluded,Compile-failed excluded diagnostic artifacts,all,7,252,3780,0.943915,0.472222,0.945370,-0.001455
+empty_artifact_excluded,Observed empty excluded diagnostic artifact,scratch_nanoweb,1,36,540,0.988889,0.833333,0.944444,0.044444
+empty_artifact_excluded,Observed empty excluded diagnostic artifact,all,1,36,540,0.988889,0.833333,0.945370,0.043519
