@@ -6,23 +6,35 @@
   "conditioned_effort_rule": "Each conditioned run keeps the observed full-run inspection effort while recomputing accuracy/perfect-run status over implemented_gold questions only.",
   "conformance_condition": "Only artifact-question pairs labeled implemented_gold contribute to conditioned finder scores.",
   "final_labels": {
-    "absent_or_ambiguous": 5,
-    "implemented_gold": 687,
+    "absent_or_ambiguous": 20,
+    "implemented_gold": 672,
     "implemented_non_gold": 28
   },
-  "generated_at": "2026-05-06T19:52:00.962068+00:00",
+  "generated_at": "2026-10-15T21:18:38.145032+00:00",
   "input_hashes": {
-    "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv": "fda6afc775bcf50724632d8295989a5cd04561a46b6b992017e638c50704dfd4",
-    "runs_release/tables/build_runs.csv": "5955be048aff64d406ec59e6ad50011a2dde68e9fc394fc5cd3a2792fc8ce01e",
-    "runs_release/tables/find_runs.csv": "3d327214f19c5983adc0c5c7c34935cbdf1ef886ee8895ef7fdf837186ebcb40",
-    "runs_release/tables/question_answers.csv": "586290493ae3dc388e040e565cd30fb600ffd940c0d99cfb1df1f2985d3bbb74"
+    "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv": "d89d92dc92b00488984cb52965c5cb1f774894fea845ef90ed9b9b8eee3a2b1e",
+    "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv": "6430dd0b42919b7f8b25214ae10d20f0f5958cb8c784093f92bd084e08910b29",
+    "runs_release/tables/build_runs.csv": "6ef9dc045cc4b004e591c17c862b121aeae4ccabb20ff63b225ea098e63d031c",
+    "runs_release/tables/find_runs.csv": "5f1285bfb746a5c53da54ad57f69e7a451a670bc58b09c283fb9c31082645540",
+    "runs_release/tables/question_answers.csv": "30ca51f75d2d87cda16c410f83eb20b89f5a028f03a2c5d8f8e33eca88fa01df"
   },
   "input_paths": [
     "runs_release/tables/build_runs.csv",
     "runs_release/tables/find_runs.csv",
     "runs_release/tables/question_answers.csv",
-    "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv"
+    "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv",
+    "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv"
   ],
+  "label_corrections": {
+    "count": 15,
+    "path": "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv",
+    "sha256": "6430dd0b42919b7f8b25214ae10d20f0f5958cb8c784093f92bd084e08910b29"
+  },
+  "label_sources": {
+    "consensus_prelabel": 681,
+    "manual_review": 24,
+    "rule_empty_artifact": 15
+  },
   "output_dir": "runs_release/reports/artifact_conformance_consensus/impact",
   "primary_panel_id": "paper_final_scratch",
   "row_counts": {

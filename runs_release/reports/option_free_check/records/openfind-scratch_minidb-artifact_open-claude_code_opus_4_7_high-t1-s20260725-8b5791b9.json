@@ -1,0 +1,151 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t1-s20260725-8b5791b9",
+  "condition": "artifact_open",
+  "task_id": "scratch_minidb",
+  "source_build_run_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+  "question_ids": [
+    "q_db_01",
+    "q_db_05",
+    "q_db_06",
+    "q_db_15"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t1-s20260725-8b5791b9",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "908b85bc75890dcd",
+    "agent": {
+      "id": "claude_code_opus_4_7_high",
+      "adapter": "claude_code",
+      "model_id": "claude-opus-4-7",
+      "adapter_version": null
+    },
+    "seed": 20260725,
+    "trial_id": 1,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:27:28.481308+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "Batch mode maps different failure categories to different exit codes. Which mapping does the codebase implement?",
+      "claim": "The main binary maps failure categories to three distinct non-zero exit codes: argument/usage errors (unknown flags, missing required values, or an unrecognized --format value) exit with code 2, database open/storage failures exit with code 3, and runtime SQL/execution errors during --eval, --file, --init, or the REPL exit with code 1 (success is code 0).",
+      "evidence_files": [
+        "src/main.rs"
+      ],
+      "evidence_symbols": [
+        "main",
+        "print_usage"
+      ],
+      "rationale": "The exit codes are set literally throughout main() based on which failure branch is taken.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_05",
+      "intention_id": "I-SR3",
+      "question_prompt": "What execution model does the query engine use?",
+      "claim": "Although the codebase declares a Volcano/iterator-style `PhysicalOperator` trait with `open`/`next`/`close`, the CLI's actual query execution bypasses that pipeline and eagerly materializes all rows: `execute_physical_plan` calls `storage.scan_page` to load every row from the target page into a `Vec` and then iterates in memory, applying projection in a batch rather than pulling tuples one at a time.",
+      "evidence_files": [
+        "src/cli/mod.rs",
+        "src/exec/operators/mod.rs",
+        "src/exec/operators/seq_scan.rs"
+      ],
+      "evidence_symbols": [
+        "MiniDbCli::execute_physical_plan",
+        "PhysicalOperator",
+        "SeqScan"
+      ],
+      "rationale": "The CLI directly materializes `scan_page` results instead of driving the iterator trait, so execution is effectively eager/materialized despite the Volcano-shaped trait.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_06",
+      "intention_id": "I-SR7",
+      "question_prompt": "How are secondary indexes physically organised?",
+      "claim": "Secondary indexes are stored as a paged B+-tree in the heap file, with each node page laid out as a 5-byte header (`is_leaf` u8, `num_keys` u16, `next_leaf` u16) followed by fixed 20-byte key slots; leaves hold `(key_bytes, page_id, slot)` row pointers and are singly linked via `next_leaf`, while internal nodes store separator keys with child page_ids written after the key array, and keys are byte-serialized values truncated to at most 10 bytes.",
+      "evidence_files": [
+        "src/storage/btree.rs"
+      ],
+      "evidence_symbols": [
+        "BTreeIndex",
+        "BTreeKey",
+        "HEADER_SIZE",
+        "MAX_KEYS",
+        "serialize_value_for_index",
+        "BTreeIndex::write_key",
+        "BTreeIndex::range_search"
+      ],
+      "rationale": "The layout constants, node header, key/pointer writing, and leaf-linking logic in btree.rs directly describe this on-disk organisation.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_15",
+      "intention_id": "I-FR15",
+      "question_prompt": "The user invokes `minidb --format yaml --eval \"SELECT 1;\"`. `yaml` is not a supported value for `--format`. What does the process do?",
+      "claim": "The argument parser matches `--format yaml` against only `csv`, `json`, and `table`; the fallthrough arm prints `Error: unknown format 'yaml'` to stderr and calls `std::process::exit(2)` before the database is ever opened or the `SELECT 1;` in `--eval` is tokenized or executed.",
+      "evidence_files": [
+        "src/main.rs"
+      ],
+      "evidence_symbols": [
+        "main"
+      ],
+      "rationale": "The format validation block runs immediately after argument parsing and terminates the process on any unrecognized value.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 102.22137166699395,
+    "usage_source": "project_log",
+    "session_id": "b67205ca-c18d-4958-b35c-b5daf90db5a9",
+    "prompt_bytes": 1871,
+    "retrieval_payload_bytes": 66519,
+    "tool_input_bytes": 4801,
+    "assistant_message_bytes": 236,
+    "final_answer_bytes": 178,
+    "bytes_to_model": 68390,
+    "bytes_from_model": 5037,
+    "tool_calls": 11,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 55727,
+      "cache_read_input_tokens": 1285005,
+      "output_tokens": 4719,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 1345467,
+      "cost_usd": 1.3251675
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 66979,
+      "novel_tool_call_bytes": 5389,
+      "novel_tool_call_count": 11,
+      "novel_tool_result_count": 11,
+      "wall_clock_seconds": 101.17936682701111,
+      "generation_tok_per_s": 68.03238828006216,
+      "tool_names": {
+        "Bash": 3,
+        "Read": 7,
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 1342096,
+        "cached_input_tokens": 1285005,
+        "uncached_input_tokens": 57091,
+        "cache_creation_input_tokens": 55727,
+        "non_reasoning_output_tokens": 4743,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 1346839
+      },
+      "proxy_session_id": "OaDWyTbJUFDJVHfW",
+      "request_count": 14,
+      "raw_request_bytes": 3642097,
+      "raw_response_bytes": 141821
+    }
+  },
+  "status": "ok",
+  "error": null
+}

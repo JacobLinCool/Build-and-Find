@@ -1,14 +1,33 @@
-Copyright 2026 Build-and-Find Authors
+Copyright 2026 Jhen-Ke Lin
 
-The Build-and-Find task specifications, question banks, canonical analysis
-tables (with run-level manifests), generated run records, and derived analysis
-reports are licensed under the Creative Commons Attribution 4.0 International
-Public License. Generated code artifacts are source-code assets licensed under
-Apache-2.0; see LICENSE-CODE.
+The Build-and-Find task specifications, question banks, generated run records,
+canonical analysis tables (with run-level manifests), derived analysis reports,
+metadata, and post-review audit records are licensed under the Creative Commons
+Attribution 4.0 International Public License (CC BY 4.0).
 
 SPDX-License-Identifier: CC-BY-4.0
 
-Official license text: https://creativecommons.org/licenses/by/4.0/legalcode
+License deed: https://creativecommons.org/licenses/by/4.0/
+Legal code:   https://creativecommons.org/licenses/by/4.0/legalcode
 
-Attribution should cite the Build-and-Find benchmark repository and the
-associated NeurIPS 2026 Evaluations and Datasets submission.
+This license covers, in the repository and in the Hugging Face dataset:
+
+- benchmarks/specs/ and benchmarks/questions/ (task specifications and
+  question banks);
+- runs_release/records/, runs_release/tables/, and runs_release/reports/
+  (run records, canonical tables, and derived reports);
+- the control-build-* directories under runs_release/artifacts/ (control-build
+  workspaces: CONTROL.md and copies of the task specifications);
+- metadata/croissant.json (croissant.json at the root of the Hugging Face
+  dataset);
+- rebuttal/full_conformance_audit/ and rebuttal/conformance_spot_audit/
+  (post-review implementation-label audit records).
+
+The generated code artifacts in the build-* directories under
+runs_release/artifacts/ and the seed projects under benchmarks/seed_projects/
+are source code licensed under Apache-2.0; see LICENSE-CODE. Code excerpts
+quoted in run records and audit records come from those artifacts and remain
+available under Apache-2.0 as well.
+
+Attribution should cite the Build-and-Find paper (https://openreview.net/forum?id=y48mj8HiWu) and the
+Build-and-Find dataset (https://huggingface.co/datasets/JacobLinCool/Build-and-Find); see CITATION.cff.

@@ -500,7 +500,9 @@ def _write_markdown(path: Path, *, manifest: dict[str, Any], rows: list[dict[str
 
 def _write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, Any]]) -> None:
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
+        writer = csv.DictWriter(
+            handle, fieldnames=fieldnames, extrasaction="ignore", lineterminator="\n"
+        )
         writer.writeheader()
         for row in rows:
             writer.writerow({key: _csv_value(row[key]) for key in fieldnames})

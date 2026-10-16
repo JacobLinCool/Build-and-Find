@@ -1,0 +1,18 @@
+{
+  "confirmed_population": 389,
+  "confirmed_sample_count": 39,
+  "confirmed_sample_rate": 0.1,
+  "known_regression_count": 9,
+  "primary_flag_count": 203,
+  "seed": 20260728,
+  "selection_hash": "d1c75322411f2e19d28d2b0a9d08f155c47d042cfda0f6aa548c81b45e3eb519",
+  "stratum_allocation": {
+    "scratch_minidb|claude": 10,
+    "scratch_minidb|codex": 8,
+    "scratch_minidb|mimo": 4,
+    "scratch_nanoweb|claude": 8,
+    "scratch_nanoweb|codex": 7,
+    "scratch_nanoweb|mimo": 2
+  },
+  "union_pair_count": 242
+}

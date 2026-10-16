@@ -1,9 +1,14 @@
-"""Render affinity residual plots for the final E&D recovery matrix."""
+"""Render affinity residual plots for the final E&D recovery matrix.
+
+Plots and their CSVs go to ``--output-dir`` (default: ``eandd_final/plots`` under
+the configured reports root).
+"""
 
 # ruff: noqa: E402
 
 from __future__ import annotations
 
+import argparse
 import sys
 import math
 import statistics
@@ -73,24 +78,40 @@ PAPER_LABELS = {
 }
 
 
-def main() -> None:
-    out_dir = _plots_dir()
+# Without a creation date, regenerated PDFs are byte-identical to the stored ones.
+PDF_METADATA = {"CreationDate": None}
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = _parse_args(argv)
+    out_dir = (args.output_dir or _plots_dir()).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
     df = _residual_rows(pd.DataFrame(recovery_matrix_rows()))
     family = _family_residuals(df)
 
     residual_csv = out_dir / "recovery_affinity_residual_12x12.csv"
     family_csv = out_dir / "recovery_affinity_residual_family.csv"
-    df.to_csv(residual_csv, index=False)
-    family.to_csv(family_csv)
+    df.to_csv(residual_csv, index=False, lineterminator="\n")
+    family.to_csv(family_csv, lineterminator="\n")
 
     _set_theme()
-    _plot_residual_matrix(df)
-    _plot_residual_matrix_paper(df)
-    _plot_family_matrix(family)
+    _plot_residual_matrix(df, out_dir)
+    _plot_residual_matrix_paper(df, out_dir)
+    _plot_family_matrix(family, out_dir)
 
     print(f"wrote {residual_csv}")
     print(f"wrote {family_csv}")
+
+
+def _parse_args(argv: list[str] | None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Output directory (default: reports/eandd_final/plots).",
+    )
+    return parser.parse_args(argv)
 
 
 def _plots_dir() -> Path:
@@ -221,7 +242,7 @@ def _family_residuals(df: pd.DataFrame) -> pd.DataFrame:
     return family.loc[order, order]
 
 
-def _plot_residual_matrix(df: pd.DataFrame) -> None:
+def _plot_residual_matrix(df: pd.DataFrame, out_dir: Path) -> None:
     label_order = [AGENT_LABELS[agent_id] for agent_id in AGENT_ORDER]
     matrix = df.pivot(index="builder_label", columns="finder_label", values="affinity_residual")
     matrix = matrix.loc[label_order, label_order]
@@ -264,21 +285,22 @@ def _plot_residual_matrix(df: pd.DataFrame) -> None:
         color="#4b5563",
     )
     fig.savefig(
-        _plots_dir() / "recovery_affinity_residual_12x12.png",
+        out_dir / "recovery_affinity_residual_12x12.png",
         bbox_inches="tight",
         pad_inches=0.2,
         facecolor="white",
     )
     fig.savefig(
-        _plots_dir() / "recovery_affinity_residual_12x12.pdf",
+        out_dir / "recovery_affinity_residual_12x12.pdf",
         bbox_inches="tight",
         pad_inches=0.2,
         facecolor="white",
+        metadata=PDF_METADATA,
     )
     plt.close(fig)
 
 
-def _plot_residual_matrix_paper(df: pd.DataFrame) -> None:
+def _plot_residual_matrix_paper(df: pd.DataFrame, out_dir: Path) -> None:
     label_order = [PAPER_LABELS[agent_id] for agent_id in AGENT_ORDER]
     work = df.assign(
         builder_paper_label=df["builder_id"].map(PAPER_LABELS),
@@ -330,21 +352,22 @@ def _plot_residual_matrix_paper(df: pd.DataFrame) -> None:
     ax.collections[0].colorbar.ax.yaxis.label.set_size(7.5)
     fig.subplots_adjust(left=0.22, right=0.92, bottom=0.08, top=0.7)
     fig.savefig(
-        _plots_dir() / "recovery_affinity_residual_12x12_paper.png",
+        out_dir / "recovery_affinity_residual_12x12_paper.png",
         bbox_inches="tight",
         pad_inches=0.05,
         facecolor="white",
     )
     fig.savefig(
-        _plots_dir() / "recovery_affinity_residual_12x12_paper.pdf",
+        out_dir / "recovery_affinity_residual_12x12_paper.pdf",
         bbox_inches="tight",
         pad_inches=0.05,
         facecolor="white",
+        metadata=PDF_METADATA,
     )
     plt.close(fig)
 
 
-def _plot_family_matrix(family: pd.DataFrame) -> None:
+def _plot_family_matrix(family: pd.DataFrame, out_dir: Path) -> None:
     limit = max(abs(float(family.min().min())), abs(float(family.max().max())))
     fig, ax = plt.subplots(figsize=(5.4, 4.2))
     sns.heatmap(
@@ -369,16 +392,17 @@ def _plot_family_matrix(family: pd.DataFrame) -> None:
     ax.tick_params(axis="y", labelrotation=0)
     fig.tight_layout()
     fig.savefig(
-        _plots_dir() / "recovery_affinity_residual_family.png",
+        out_dir / "recovery_affinity_residual_family.png",
         bbox_inches="tight",
         pad_inches=0.18,
         facecolor="white",
     )
     fig.savefig(
-        _plots_dir() / "recovery_affinity_residual_family.pdf",
+        out_dir / "recovery_affinity_residual_family.pdf",
         bbox_inches="tight",
         pad_inches=0.18,
         facecolor="white",
+        metadata=PDF_METADATA,
     )
     plt.close(fig)
 

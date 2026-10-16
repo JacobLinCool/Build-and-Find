@@ -1,0 +1,122 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t0-s20260724-02e5b3ec",
+  "condition": "question_only_open",
+  "task_id": "scratch_minidb",
+  "source_build_run_id": null,
+  "question_ids": [
+    "q_db_01",
+    "q_db_05",
+    "q_db_06",
+    "q_db_15"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t0-s20260724-02e5b3ec",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "8eb01ca8f59d16ba",
+    "agent": {
+      "id": "claude_code_opus_4_7_high",
+      "adapter": "claude_code",
+      "model_id": "claude-opus-4-7",
+      "adapter_version": null
+    },
+    "seed": 20260724,
+    "trial_id": 0,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:27:11.936857+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "Batch mode maps different failure categories to different exit codes. Which mapping does the codebase implement?",
+      "claim": "Batch mode returns 0 on success, 1 for generic/runtime errors (including SQL execution errors), and 2 for usage/CLI argument errors such as invalid flags or missing files. IO or file-open failures also map to exit code 1, while a clean parse/execute path yields 0.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Standard Unix convention adopted by most CLI DB tools (sqlite3, psql-like clones).",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_05",
+      "intention_id": "I-SR3",
+      "question_prompt": "What execution model does the query engine use?",
+      "claim": "The query engine uses a tree-walking (interpreted) volcano-style iterator model: the parser produces a logical plan tree, and execution pulls rows one at a time from operator nodes (scan, filter, project, join) via a next()/get_row interface. There is no compilation to bytecode or vectorised batch execution.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Simplest model for a scratch/mini educational DB.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_06",
+      "intention_id": "I-SR7",
+      "question_prompt": "How are secondary indexes physically organised?",
+      "claim": "Secondary indexes are stored as separate B-tree (or sorted map) structures mapping the indexed column value to the primary key / row id of the base table, rather than as covering indexes or as columns embedded in the primary table. Lookups on an index return row ids that are then used to fetch full rows from the primary heap/table structure.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Classic non-clustered secondary index layout typical of minimal DB implementations.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_15",
+      "intention_id": "I-FR15",
+      "question_prompt": "The user invokes `minidb --format yaml --eval \"SELECT 1;\"`. `yaml` is not a supported value for `--format`. What does the process do?",
+      "claim": "The process rejects the unsupported format value: it prints an error message to stderr indicating that 'yaml' is not a valid --format option (listing the supported values such as table/json/csv) and exits with a non-zero status code (2, for a CLI usage error) without evaluating the SQL statement.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Argument validation happens before query execution in typical CLI parsing.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 19.733230000012554,
+    "usage_source": "project_log",
+    "session_id": "22e4e92c-1d9b-4f31-8eea-8aebdbaca9fa",
+    "prompt_bytes": 1513,
+    "retrieval_payload_bytes": 289,
+    "tool_input_bytes": 2058,
+    "assistant_message_bytes": 37,
+    "final_answer_bytes": 37,
+    "bytes_to_model": 1802,
+    "bytes_from_model": 2095,
+    "tool_calls": 1,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 6,
+      "cache_creation_input_tokens": 26718,
+      "cache_read_input_tokens": 125932,
+      "output_tokens": 927,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 153583,
+      "cost_usd": 0.35991599999999996
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 289,
+      "novel_tool_call_bytes": 2164,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 18.58794903755188,
+      "generation_tok_per_s": 57.96477241417958,
+      "tool_names": {
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 153869,
+        "cached_input_tokens": 125932,
+        "uncached_input_tokens": 27937,
+        "cache_creation_input_tokens": 26718,
+        "non_reasoning_output_tokens": 947,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 154816
+      },
+      "proxy_session_id": "-P_tX7qdun3dPE9k",
+      "request_count": 3,
+      "raw_request_bytes": 417147,
+      "raw_response_bytes": 49269
+    }
+  },
+  "status": "ok",
+  "error": null
+}

@@ -15,13 +15,13 @@
     "documented_only",
     "not_applicable_or_invalid"
   ],
-  "generated_at": "2026-05-06T16:39:08.499320+00:00",
+  "generated_at": "2026-10-09T18:59:23.017073+00:00",
   "input_hashes": {
     "benchmarks/questions/scratch_minidb.yaml": "909fadd03099d4f4ab28b11022de8cc433914f1f826470eae8fcf7bed67394d6",
     "benchmarks/questions/scratch_nanoweb.yaml": "8545b7ade3314805e4a18d57946e2c33789547abd6a21266062820dfc9f97290",
-    "runs_release/tables/build_runs.csv": "5955be048aff64d406ec59e6ad50011a2dde68e9fc394fc5cd3a2792fc8ce01e",
-    "runs_release/tables/find_runs.csv": "3d327214f19c5983adc0c5c7c34935cbdf1ef886ee8895ef7fdf837186ebcb40",
-    "runs_release/tables/question_answers.csv": "586290493ae3dc388e040e565cd30fb600ffd940c0d99cfb1df1f2985d3bbb74"
+    "runs_release/tables/build_runs.csv": "6ef9dc045cc4b004e591c17c862b121aeae4ccabb20ff63b225ea098e63d031c",
+    "runs_release/tables/find_runs.csv": "5f1285bfb746a5c53da54ad57f69e7a451a670bc58b09c283fb9c31082645540",
+    "runs_release/tables/question_answers.csv": "30ca51f75d2d87cda16c410f83eb20b89f5a028f03a2c5d8f8e33eca88fa01df"
   },
   "input_paths": [
     "runs_release/tables/build_runs.csv",

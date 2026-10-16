@@ -515,7 +515,7 @@ def _format_percentage_points(value: float, digits: int = 1) -> str:
 
 def _write_csv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> None:
     with path.open("w", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=fieldnames)
+        writer = csv.DictWriter(fh, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -1570,7 +1570,7 @@ def _write_markdown_report(path: Path, metrics: dict[str, Any]) -> None:
     lines.extend(
         [
             "",
-            "## Reviewer-Risk Notes",
+            "## Interpretation Notes",
             "",
             "- Existing broad canonical tables include historical/pilot records; final paper claims should cite this logical report or regenerate paper tables from the same logical panel.",
             "- Spec-only accuracy is high enough to require careful wording: the benchmark measures recoverability of implementation intent, not every question being implementation-exclusive.",

@@ -1,0 +1,162 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_nanoweb-artifact_open-claude_code_opus_4_7_high-t1-s20260725-285a97ae",
+  "condition": "artifact_open",
+  "task_id": "scratch_nanoweb",
+  "source_build_run_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+  "question_ids": [
+    "q_nw_01",
+    "q_nw_04",
+    "q_nw_07",
+    "q_nw_10"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_nanoweb-artifact_open-claude_code_opus_4_7_high-t1-s20260725-285a97ae",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "c763acf83d20dff9",
+    "agent": {
+      "id": "claude_code_opus_4_7_high",
+      "adapter": "claude_code",
+      "model_id": "claude-opus-4-7",
+      "adapter_version": null
+    },
+    "seed": 20260725,
+    "trial_id": 1,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:29:54.661034+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "How is HTTP/1.1 parsing wired into this framework?",
+      "claim": "The framework implements its own HTTP/1.1 parser in `src/http/parser.rs`; the async connection handler in `server.rs` reads bytes into a `BytesMut` buffer and calls `parse_request(&buf)`, which scans for the double-CRLF header terminator, splits the request line and headers, then consumes the body via either `Content-Length` or `Transfer-Encoding: chunked` (parsing hex chunk sizes). It returns `Ok(None)` when more bytes are needed, letting `handle_connection` loop and re-read, and on success the raw request is converted with `Request::from_raw` before routing.",
+      "evidence_files": [
+        "src/http/parser.rs",
+        "src/server.rs",
+        "src/http/mod.rs"
+      ],
+      "evidence_symbols": [
+        "parse_request",
+        "RawHttpRequest",
+        "BodyEncoding",
+        "parse_chunked_body",
+        "handle_connection"
+      ],
+      "rationale": "Parser is invoked directly from the server's per-connection read loop; no external HTTP crate is involved.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_04",
+      "intention_id": "I-SR4",
+      "question_prompt": "How is the middleware stack composed?",
+      "claim": "Middleware is expressed via a `Middleware` trait (`handle(req, next) -> Response`) and composed by a `MiddlewareChain` that holds an `Arc<Vec<Box<dyn Middleware>>>` and executes recursively through `execute_at`, which builds a `Box<FnOnce>` that advances to index `idx+1` before finally invoking the terminal handler. `Server::new` constructs the global chain by pushing `LoggingMiddleware`, then `CorsMiddleware`, then `RateLimitMiddleware` into a `Vec` and wrapping it with `MiddlewareChain::from_vec`, so registration order is also outer-to-inner execution order.",
+      "evidence_files": [
+        "src/middleware/mod.rs",
+        "src/server.rs"
+      ],
+      "evidence_symbols": [
+        "Middleware",
+        "MiddlewareChain",
+        "MiddlewareChain::from_vec",
+        "MiddlewareChain::execute",
+        "execute_at",
+        "Server::new"
+      ],
+      "rationale": "The chain type and the concrete stack assembled in Server::new together define the composition.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_07",
+      "intention_id": "I-FR11",
+      "question_prompt": "How does the framework expose observability metrics?",
+      "claim": "Observability is provided by a `Metrics` struct in `src/metrics.rs` that owns a `prometheus::Registry` with an `IntCounter` for total requests, a `Histogram` for request-duration seconds (fixed buckets `0.001..5.0`), and another `IntCounter` for responses-by-status; `record_request` increments all three, and `render` uses `TextEncoder` to emit Prometheus text. The server registers a GET route at `config.metrics_path` bound to `metrics_handler`, and `handle_connection` measures each request with `Instant::now()` and calls `metrics.record_request(...)` after the response is produced.",
+      "evidence_files": [
+        "src/metrics.rs",
+        "src/server.rs"
+      ],
+      "evidence_symbols": [
+        "Metrics",
+        "Metrics::record_request",
+        "Metrics::render",
+        "metrics_handler",
+        "handle_connection"
+      ],
+      "rationale": "Metrics are collected via the prometheus crate and exposed through a route wired up in Server::new.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_10",
+      "intention_id": "I-FR13",
+      "question_prompt": "What shape does the framework's built-in template engine take?",
+      "claim": "The engine is a minimal Mustache-like renderer in `src/template.rs` centered on a unit `Renderer` struct whose `render(template, &Value)` first calls `tokenize` (a character-stream scanner that recognizes `{{var}}`, `{{#section}}`, `{{^inverted}}`, and `{{/end}}`) and then walks the token list in `render_tokens`, dispatching sections over JSON arrays/objects and using `resolve_variable` for dot-notation lookups plus a special `.` for the current context. Missing/null/false values are skipped in normal sections and rendered in inverted sections, and the context is a plain `serde_json::Value`.",
+      "evidence_files": [
+        "src/template.rs"
+      ],
+      "evidence_symbols": [
+        "Renderer",
+        "Renderer::render",
+        "Token",
+        "tokenize",
+        "render_tokens",
+        "resolve_variable"
+      ],
+      "rationale": "Template code is entirely self-contained in template.rs and operates on serde_json values.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 74.5161787920224,
+    "usage_source": "project_log",
+    "session_id": "e5a4364a-fe30-4b6b-9d25-e6151895f2ae",
+    "prompt_bytes": 1733,
+    "retrieval_payload_bytes": 52850,
+    "tool_input_bytes": 5296,
+    "assistant_message_bytes": 155,
+    "final_answer_bytes": 108,
+    "bytes_to_model": 54583,
+    "bytes_from_model": 5451,
+    "tool_calls": 10,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 49613,
+      "cache_read_input_tokens": 1113946,
+      "output_tokens": 3093,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 1166667,
+      "cost_usd": 1.1376080000000002
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 53310,
+      "novel_tool_call_bytes": 5690,
+      "novel_tool_call_count": 10,
+      "novel_tool_result_count": 10,
+      "wall_clock_seconds": 73.3067581653595,
+      "generation_tok_per_s": 68.37766807116387,
+      "tool_names": {
+        "Bash": 3,
+        "Read": 6,
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 1164880,
+        "cached_input_tokens": 1113946,
+        "uncached_input_tokens": 50934,
+        "cache_creation_input_tokens": 49613,
+        "non_reasoning_output_tokens": 3116,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 1167996
+      },
+      "proxy_session_id": "hBLY00AE96mR0yJP",
+      "request_count": 12,
+      "raw_request_bytes": 3094764,
+      "raw_response_bytes": 138150
+    }
+  },
+  "status": "ok",
+  "error": null
+}

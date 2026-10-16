@@ -1,0 +1,160 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_minidb-artifact_open-codex_gpt5_5_high-t1-s20260725-5ae4b30e",
+  "condition": "artifact_open",
+  "task_id": "scratch_minidb",
+  "source_build_run_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+  "question_ids": [
+    "q_db_01",
+    "q_db_05",
+    "q_db_06",
+    "q_db_15"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_minidb-artifact_open-codex_gpt5_5_high-t1-s20260725-5ae4b30e",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "908b85bc75890dcd",
+    "agent": {
+      "id": "codex_gpt5_5_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.5",
+      "adapter_version": null
+    },
+    "seed": 20260725,
+    "trial_id": 1,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:26:09.305236+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "Batch mode maps different failure categories to different exit codes. Which mapping does the codebase implement?",
+      "claim": "Batch and command-line execution use exit code 0 for successful eval/file execution, 1 for SQL/script execution failures, 2 for command-line usage errors such as missing option values, unknown options, or unsupported output formats, and 3 for database open failures. In file mode, `--continue-on-error` causes statement errors to be printed and skipped, so those per-statement failures do not make `run_file` return an error and the process can still exit 0.",
+      "evidence_files": [
+        "src/main.rs",
+        "src/cli/mod.rs"
+      ],
+      "evidence_symbols": [
+        "main",
+        "MiniDbCli::run_eval",
+        "MiniDbCli::run_file"
+      ],
+      "rationale": "`main` maps each top-level result to `std::process::exit`, while `run_file` decides whether statement errors are propagated.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_05",
+      "intention_id": "I-SR3",
+      "question_prompt": "What execution model does the query engine use?",
+      "claim": "The query execution layer implements a Volcano-style pull iterator model: physical operators expose `open`, `next`, `close`, and `schema`, and operators such as filter and projection pull rows from their input with `input.next()`. The planner builds tree-shaped physical plans for scans, filters, projection, joins, sorting, and limits.",
+      "evidence_files": [
+        "src/exec/operators/mod.rs",
+        "src/exec/operators/filter.rs",
+        "src/exec/operators/project.rs",
+        "src/exec/planner.rs",
+        "src/plan/physical.rs"
+      ],
+      "evidence_symbols": [
+        "PhysicalOperator",
+        "Filter::next",
+        "Project::next",
+        "PhysicalPlanner::plan_select",
+        "PhysicalPlan"
+      ],
+      "rationale": "The operator trait and concrete operator implementations define the pull interface, and the planner composes plans as nested physical nodes.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_06",
+      "intention_id": "I-SR7",
+      "question_prompt": "How are secondary indexes physically organised?",
+      "claim": "Secondary indexes are stored as B-tree pages inside the same heap-file page abstraction, with catalog metadata recording each index's table, column, and root page. Leaf entries store serialized index-key bytes together with the referenced row page id and slot; pages have a small header containing leaf/internal status, key count, and next-leaf pointer, and the storage manager keeps loaded B-trees in a map keyed by root page.",
+      "evidence_files": [
+        "src/storage/btree.rs",
+        "src/storage/manager.rs",
+        "src/catalog/mod.rs",
+        "src/storage/page.rs"
+      ],
+      "evidence_symbols": [
+        "BTreeIndex",
+        "BTreeKey",
+        "BTreeIndex::init_root",
+        "BTreeIndex::write_key",
+        "StorageManager::load_btree",
+        "IndexInfo"
+      ],
+      "rationale": "The B-tree code defines the on-page layout and row references, while catalog and storage manager code show root-page metadata and in-memory B-tree registration.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_15",
+      "intention_id": "I-FR15",
+      "question_prompt": "The user invokes `minidb --format yaml --eval \"SELECT 1;\"`. `yaml` is not a supported value for `--format`. What does the process do?",
+      "claim": "The process rejects `--format yaml` during argument handling before opening the database or evaluating `SELECT 1;`; it prints `Error: unknown format 'yaml'` to stderr and exits with code 2.",
+      "evidence_files": [
+        "src/main.rs",
+        "src/cli/mod.rs"
+      ],
+      "evidence_symbols": [
+        "main",
+        "MiniDbCli::set_format",
+        "OutputFormat"
+      ],
+      "rationale": "`main` validates `--format` against only `csv`, `json`, and `table` before the eval path calls `cli.open()` and `cli.run_eval()`.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 116.86858245800249,
+    "usage_source": "session_log",
+    "session_id": "019f9038-8b31-7e80-81c8-615914f4a456",
+    "prompt_bytes": 1871,
+    "retrieval_payload_bytes": 130113,
+    "tool_input_bytes": 10036,
+    "assistant_message_bytes": 1565,
+    "final_answer_bytes": 89,
+    "bytes_to_model": 131984,
+    "bytes_from_model": 11601,
+    "tool_calls": 25,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 323976,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 251648,
+      "output_tokens": 4769,
+      "reasoning_output_tokens": 941,
+      "total_tokens": 328745,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 130013,
+      "novel_tool_call_bytes": 6430,
+      "novel_tool_call_count": 24,
+      "novel_tool_result_count": 24,
+      "wall_clock_seconds": 116.40786814689636,
+      "generation_tok_per_s": 48.281110425030384,
+      "tool_names": {
+        "exec_command": 24
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 323976,
+        "cached_input_tokens": 251648,
+        "uncached_input_tokens": 72328,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 3828,
+        "reasoning_output_tokens": 941,
+        "total_tokens": 328745
+      },
+      "proxy_session_id": "BygeN1R-3cFqeWBa",
+      "request_count": 11,
+      "raw_request_bytes": 1425562,
+      "raw_response_bytes": 1817623
+    }
+  },
+  "status": "ok",
+  "error": null
+}

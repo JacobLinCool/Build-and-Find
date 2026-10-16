@@ -1,0 +1,167 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t0-s20260724-7e097050",
+  "condition": "artifact_open",
+  "task_id": "scratch_nanoweb",
+  "source_build_run_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+  "question_ids": [
+    "q_nw_01",
+    "q_nw_04",
+    "q_nw_07",
+    "q_nw_10"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t0-s20260724-7e097050",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "c763acf83d20dff9",
+    "agent": {
+      "id": "codex_gpt5_5_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.5",
+      "adapter_version": null
+    },
+    "seed": 20260724,
+    "trial_id": 0,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:28:40.116383+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "How is HTTP/1.1 parsing wired into this framework?",
+      "claim": "HTTP/1.1 parsing is wired directly into the connection loop: bytes are read from a Tokio stream into a BytesMut buffer, passed to parse_request, then converted from RawHttpRequest into the framework Request type before routing. The parser is handwritten and supports request lines, lowercased headers, Content-Length bodies, chunked transfer bodies, and incomplete-read signalling via Ok(None).",
+      "evidence_files": [
+        "src/server.rs",
+        "src/http/parser.rs",
+        "src/http/request.rs"
+      ],
+      "evidence_symbols": [
+        "handle_connection",
+        "parse_request",
+        "RawHttpRequest",
+        "Request::from_raw"
+      ],
+      "rationale": "The server calls the parser before middleware or routing, and Request::from_raw normalizes the parsed request into the public request shape.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_04",
+      "intention_id": "I-SR4",
+      "question_prompt": "How is the middleware stack composed?",
+      "claim": "The middleware stack is an ordered vector of boxed Middleware trait objects stored behind an Arc, and execution recursively passes a boxed next closure from one middleware to the next until the final handler runs. Server::new composes the default stack in this order: logging, CORS, then rate limiting.",
+      "evidence_files": [
+        "src/middleware/mod.rs",
+        "src/server.rs"
+      ],
+      "evidence_symbols": [
+        "Middleware",
+        "MiddlewareChain",
+        "MiddlewareChain::from_vec",
+        "MiddlewareChain::execute",
+        "execute_at",
+        "Server::new"
+      ],
+      "rationale": "The chain implementation defines the next-closure protocol, while the server constructor builds the concrete default middleware list.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_07",
+      "intention_id": "I-FR11",
+      "question_prompt": "How does the framework expose observability metrics?",
+      "claim": "The framework exposes observability metrics through a Prometheus registry rendered in the text exposition format at the configured metrics path, which defaults to /metrics. Each handled request increments total request and response counters and observes request duration before the response is serialized.",
+      "evidence_files": [
+        "src/metrics.rs",
+        "src/server.rs",
+        "src/config.rs"
+      ],
+      "evidence_symbols": [
+        "Metrics",
+        "Metrics::new",
+        "Metrics::record_request",
+        "Metrics::render",
+        "metrics_handler",
+        "Server::new",
+        "handle_connection",
+        "default_metrics_path"
+      ],
+      "rationale": "Metrics owns the Prometheus instruments and renderer, and the server both registers the endpoint and records request observations.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_10",
+      "intention_id": "I-FR13",
+      "question_prompt": "What shape does the framework's built-in template engine take?",
+      "claim": "The built-in template engine is a small Mustache-like string renderer over serde_json::Value context data. It tokenizes inline template strings into text, variables, sections, inverted sections, and section ends, supports dotted variable lookup and {{.}} for the current context value, and is used by configured routes with a template field to produce HTML responses.",
+      "evidence_files": [
+        "src/template.rs",
+        "src/server.rs",
+        "src/config.rs"
+      ],
+      "evidence_symbols": [
+        "Renderer",
+        "Renderer::render",
+        "Token",
+        "tokenize",
+        "render_tokens",
+        "resolve_variable",
+        "create_handler_from_config",
+        "RouteConfig::template"
+      ],
+      "rationale": "The template module implements tokenization and rendering, and the server invokes it for route configs that provide inline template text.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 66.52446899999632,
+    "usage_source": "session_log",
+    "session_id": "019f903b-9c4b-7103-a676-e32a1e646608",
+    "prompt_bytes": 1733,
+    "retrieval_payload_bytes": 65551,
+    "tool_input_bytes": 7634,
+    "assistant_message_bytes": 992,
+    "final_answer_bytes": 70,
+    "bytes_to_model": 67284,
+    "bytes_from_model": 8626,
+    "tool_calls": 16,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 170271,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128640,
+      "output_tokens": 2884,
+      "reasoning_output_tokens": 254,
+      "total_tokens": 173155,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 65451,
+      "novel_tool_call_bytes": 3943,
+      "novel_tool_call_count": 15,
+      "novel_tool_result_count": 15,
+      "wall_clock_seconds": 66.29035496711731,
+      "generation_tok_per_s": 48.4054816334269,
+      "tool_names": {
+        "exec_command": 15
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 170271,
+        "cached_input_tokens": 128640,
+        "uncached_input_tokens": 41631,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 2630,
+        "reasoning_output_tokens": 254,
+        "total_tokens": 173155
+      },
+      "proxy_session_id": "lPz1CxCVUVAoucSG",
+      "request_count": 8,
+      "raw_request_bytes": 737357,
+      "raw_response_bytes": 1384720
+    }
+  },
+  "status": "ok",
+  "error": null
+}

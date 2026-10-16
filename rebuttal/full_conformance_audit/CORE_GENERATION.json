@@ -1,0 +1,8 @@
+{
+  "current_generation_id": "345e9f073af7b83f6ed35a069afe4c1dc78f9aac5c74e40b09c34b33cc428bfd",
+  "current_generation_path": "rebuttal/full_conformance_audit/generations/345e9f073af7b83f6ed35a069afe4c1dc78f9aac5c74e40b09c34b33cc428bfd",
+  "generation_kind": "core_audit",
+  "generation_manifest_path": "rebuttal/full_conformance_audit/generations/345e9f073af7b83f6ed35a069afe4c1dc78f9aac5c74e40b09c34b33cc428bfd/generation_manifest.json",
+  "generation_manifest_sha256": "35b1834f10c68a4e9f743f0e63117bdb2041a678386831e610abf7954a59c9e4",
+  "manifest_version": "full_conformance_generation_v1"
+}

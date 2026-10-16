@@ -1,0 +1,122 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t2-s20260726-9e99cb2f",
+  "condition": "question_only_open",
+  "task_id": "scratch_nanoweb",
+  "source_build_run_id": null,
+  "question_ids": [
+    "q_nw_01",
+    "q_nw_04",
+    "q_nw_07",
+    "q_nw_10"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t2-s20260726-9e99cb2f",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "a37c0c33cd9d29ba",
+    "agent": {
+      "id": "claude_code_opus_4_7_high",
+      "adapter": "claude_code",
+      "model_id": "claude-opus-4-7",
+      "adapter_version": null
+    },
+    "seed": 20260726,
+    "trial_id": 2,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:30:19.928213+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "How is HTTP/1.1 parsing wired into this framework?",
+      "claim": "HTTP/1.1 parsing is implemented as a small hand-written byte-level parser in a dedicated module (e.g. http/parser) that reads from the raw socket buffer, splitting the request line, headers, and body incrementally, and produces a Request object that the server loop hands to the router. There is no external HTTP library dependency; the parser is invoked once per connection inside the accept loop and supports keep-alive by looping until the client closes or Connection: close is seen.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Nano frameworks typically ship a minimal in-tree parser to avoid dependencies and keep the core self-contained.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_04",
+      "intention_id": "I-SR4",
+      "question_prompt": "How is the middleware stack composed?",
+      "claim": "The middleware stack is composed as an onion of higher-order handler functions: the app stores an ordered list of middleware, and at request time they are folded right-to-left around the final route handler so each middleware receives (request, next) and can run code before and after calling next. Registration is done via an app.use(fn) method that appends to the list, and the composition is built once at app start (or lazily on first request) rather than per request.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "The onion/next-callback pattern is the canonical minimal-framework design and is what a scratch nanoweb would most likely mirror.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_07",
+      "intention_id": "I-FR11",
+      "question_prompt": "How does the framework expose observability metrics?",
+      "claim": "Observability metrics are exposed by a built-in middleware that increments in-process counters (request count, per-status-code counts, and a latency histogram) and serves them at a fixed /metrics endpoint in Prometheus text exposition format. The metrics are kept as plain module-level dictionaries protected by a lock, with no external client library required.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Prometheus text on /metrics is the de facto convention for tiny frameworks that want observability without a dependency.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_10",
+      "intention_id": "I-FR13",
+      "question_prompt": "What shape does the framework's built-in template engine take?",
+      "claim": "The built-in template engine is a very small string-substitution renderer that reads a template file and replaces {{ name }} placeholders (and possibly a simple {% for %} / {% if %} construct) with values from a context dict, returning a rendered string. Templates are loaded from a configured templates/ directory, cached in memory by path after first read, and exposed via a render(template_name, **context) helper that route handlers call to produce response bodies.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A Mustache/Jinja-lite mini engine with directory loading and in-memory caching is the standard shape for a nano-framework's built-in templater.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 25.238489707990084,
+    "usage_source": "project_log",
+    "session_id": "24901b9c-5e13-4de1-ae6f-ebe327cc0dec",
+    "prompt_bytes": 1376,
+    "retrieval_payload_bytes": 290,
+    "tool_input_bytes": 2849,
+    "assistant_message_bytes": 85,
+    "final_answer_bytes": 85,
+    "bytes_to_model": 1666,
+    "bytes_from_model": 2934,
+    "tool_calls": 1,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 6,
+      "cache_creation_input_tokens": 26828,
+      "cache_read_input_tokens": 125932,
+      "output_tokens": 1118,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 153884,
+      "cost_usd": 0.36569100000000004
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 290,
+      "novel_tool_call_bytes": 2955,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 24.07120418548584,
+      "generation_tok_per_s": 59.4798940395272,
+      "tool_names": {
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 153939,
+        "cached_input_tokens": 125932,
+        "uncached_input_tokens": 28007,
+        "cache_creation_input_tokens": 26828,
+        "non_reasoning_output_tokens": 1142,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 155081
+      },
+      "proxy_session_id": "z3csvE8EpHFh0Yz9",
+      "request_count": 3,
+      "raw_request_bytes": 417452,
+      "raw_response_bytes": 65267
+    }
+  },
+  "status": "ok",
+  "error": null
+}

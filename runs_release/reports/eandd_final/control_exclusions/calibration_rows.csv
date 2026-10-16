@@ -1,0 +1,14 @@
+table,slice_id,task_id,builds,find_runs,all_rows_correct,all_rows_total,all_rows_pct,delta_contrast,delta_pp,impl_gold_correct,impl_gold_total,impl_gold_pct,impl_gold_perfect_runs_correct,impl_gold_perfect_runs_total,impl_gold_perfect_runs_pct
+table1,question_only,all,,61,889,915,97.2,,,,,,,,
+table1,spec_only,all,,72,1079,1080,99.9,spec_only_minus_question_only,"+2.7 [+1.0, +5.0]",,,,,,
+table1,artifact_present,all,48,1728,24981,25920,96.4,artifact_present_minus_question_only,"-0.7 [-3.7, +2.3]",23928,24192,98.9,1463,1692,86.5
+table1,compile_pass,all,41,1476,21413,22140,96.7,compile_pass_minus_question_only,"-0.4 [-3.2, +2.6]",21084,21312,98.9,1276,1476,86.4
+table1,compile_failed,all,7,252,3568,3780,94.4,compile_failed_minus_question_only,"-2.7 [-7.2, +1.3]",2844,2880,98.8,187,216,86.6
+table12,question_only,scratch_minidb,,30,442,450,98.2,,,,,,,,
+table12,question_only,scratch_nanoweb,,31,447,465,96.1,,,,,,,,
+table12,spec_only,scratch_minidb,,36,539,540,99.8,spec_only_minus_question_only:scratch_minidb,"+1.6 [+0.2, +3.1]",,,,,,
+table12,spec_only,scratch_nanoweb,,36,540,540,100.0,spec_only_minus_question_only:scratch_nanoweb,"+3.9 [+0.9, +8.0]",,,,,,
+table12,artifact_present,scratch_minidb,24,864,12420,12960,95.8,artifact_present_minus_question_only:scratch_minidb,"-2.3 [-5.0, +0.4]",12083,12240,98.7,719,864,83.2
+table12,artifact_present,scratch_nanoweb,24,864,12561,12960,96.9,artifact_present_minus_question_only:scratch_nanoweb,"+0.8 [-4.4, +5.8]",11845,11952,99.1,744,828,89.9
+table12,compile_pass,scratch_minidb,21,756,10934,11340,96.4,compile_pass_minus_question_only:scratch_minidb,"-1.7 [-4.2, +0.8]",10730,10872,98.7,625,756,82.7
+table12,compile_pass,scratch_nanoweb,20,720,10479,10800,97.0,compile_pass_minus_question_only:scratch_nanoweb,"+0.9 [-4.1, +6.0]",10354,10440,99.2,651,720,90.4

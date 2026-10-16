@@ -1,2 +1,10 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Data and documentation files always use LF so recorded checksums and sizes
+# match the bytes of a fresh checkout on every platform.
+*.csv text eol=lf
+*.tsv text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.md text eol=lf

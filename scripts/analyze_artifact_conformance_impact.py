@@ -4,6 +4,10 @@ This script treats ``implemented_gold`` artifact-question pairs as the audited
 evaluation set. Non-gold and ambiguous labels remain reported as builder-side
 implementation outcomes instead of being silently folded into finder recovery
 scores.
+
+The released v1.0 labels in ``final/artifact_conformance_final.csv`` are read
+unchanged; when ``final/label_corrections_v1_1.csv`` exists, its rows are
+overlaid on them before any analysis.
 """
 
 # ruff: noqa: E402
@@ -37,6 +41,7 @@ ARTIFACT_PRESENT_DIAGNOSTIC_PANEL_ID = "artifact_present_diagnostic"
 PAPER_FINAL_PANEL_ID = "paper_final_scratch"
 SCRATCH_TASKS = frozenset({"scratch_minidb", "scratch_nanoweb"})
 REQUIRED_TABLES = ("build_runs.csv", "find_runs.csv", "question_answers.csv")
+LABEL_CORRECTIONS_FILENAME = "label_corrections_v1_1.csv"
 FINAL_LABELS = (
     "implemented_gold",
     "implemented_non_gold",
@@ -93,7 +98,9 @@ def main() -> None:
 
     find_rows = _read_csv(p.tables_dir / "find_runs.csv")
     answer_rows = _read_csv(p.tables_dir / "question_answers.csv")
-    conformance_rows = _read_csv(final_path)
+    corrections_path = final_dir / LABEL_CORRECTIONS_FILENAME
+    corrections = _read_csv(corrections_path) if corrections_path.exists() else []
+    conformance_rows = _apply_label_corrections(_read_csv(final_path), corrections)
     label_by_key = {
         _artifact_question_key(row): row
         for row in conformance_rows
@@ -155,6 +162,11 @@ def main() -> None:
                 builder_score_rows.extend(_builder_score_rows(panel, gate, metric, means))
                 rank_rows.extend(_rank_stability_rows(panel, gate, metric, means))
     _add_builder_score_bootstrap_cis(builder_score_rows, panels, conditioned_run_rows)
+    builder_score_by_task_rows = _builder_score_by_task_rows(
+        panels,
+        conditioned_run_rows,
+        pooled_score_rows=builder_score_rows,
+    )
 
     low_prior_recovery_rows: list[dict[str, Any]] = []
     low_prior_builder_score_rows: list[dict[str, Any]] = []
@@ -204,6 +216,7 @@ def main() -> None:
     _write_csv(out_dir / "conditioned_agent_views.csv", agent_view_rows)
     _write_csv(out_dir / "conditioned_recovery_scores.csv", recovery_rows)
     _write_csv(out_dir / "conditioned_builder_scores.csv", builder_score_rows)
+    _write_csv(out_dir / "conditioned_builder_scores_by_task.csv", builder_score_by_task_rows)
     _write_csv(out_dir / "conditioned_rank_stability.csv", rank_rows)
     _write_csv(out_dir / "conditioned_affinity_residual_12x12.csv", affinity_rows)
     _write_csv(out_dir / "conditioned_affinity_residual_family.csv", _family_residual_rows(affinity_rows))
@@ -218,26 +231,30 @@ def main() -> None:
     )
     _write_csv(out_dir / "score_comparison.csv", comparison_rows)
 
+    input_paths = [
+        p.tables_dir / "build_runs.csv",
+        p.tables_dir / "find_runs.csv",
+        p.tables_dir / "question_answers.csv",
+        final_path,
+    ]
+    if corrections_path.exists():
+        input_paths.append(corrections_path)
     manifest = {
         "analysis_id": "artifact_conformance_impact_v1",
         "analysis_script": "scripts/analyze_artifact_conformance_impact.py",
         "analysis_command": " ".join(sys.argv),
         "generated_at": datetime.now(UTC).isoformat(),
-        "input_paths": [
-            _display_path(p.tables_dir / "build_runs.csv"),
-            _display_path(p.tables_dir / "find_runs.csv"),
-            _display_path(p.tables_dir / "question_answers.csv"),
-            _display_path(final_path),
-        ],
-        "input_hashes": {
-            _display_path(path): _sha256(path)
-            for path in (
-                p.tables_dir / "build_runs.csv",
-                p.tables_dir / "find_runs.csv",
-                p.tables_dir / "question_answers.csv",
-                final_path,
-            )
-        },
+        "input_paths": [_display_path(path) for path in input_paths],
+        "input_hashes": {_display_path(path): _sha256(path) for path in input_paths},
+        "label_corrections": (
+            {
+                "path": _display_path(corrections_path),
+                "sha256": _sha256(corrections_path),
+                "count": len(corrections),
+            }
+            if corrections_path.exists()
+            else None
+        ),
         "output_dir": _display_path(out_dir),
         "primary_panel_id": PAPER_FINAL_PANEL_ID,
         "artifact_present_panel_id": ARTIFACT_PRESENT_DIAGNOSTIC_PANEL_ID,
@@ -252,6 +269,7 @@ def main() -> None:
             "score_comparison_rows": len(comparison_rows),
         },
         "final_labels": dict(Counter(row["final_label"] for row in conformance_rows)),
+        "label_sources": dict(Counter(row["label_source"] for row in conformance_rows)),
     }
     (out_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
@@ -317,7 +335,7 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         return
     fieldnames = list(rows[0].keys())
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -325,6 +343,41 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 def _artifact_question_key(row: dict[str, str]) -> tuple[str, str, str]:
     artifact_id = row.get("artifact_id") or row["build_run_id"]
     return (row["task_id"], artifact_id, row["question_id"])
+
+
+def _apply_label_corrections(
+    conformance_rows: list[dict[str, str]],
+    corrections: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    """Overlay label corrections on the released labels without editing them in place.
+
+    Each correction replaces ``final_label`` and ``label_source`` for its
+    (task_id, artifact_id, question_id) key. A correction for an unknown key, a
+    repeated key, an unknown label, or an ``old_label`` that differs from the
+    released label raises, so a stale corrections file cannot change the analysis.
+    """
+    by_key = {_artifact_question_key(row): row for row in conformance_rows}
+    corrected: dict[tuple[str, str, str], dict[str, str]] = {}
+    for correction in corrections:
+        key = _artifact_question_key(correction)
+        row = by_key.get(key)
+        if row is None:
+            raise RuntimeError(f"label correction has no released label row: {key}")
+        if key in corrected:
+            raise RuntimeError(f"duplicate label correction: {key}")
+        if row["final_label"] != correction["old_label"]:
+            raise RuntimeError(
+                f"label correction old_label {correction['old_label']!r} does not match "
+                f"released label {row['final_label']!r} for {key}"
+            )
+        if correction["new_label"] not in FINAL_LABELS:
+            raise RuntimeError(f"unknown corrected label {correction['new_label']!r} for {key}")
+        corrected[key] = {
+            **row,
+            "final_label": correction["new_label"],
+            "label_source": correction["label_source"],
+        }
+    return [corrected.get(_artifact_question_key(row), row) for row in conformance_rows]
 
 
 def _in_panel(row: dict[str, str], panel_id: str) -> bool:
@@ -1390,6 +1443,50 @@ def _add_builder_score_bootstrap_cis(
             row["ci95_high"] = hi
 
 
+def _builder_score_by_task_rows(
+    panels: list[Panel],
+    run_rows: list[dict[str, Any]],
+    *,
+    pooled_score_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Score builders on each task separately with the pooled R_b computation (paper Figure 1).
+
+    Each task keeps only its own runs: within-finder total-byte ratios on
+    perfect-run cells, a geometric mean per builder, and a bootstrap over the
+    task's finder clusters with the pooled seed and repetitions. ``pooled_rank``
+    is the builder's rank in ``pooled_score_rows`` for the same panel.
+    """
+    gate: Gate = "perfect_run"
+    metric = "total_bytes"
+    pooled_rank = {
+        (row["panel_id"], row["builder_id"]): row["rank"]
+        for row in pooled_score_rows
+        if row["gate"] == gate and row["metric"] == metric
+    }
+    out: list[dict[str, Any]] = []
+    for panel in panels:
+        if not panel.primary:
+            continue
+        panel_rows = _panel_run_rows(run_rows, panel)
+        for task_id in sorted(SCRATCH_TASKS):
+            task_rows = [row for row in panel_rows if row["task_id"] == task_id]
+            means = _cell_means(task_rows, metric=metric, gate=gate)
+            intervals = _bootstrap_builder_scores(panel, task_rows, gate=gate, metric=metric)
+            for row in _builder_score_rows(panel, gate, metric, means):
+                lo, hi = intervals.get(row["builder_id"], (math.nan, math.nan))
+                out.append(
+                    {
+                        "panel_id": panel.panel_id,
+                        "task_id": task_id,
+                        **row,
+                        "ci95_low": lo,
+                        "ci95_high": hi,
+                        "pooled_rank": pooled_rank.get((panel.panel_id, row["builder_id"]), ""),
+                    }
+                )
+    return out
+
+
 def _bootstrap_builder_scores(
     panel: Panel,
     rows: list[dict[str, Any]],
@@ -1401,12 +1498,9 @@ def _bootstrap_builder_scores(
     clusters: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
         clusters[(row["finder_id"], row["task_id"])].append(row)
-    cluster_keys = sorted(clusters)
     values: dict[str, list[float]] = defaultdict(list)
     for _ in range(BOOTSTRAP_REPS):
-        sampled: list[dict[str, Any]] = []
-        for _cluster in cluster_keys:
-            sampled.extend(clusters[rng.choice(cluster_keys)])
+        sampled = _bootstrap_resample(clusters, rng)
         means = _cell_means(sampled, metric=metric, gate=gate)
         for score_row in _builder_score_rows(panel, gate, metric, means):
             values[score_row["builder_id"]].append(score_row["score"])
@@ -1415,6 +1509,24 @@ def _bootstrap_builder_scores(
         for builder_id, samples in values.items()
         if samples
     }
+
+
+def _bootstrap_resample(
+    clusters: dict[tuple[str, str], list[dict[str, Any]]],
+    rng: random.Random,
+) -> list[dict[str, Any]]:
+    """Draw finder-task clusters with replacement, one draw per observed cluster.
+
+    Rows of each draw get the draw index appended to ``finder_id`` so that a
+    cluster drawn twice contributes two finder-task cells instead of merging
+    into one.
+    """
+    cluster_keys = sorted(clusters)
+    sampled: list[dict[str, Any]] = []
+    for draw_index in range(len(cluster_keys)):
+        drawn = clusters[rng.choice(cluster_keys)]
+        sampled.extend({**row, "finder_id": f"{row['finder_id']}#{draw_index}"} for row in drawn)
+    return sampled
 
 
 def _percentile(values: list[float], q: float) -> float:
@@ -1691,11 +1803,24 @@ def _write_markdown(
         "`implemented_gold`. Other labels are counted as artifact conformance failures",
         "or ambiguous implementation evidence, not as recoverable gold behavior.",
         "",
-        "## Gate Summary",
-        "",
-        "| scope | task | builds | pairs | gold | non-gold | absent/ambig | excluded | original acc | gold-only acc | excluded acc |",
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
+    corrections = manifest["label_corrections"]
+    if corrections:
+        lines.extend(
+            [
+                f"Label corrections: {corrections['count']} rows from `{corrections['path']}` "
+                f"(sha256 `{corrections['sha256']}`) overlaid on the released labels.",
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "## Gate Summary",
+            "",
+            "| scope | task | builds | pairs | gold | non-gold | absent/ambig | excluded | original acc | gold-only acc | excluded acc |",
+            "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        ]
+    )
     for scope_id in ("artifact_present_all", "compile_pass_primary", "compile_failed_diagnostic"):
         for task_id in ("scratch_minidb", "scratch_nanoweb", "all"):
             row = gate_by_key.get((scope_id, task_id))
@@ -1795,6 +1920,7 @@ def _write_markdown(
             "- `conditioned_run_rows.csv`",
             "- `conditioned_recovery_scores.csv`",
             "- `conditioned_builder_scores.csv`",
+            "- `conditioned_builder_scores_by_task.csv`",
             "- `score_comparison.csv`",
             "- `manifest.json`",
         ]

@@ -38,7 +38,7 @@ BNF_ROOT="$DRY_ROOT" BNF_DRY_RUN=1 uv run python scripts/run_controls.py \
   --no-proxy
 
 BNF_ROOT="$DRY_ROOT" uv run bnf analyze tables --out-dir "$DRY_ROOT/runs/tables"
-BNF_ROOT="$DRY_ROOT" uv run python scripts/write_claim_evidence.py
+BNF_ROOT="$DRY_ROOT" uv run python scripts/write_reproducibility_index.py
 
 echo "dry-run records: $(find "$DRY_ROOT/runs/records" -name '*.json' | wc -l | tr -d ' ')"
 echo "dry-run tables: $DRY_ROOT/runs/tables"

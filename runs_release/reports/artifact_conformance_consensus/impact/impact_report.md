@@ -1,24 +1,26 @@
 # Artifact Conformance Impact Analysis
 
-Generated: 2026-05-06T19:52:00.962068+00:00
+Generated: 2026-10-15T21:18:38.145032+00:00
 
 This report conditions finder metrics on artifact-question pairs labeled
 `implemented_gold`. Other labels are counted as artifact conformance failures
 or ambiguous implementation evidence, not as recoverable gold behavior.
+
+Label corrections: 15 rows from `runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv` (sha256 `6430dd0b42919b7f8b25214ae10d20f0f5958cb8c784093f92bd084e08910b29`) overlaid on the released labels.
 
 ## Gate Summary
 
 | scope | task | builds | pairs | gold | non-gold | absent/ambig | excluded | original acc | gold-only acc | excluded acc |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | artifact_present_all | scratch_minidb | 24 | 360 | 340 (94.4%) | 16 | 4 | 20 (5.6%) | 95.8% | 98.7% | 46.8% |
-| artifact_present_all | scratch_nanoweb | 24 | 360 | 347 (96.4%) | 12 | 1 | 13 (3.6%) | 96.9% | 99.1% | 38.9% |
-| artifact_present_all | all | 48 | 720 | 687 (95.4%) | 28 | 5 | 33 (4.6%) | 96.4% | 98.9% | 43.7% |
+| artifact_present_all | scratch_nanoweb | 24 | 360 | 332 (92.2%) | 12 | 16 | 28 (7.8%) | 96.9% | 99.1% | 71.0% |
+| artifact_present_all | all | 48 | 720 | 672 (93.3%) | 28 | 20 | 48 (6.7%) | 96.4% | 98.9% | 60.9% |
 | compile_pass_primary | scratch_minidb | 21 | 315 | 302 (95.9%) | 10 | 3 | 13 (4.1%) | 96.4% | 98.7% | 43.6% |
 | compile_pass_primary | scratch_nanoweb | 20 | 300 | 290 (96.7%) | 9 | 1 | 10 (3.3%) | 97.0% | 99.2% | 34.7% |
 | compile_pass_primary | all | 41 | 615 | 592 (96.3%) | 19 | 4 | 23 (3.7%) | 96.7% | 98.9% | 39.7% |
 | compile_failed_diagnostic | scratch_minidb | 3 | 45 | 38 (84.4%) | 6 | 1 | 7 (15.6%) | 91.7% | 98.9% | 52.8% |
-| compile_failed_diagnostic | scratch_nanoweb | 4 | 60 | 57 (95.0%) | 3 | 0 | 3 (5.0%) | 96.4% | 98.7% | 52.8% |
-| compile_failed_diagnostic | all | 7 | 105 | 95 (90.5%) | 9 | 1 | 10 (9.5%) | 94.4% | 98.8% | 52.8% |
+| compile_failed_diagnostic | scratch_nanoweb | 4 | 60 | 42 (70.0%) | 3 | 15 | 18 (30.0%) | 96.4% | 98.6% | 91.2% |
+| compile_failed_diagnostic | all | 7 | 105 | 80 (76.2%) | 9 | 16 | 25 (23.8%) | 94.4% | 98.8% | 80.4% |
 
 ## Primary Figure 1 Sensitivity
 
@@ -78,6 +80,7 @@ Lower is better. Scores are within-finder-task total-byte ratios on conditioned 
 
 | task | compile | builder | pairs | gold rate | excluded |
 | --- | --- | --- | ---: | ---: | ---: |
+| scratch_nanoweb | false | claude_code_mimo_v2_5_low | 15 | 0.0% | 15 |
 | scratch_minidb | false | codex_gpt5_4_mini_low | 15 | 73.3% | 4 |
 | scratch_minidb | true | claude_code_mimo_v2_5_high | 30 | 80.0% | 6 |
 | scratch_nanoweb | true | codex_gpt5_4_mini_low | 30 | 86.7% | 4 |
@@ -89,7 +92,6 @@ Lower is better. Scores are within-finder-task total-byte ratios on conditioned 
 | scratch_nanoweb | true | claude_code_sonnet_4_6_low | 30 | 93.3% | 2 |
 | scratch_minidb | true | codex_gpt5_4_mini_low | 15 | 93.3% | 1 |
 | scratch_nanoweb | false | claude_code_mimo_v2_5_pro_low | 15 | 93.3% | 1 |
-| scratch_nanoweb | true | claude_code_mimo_v2_5_low | 15 | 93.3% | 1 |
 
 ## Primary Accuracy By Label
 
@@ -109,5 +111,6 @@ Lower is better. Scores are within-finder-task total-byte ratios on conditioned 
 - `conditioned_run_rows.csv`
 - `conditioned_recovery_scores.csv`
 - `conditioned_builder_scores.csv`
+- `conditioned_builder_scores_by_task.csv`
 - `score_comparison.csv`
 - `manifest.json`

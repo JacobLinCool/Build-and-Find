@@ -1,0 +1,11 @@
+task_id,question_id,released_stable_cells,released_cells,corrected_stable_cells,corrected_cells,corrected_agreement_pct,still_low_prior
+scratch_minidb,q_db_01,8,12,11,12,91.7,0
+scratch_minidb,q_db_05,9,12,12,12,100.0,0
+scratch_minidb,q_db_06,8,12,10,12,83.3,1
+scratch_minidb,q_db_07,9,12,9,12,75.0,1
+scratch_minidb,q_db_15,10,12,12,12,100.0,0
+scratch_nanoweb,q_nw_01,10,12,11,12,91.7,0
+scratch_nanoweb,q_nw_04,9,12,10,12,83.3,1
+scratch_nanoweb,q_nw_07,8,12,8,12,66.7,1
+scratch_nanoweb,q_nw_10,9,12,9,12,75.0,1
+scratch_nanoweb,q_nw_11,9,12,9,12,75.0,1

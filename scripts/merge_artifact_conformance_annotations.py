@@ -1,4 +1,10 @@
-"""Merge consensus conformance prelabels with manual review annotations."""
+"""Merge consensus conformance prelabels with manual review annotations.
+
+The merged ``artifact_conformance_final.csv`` is the v1.0 label release. When the
+output directory also holds ``label_corrections_v1_1.csv``, the README documents
+those corrections and the counts after overlaying them; the v1.0 CSV, summary, and
+manifest are written without them.
+"""
 
 # ruff: noqa: E402
 
@@ -16,10 +22,15 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
-if str(SRC) not in sys.path:
-    sys.path.insert(0, str(SRC))
+for import_path in (SRC, ROOT):
+    if str(import_path) not in sys.path:
+        sys.path.insert(0, str(import_path))
 
 from bnf.config import paths
+from scripts.analyze_artifact_conformance_impact import (
+    LABEL_CORRECTIONS_FILENAME,
+    _apply_label_corrections,
+)
 
 
 FINAL_LABELS = {
@@ -30,6 +41,12 @@ FINAL_LABELS = {
     "not_applicable_or_invalid",
 }
 CONFIDENCE_VALUES = {"high", "medium", "low"}
+LABEL_CORRECTION_RULES = {
+    "rule_empty_artifact": (
+        "the build artifact contains no source files, so it implements no specified "
+        "claim and every one of its questions is labeled `absent_or_ambiguous`"
+    ),
+}
 KEY_FIELDS = ("task_id", "artifact_id", "question_id")
 FINAL_FIELD_ORDER = [
     "task_id",
@@ -148,7 +165,14 @@ def main() -> None:
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    _write_markdown(output_dir / "README.md", manifest=manifest, summary_rows=summary_rows)
+    corrections_path = output_dir / LABEL_CORRECTIONS_FILENAME
+    _write_markdown(
+        output_dir / "README.md",
+        manifest=manifest,
+        summary_rows=summary_rows,
+        final_rows=final_rows,
+        corrections=_read_csv(corrections_path) if corrections_path.exists() else [],
+    )
     print(f"wrote {output_dir}")
 
 
@@ -184,7 +208,7 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], preferred: list[str]) -> 
     fieldnames = [field for field in preferred if field in keys]
     fieldnames.extend(sorted(keys - set(fieldnames)))
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -329,18 +353,33 @@ def _write_markdown(
     *,
     manifest: dict[str, Any],
     summary_rows: list[dict[str, Any]],
+    final_rows: list[dict[str, str]],
+    corrections: list[dict[str, str]],
 ) -> None:
     overall = next(row for row in summary_rows if row["task_id"] == "all")
     lines = [
         "# Final Artifact Conformance",
         "",
         "This table merges stable consensus prelabels with manual review annotations.",
-        "",
-        "## Overall Counts",
-        "",
-        "| label | count | rate |",
-        "| --- | ---: | ---: |",
     ]
+    if corrections:
+        lines.extend(
+            [
+                "`artifact_conformance_final.csv`, `summary.csv`, and `manifest.json` are",
+                "the v1.0 label release and stay unchanged; the counts in the next two",
+                "sections are v1.0. The v1.1 corrections are listed in",
+                f"`{LABEL_CORRECTIONS_FILENAME}` (see below).",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            "## Overall Counts",
+            "",
+            "| label | count | rate |",
+            "| --- | ---: | ---: |",
+        ]
+    )
     for label in sorted(FINAL_LABELS):
         lines.append(f"| `{label}` | {overall[label]} | {overall[f'{label}_rate']} |")
     lines.extend(
@@ -354,8 +393,73 @@ def _write_markdown(
     )
     for source, count in sorted(manifest["label_sources"].items()):
         lines.append(f"| `{source}` | {count} |")
+    if corrections:
+        lines.extend(_correction_markdown(final_rows, corrections))
     lines.append("")
     path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def _correction_markdown(
+    final_rows: list[dict[str, str]],
+    corrections: list[dict[str, str]],
+) -> list[str]:
+    """Describe the v1.1 corrections file and the label counts after overlaying it."""
+    corrected = _apply_label_corrections(final_rows, corrections)
+    lines = [
+        "",
+        "## v1.1 Label Corrections",
+        "",
+        f"`{LABEL_CORRECTIONS_FILENAME}` lists labels corrected after the v1.0 release.",
+        "It is applied as an overlay on top of `artifact_conformance_final.csv`: for each",
+        "listed `(task_id, artifact_id, question_id)` pair, the analysis scripts replace",
+        "`final_label` and `label_source` with the correction. A correction whose",
+        "`old_label` differs from the v1.0 label, a repeated pair, or an unknown pair or",
+        "label stops the analysis.",
+        "",
+        "Columns:",
+        "",
+        "- `task_id`, `artifact_id`, `question_id`: the artifact-question pair.",
+        "- `old_label`: the v1.0 `final_label` of the pair.",
+        "- `new_label`: the v1.1 `final_label`.",
+        "- `label_source`: the rule that produced the correction.",
+        "- `rationale`: why the label changed.",
+        "",
+        "| label_source | rule | artifacts | rows |",
+        "| --- | --- | ---: | ---: |",
+    ]
+    by_source: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for correction in corrections:
+        by_source[correction["label_source"]].append(correction)
+    for source, rows in sorted(by_source.items()):
+        rule = LABEL_CORRECTION_RULES.get(source, "see `rationale`")
+        artifacts = len({row["artifact_id"] for row in rows})
+        lines.append(f"| `{source}` | {rule} | {artifacts} | {len(rows)} |")
+    labels = Counter(row["final_label"] for row in corrected)
+    sources = Counter(row["label_source"] for row in corrected)
+    lines.extend(
+        [
+            "",
+            "Counts after the overlay (v1.1):",
+            "",
+            "| label | count | rate |",
+            "| --- | ---: | ---: |",
+        ]
+    )
+    for label in sorted(FINAL_LABELS):
+        lines.append(
+            f"| `{label}` | {labels[label]} | {_fmt_float(labels[label] / len(corrected))} |"
+        )
+    lines.extend(["", "| source | rows |", "| --- | ---: |"])
+    for source, count in sorted(sources.items()):
+        lines.append(f"| `{source}` | {count} |")
+    lines.extend(
+        [
+            "",
+            "The overlay's hash and the counts after it are also recorded in",
+            "`../impact/manifest.json` (`label_corrections`, `final_labels`, `label_sources`).",
+        ]
+    )
+    return lines
 
 
 def _key(row: dict[str, str]) -> tuple[str, str, str]:

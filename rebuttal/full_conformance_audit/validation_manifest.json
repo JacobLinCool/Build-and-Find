@@ -1,0 +1,28 @@
+{
+  "author_flag_count": 205,
+  "crosscheck_result_hash_source_counts": {
+    "completion_record_and_parent_verified": 229,
+    "post_hoc_parent_attestation": 13
+  },
+  "crosscheck_rows_with_integrity_attestation": 242,
+  "crosscheck_rows_with_reachability": 242,
+  "crosscheck_selected_pairs": 242,
+  "integrity_attestation_manifest_verified": true,
+  "known_regressions_reproduced_by_both_passes": 9,
+  "known_regressions_reproduced_by_either_pass": 9,
+  "population_artifacts": 41,
+  "population_pairs": 592,
+  "primary_result_hash_source_counts": {
+    "post_hoc_parent_attestation": 592
+  },
+  "primary_rows_with_evidence_spans": 592,
+  "primary_rows_with_integrity_attestation": 592,
+  "primary_rows_with_model_and_prompt": 592,
+  "primary_rows_with_reachability": 592,
+  "result_hash_source_counts": {
+    "completion_record_and_parent_verified": 39,
+    "post_hoc_parent_attestation": 43
+  },
+  "runs_release_tree_verified_unchanged": true,
+  "validated_attempt_attestations": 82
+}

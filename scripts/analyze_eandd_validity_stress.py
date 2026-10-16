@@ -169,7 +169,7 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         path.write_text("", encoding="utf-8")
         return
     with path.open("w", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(fh, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 

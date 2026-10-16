@@ -1,0 +1,11 @@
+scenario,panel_id,find_runs,perfect_runs,perfect_run_rate,observed_cells,contributing_perfect_cells,perfect_cell_coverage
+baseline,high_effort,396,343,0.8661616161616161,66,66,1.0
+baseline,low_effort,342,296,0.8654970760233918,66,64,0.9696969696969697
+all_observed_corrected,high_effort,396,343,0.8661616161616161,66,66,1.0
+all_observed_corrected,low_effort,342,301,0.8801169590643275,66,64,0.9696969696969697
+author_adjudicated,high_effort,396,343,0.8661616161616161,66,66,1.0
+author_adjudicated,low_effort,342,312,0.9122807017543859,66,65,0.9848484848484849
+fully_adjudicated,high_effort,396,388,0.9797979797979798,66,66,1.0
+fully_adjudicated,low_effort,342,332,0.9707602339181286,66,66,1.0
+author_adjudicated_plus_unreviewed_flags,high_effort,396,390,0.9848484848484849,66,66,1.0
+author_adjudicated_plus_unreviewed_flags,low_effort,342,332,0.9707602339181286,66,66,1.0

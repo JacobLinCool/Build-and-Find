@@ -917,7 +917,9 @@ def _iter_artifact_files(path: Path) -> Iterable[Path]:
 def _write_csv_atomic(path: Path, columns: tuple[str, ...], rows: Iterable[dict[str, Any]]) -> None:
     tmp = path.with_suffix(path.suffix + ".tmp")
     with tmp.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(columns), extrasaction="raise")
+        writer = csv.DictWriter(
+            handle, fieldnames=list(columns), extrasaction="raise", lineterminator="\n"
+        )
         writer.writeheader()
         for row in rows:
             writer.writerow({column: _csv_value(row.get(column, "")) for column in columns})

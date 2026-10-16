@@ -5,7 +5,7 @@ description = "Build-and-Find: a benchmark for coding-agent project legibility a
 readme = "README.md"
 requires-python = ">=3.13"
 license = { file = "LICENSE" }
-authors = [{ name = "Build-and-Find Authors" }]
+authors = [{ name = "Jhen-Ke Lin" }]
 dependencies = [
     "pydantic>=2.7",
     "pyyaml>=6.0",

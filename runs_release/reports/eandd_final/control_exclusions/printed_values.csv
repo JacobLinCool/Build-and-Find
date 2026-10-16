@@ -1,0 +1,154 @@
+value_id,paper_location,printed,exact,half_tie
+setup.excluded_runs,"Sec. 4.1 (sec:setup), exclusion sentence",11,of 72 runs,0
+setup.question_only_runs,"Sec. 4.1 (sec:setup), exclusion sentence",72,,0
+setup.question_only_released,"Sec. 4.1 (sec:setup), exclusion sentence",94.5,1021/1080 = 94.5370%,0
+setup.question_only_corrected,"Sec. 4.1 (sec:setup), exclusion sentence",97.2,889/915 = 97.1585%,0
+prior_stress.question_only,"Sec. 4.2 (sec:prior_stress), first paragraph",97.2,889/915 = 97.1585%,0
+prior_stress.spec_only_delta,"Sec. 4.2 (sec:prior_stress), first paragraph","+2.7 [+1.0, +5.0]","+2.7322 [+0.9858, +5.0054] pp; 30 clusters; stream spec_only_minus_question_only",0
+prior_stress.compile_pass_all_rows,"Sec. 4.2 (sec:prior_stress), first paragraph",96.7,21413/22140 = 96.7164%,0
+prior_stress.compile_pass_delta,"Sec. 4.2 (sec:prior_stress), first paragraph","-0.4 [-3.2, +2.6]","-0.3905 [-3.2025, +2.5528] pp; 30 clusters; stream compile_pass_minus_question_only",0
+table1.question_only.find_runs,Table 1 (tab:prior-stress),61,,0
+table1.question_only.accuracy,Table 1 (tab:prior-stress),97.2,889/915 = 97.1585%,0
+table1.spec_only.find_runs,Table 1 (tab:prior-stress),72,,0
+table1.spec_only.accuracy,Table 1 (tab:prior-stress),99.9,1079/1080 = 99.9074%,0
+table1.spec_only.delta,Table 1 (tab:prior-stress),"+2.7 [+1.0, +5.0]","+2.7322 [+0.9858, +5.0054] pp; 30 clusters; stream spec_only_minus_question_only",0
+table1.artifact_present.builds,Table 1 (tab:prior-stress),48,,0
+table1.artifact_present.find_runs,Table 1 (tab:prior-stress),1728,,0
+table1.artifact_present.accuracy,Table 1 (tab:prior-stress),96.4,24981/25920 = 96.3773%,0
+table1.artifact_present.delta,Table 1 (tab:prior-stress),"-0.7 [-3.7, +2.3]","-0.7240 [-3.6613, +2.3234] pp; 30 clusters; stream artifact_present_minus_question_only",0
+table1.artifact_present.impl_gold_accuracy,Table 1 (tab:prior-stress),98.9,23928/24192 = 98.9087%,0
+table1.artifact_present.impl_gold_perfect,Table 1 (tab:prior-stress),86.5,1463/1692 = 86.4657%,0
+table1.compile_pass.builds,Table 1 (tab:prior-stress),41,,0
+table1.compile_pass.find_runs,Table 1 (tab:prior-stress),1476,,0
+table1.compile_pass.accuracy,Table 1 (tab:prior-stress),96.7,21413/22140 = 96.7164%,0
+table1.compile_pass.delta,Table 1 (tab:prior-stress),"-0.4 [-3.2, +2.6]","-0.3905 [-3.2025, +2.5528] pp; 30 clusters; stream compile_pass_minus_question_only",0
+table1.compile_pass.impl_gold_accuracy,Table 1 (tab:prior-stress),98.9,21084/21312 = 98.9302%,0
+table1.compile_pass.impl_gold_perfect,Table 1 (tab:prior-stress),86.4,1276/1476 = 86.4499%,0
+table1.compile_failed.builds,Table 1 (tab:prior-stress),7,,0
+table1.compile_failed.find_runs,Table 1 (tab:prior-stress),252,,0
+table1.compile_failed.accuracy,Table 1 (tab:prior-stress),94.4,3568/3780 = 94.3915%,0
+table1.compile_failed.delta,Table 1 (tab:prior-stress),"-2.7 [-7.2, +1.3]","-2.6725 [-7.1653, +1.3474] pp; 30 clusters; stream compile_failed_minus_question_only",0
+table1.compile_failed.impl_gold_accuracy,Table 1 (tab:prior-stress),98.8,2844/2880 = 98.7500%,1
+table1.compile_failed.impl_gold_perfect,Table 1 (tab:prior-stress),86.6,187/216 = 86.5741%,0
+table12.question_only.scratch_minidb.find_runs,Table 14 (tab:prior-stress-by-task),30,,0
+table12.question_only.scratch_minidb.accuracy,Table 14 (tab:prior-stress-by-task),98.2,442/450 = 98.2222%,0
+table12.question_only.scratch_nanoweb.find_runs,Table 14 (tab:prior-stress-by-task),31,,0
+table12.question_only.scratch_nanoweb.accuracy,Table 14 (tab:prior-stress-by-task),96.1,447/465 = 96.1290%,0
+table12.spec_only.scratch_minidb.find_runs,Table 14 (tab:prior-stress-by-task),36,,0
+table12.spec_only.scratch_minidb.accuracy,Table 14 (tab:prior-stress-by-task),99.8,539/540 = 99.8148%,0
+table12.spec_only.scratch_minidb.delta,Table 14 (tab:prior-stress-by-task),"+1.6 [+0.2, +3.1]","+1.5556 [+0.2222, +3.1111] pp; 15 clusters; stream spec_only_minus_question_only:scratch_minidb",0
+table12.spec_only.scratch_nanoweb.find_runs,Table 14 (tab:prior-stress-by-task),36,,0
+table12.spec_only.scratch_nanoweb.accuracy,Table 14 (tab:prior-stress-by-task),100.0,540/540 = 100.0000%,0
+table12.spec_only.scratch_nanoweb.delta,Table 14 (tab:prior-stress-by-task),"+3.9 [+0.9, +8.0]","+3.8710 [+0.8602, +7.9570] pp; 15 clusters; stream spec_only_minus_question_only:scratch_nanoweb",0
+table12.artifact_present.scratch_minidb.builds,Table 14 (tab:prior-stress-by-task),24,,0
+table12.artifact_present.scratch_minidb.find_runs,Table 14 (tab:prior-stress-by-task),864,,0
+table12.artifact_present.scratch_minidb.accuracy,Table 14 (tab:prior-stress-by-task),95.8,12420/12960 = 95.8333%,0
+table12.artifact_present.scratch_minidb.delta,Table 14 (tab:prior-stress-by-task),"-2.3 [-5.0, +0.4]","-2.2870 [-5.0370, +0.4074] pp; 15 clusters; stream artifact_present_minus_question_only:scratch_minidb",0
+table12.artifact_present.scratch_minidb.impl_gold_accuracy,Table 14 (tab:prior-stress-by-task),98.7,12083/12240 = 98.7173%,0
+table12.artifact_present.scratch_minidb.impl_gold_perfect,Table 14 (tab:prior-stress-by-task),83.2,719/864 = 83.2176%,0
+table12.artifact_present.scratch_nanoweb.builds,Table 14 (tab:prior-stress-by-task),24,,0
+table12.artifact_present.scratch_nanoweb.find_runs,Table 14 (tab:prior-stress-by-task),864,,0
+table12.artifact_present.scratch_nanoweb.accuracy,Table 14 (tab:prior-stress-by-task),96.9,12561/12960 = 96.9213%,0
+table12.artifact_present.scratch_nanoweb.delta,Table 14 (tab:prior-stress-by-task),"+0.8 [-4.4, +5.8]","+0.7885 [-4.3907, +5.7706] pp; 15 clusters; stream artifact_present_minus_question_only:scratch_nanoweb",0
+table12.artifact_present.scratch_nanoweb.impl_gold_accuracy,Table 14 (tab:prior-stress-by-task),99.1,11845/11952 = 99.1048%,0
+table12.artifact_present.scratch_nanoweb.impl_gold_perfect,Table 14 (tab:prior-stress-by-task),89.9,744/828 = 89.8551%,0
+table12.compile_pass.scratch_minidb.builds,Table 14 (tab:prior-stress-by-task),21,,0
+table12.compile_pass.scratch_minidb.find_runs,Table 14 (tab:prior-stress-by-task),756,,0
+table12.compile_pass.scratch_minidb.accuracy,Table 14 (tab:prior-stress-by-task),96.4,10934/11340 = 96.4198%,0
+table12.compile_pass.scratch_minidb.delta,Table 14 (tab:prior-stress-by-task),"-1.7 [-4.2, +0.8]","-1.6931 [-4.1799, +0.8042] pp; 15 clusters; stream compile_pass_minus_question_only:scratch_minidb",0
+table12.compile_pass.scratch_minidb.impl_gold_accuracy,Table 14 (tab:prior-stress-by-task),98.7,10730/10872 = 98.6939%,0
+table12.compile_pass.scratch_minidb.impl_gold_perfect,Table 14 (tab:prior-stress-by-task),82.7,625/756 = 82.6720%,0
+table12.compile_pass.scratch_nanoweb.builds,Table 14 (tab:prior-stress-by-task),20,,0
+table12.compile_pass.scratch_nanoweb.find_runs,Table 14 (tab:prior-stress-by-task),720,,0
+table12.compile_pass.scratch_nanoweb.accuracy,Table 14 (tab:prior-stress-by-task),97.0,10479/10800 = 97.0278%,0
+table12.compile_pass.scratch_nanoweb.delta,Table 14 (tab:prior-stress-by-task),"+0.9 [-4.1, +6.0]","+0.8817 [-4.0645, +5.9677] pp; 15 clusters; stream compile_pass_minus_question_only:scratch_nanoweb",0
+table12.compile_pass.scratch_nanoweb.impl_gold_accuracy,Table 14 (tab:prior-stress-by-task),99.2,10354/10440 = 99.1762%,0
+table12.compile_pass.scratch_nanoweb.impl_gold_perfect,Table 14 (tab:prior-stress-by-task),90.4,651/720 = 90.4167%,0
+table1.caption.excluded_runs,"Table 1 (tab:prior-stress), caption",11,,0
+table1.caption.unscored_runs,"Table 1 (tab:prior-stress), caption",36,artifact-present 1692 of 1728 runs scored; compile-failed 216 of 252,0
+table2.formal.reliable,Table 2 (tab:scope),29 / 30,,0
+table2.spec_only.reliable,Table 2 (tab:scope),30 / 30,,0
+table2.question_only.reliable,Table 2 (tab:scope),24 / 30,,0
+table2.question_only.find_runs,Table 2 (tab:scope),61,,0
+table2.question_only.answer_rows,Table 2 (tab:scope),915,,0
+table2.question_only.agreement,Table 2 (tab:scope),94.4,340/360 = 94.4444%,0
+table13.formal.scratch_minidb.reliable,Table 15 (tab:scope-by-task),14 / 15,,0
+table13.formal.scratch_nanoweb.reliable,Table 15 (tab:scope-by-task),15 / 15,,0
+low_prior.still_low_prior,Sec. 4.8 (sec:low_prior_main),6 of 10,frozen questions still below 90% agreement on the remaining attempts,0
+low_prior.question_only,Sec. 4.8 (sec:low_prior_main),91.8,280/305 = 91.8033%,0
+low_prior.recovery_all_rows,Sec. 4.8 (sec:low_prior_main),95.3,7031/7380 = 95.2710%,0
+low_prior.delta,Sec. 4.8 (sec:low_prior_main),"+3.8 [-2.6, +10.6]","+3.8127 [-2.5702, +10.5570] pp; 10 clusters; stream low_prior_compile_pass_minus_question_only",0
+low_prior.impl_gold_recovery,Sec. 4.8 (sec:low_prior_main),97.9,6906/7056 = 97.8741%,0
+table4.all.question_only,Table 4 (tab:low-prior-evidence-summary),97.2,889/915 = 97.1585%,0
+table4.all.recovery,Table 4 (tab:low-prior-evidence-summary),96.7,21413/22140 = 96.7164%,0
+table4.all.delta,Table 4 (tab:low-prior-evidence-summary),"-0.4 [-3.2, +2.6]","-0.3905 [-3.2025, +2.5528] pp; 30 clusters; stream compile_pass_minus_question_only",0
+table4.all.impl_gold_recovery,Table 4 (tab:low-prior-evidence-summary),98.9,21084/21312 = 98.9302%,0
+table4.low_prior.question_only,Table 4 (tab:low-prior-evidence-summary),91.8,280/305 = 91.8033%,0
+table4.low_prior.recovery,Table 4 (tab:low-prior-evidence-summary),95.3,7031/7380 = 95.2710%,0
+table4.low_prior.delta,Table 4 (tab:low-prior-evidence-summary),"+3.8 [-2.6, +10.6]","+3.8127 [-2.5702, +10.5570] pp; 10 clusters; stream low_prior_compile_pass_minus_question_only",0
+table4.low_prior.impl_gold_recovery,Table 4 (tab:low-prior-evidence-summary),97.9,6906/7056 = 97.8741%,0
+table4.caption.excluded_runs,Table 4 (tab:low-prior-evidence-summary),11,,0
+validity.question_only,Sec. 6 (sec:validity-scope),97.2,889/915 = 97.1585%,0
+app_c.excluded_runs,"App. C (app:details), Question-only control exclusions",11 of 72,,0
+app_c.answer_bearing_runs,"App. C (app:details), Question-only control exclusions",3,,0
+app_c.seed_project_runs,"App. C (app:details), Question-only control exclusions",6,,0
+app_c.other_artifact_runs,"App. C (app:details), Question-only control exclusions",2,,0
+app_c.remaining_runs,"App. C (app:details), Question-only control exclusions",61,,0
+app_c.remaining_rows,"App. C (app:details), Question-only control exclusions",915,,0
+app_c.question_only_corrected,"App. C (app:details), Question-only control exclusions",97.2,889/915 = 97.1585%,0
+app_c.question_only_answer_bearing_only,"App. C (app:details), Question-only control exclusions",96.6,1000/1035 = 96.6184%,0
+table8.claude_code_sonnet_4_6_low.formal,Table 9 (tab:finder_calibration),98.7,1821/1845 = 98.6992%,0
+table8.claude_code_sonnet_4_6_low.delta_all,Table 9 (tab:finder_calibration),+0.9,+0.9214 pp,0
+table8.claude_code_sonnet_4_6_low.delta_low_prior,Table 9 (tab:finder_calibration),+3.4,+3.4146 pp,0
+table8.claude_code_sonnet_4_6_low.delta_implementation_signal,Table 9 (tab:finder_calibration),+2.2,+2.1979 pp,0
+table8.claude_code_sonnet_4_6_high.formal,Table 9 (tab:finder_calibration),98.0,1809/1845 = 98.0488%,0
+table8.claude_code_sonnet_4_6_high.delta_all,Table 9 (tab:finder_calibration),+2.5,+2.4932 pp,0
+table8.claude_code_sonnet_4_6_high.delta_low_prior,Table 9 (tab:finder_calibration),+10.2,+10.2439 pp,0
+table8.claude_code_sonnet_4_6_high.delta_implementation_signal,Table 9 (tab:finder_calibration),+5.6,+5.6123 pp,0
+table8.claude_code_opus_4_7_low.formal,Table 9 (tab:finder_calibration),97.9,1806/1845 = 97.8862%,0
+table8.claude_code_opus_4_7_low.delta_all,Table 9 (tab:finder_calibration),-2.1,-2.1138 pp,0
+table8.claude_code_opus_4_7_low.delta_low_prior,Table 9 (tab:finder_calibration),-2.6,-2.6016 pp,0
+table8.claude_code_opus_4_7_low.delta_implementation_signal,Table 9 (tab:finder_calibration),-0.7,-0.7299 pp,0
+table8.claude_code_opus_4_7_high.formal,Table 9 (tab:finder_calibration),97.1,1792/1845 = 97.1274%,0
+table8.claude_code_opus_4_7_high.delta_all,Table 9 (tab:finder_calibration),-2.9,-2.8726 pp,0
+table8.claude_code_opus_4_7_high.delta_low_prior,Table 9 (tab:finder_calibration),-3.1,-3.0894 pp,0
+table8.claude_code_opus_4_7_high.delta_implementation_signal,Table 9 (tab:finder_calibration),-0.8,-0.8110 pp,0
+table8.claude_code_mimo_v2_5_high.formal,Table 9 (tab:finder_calibration),96.8,1786/1845 = 96.8022%,0
+table8.claude_code_mimo_v2_5_high.delta_all,Table 9 (tab:finder_calibration),+1.7,+1.7480 pp,0
+table8.claude_code_mimo_v2_5_high.delta_low_prior,Table 9 (tab:finder_calibration),+9.4,+9.3902 pp,0
+table8.claude_code_mimo_v2_5_high.delta_implementation_signal,Table 9 (tab:finder_calibration),+5.4,+5.4319 pp,0
+table8.claude_code_mimo_v2_5_low.formal,Table 9 (tab:finder_calibration),96.8,1786/1845 = 96.8022%,0
+table8.claude_code_mimo_v2_5_low.delta_all,Table 9 (tab:finder_calibration),+2.8,+2.7642 pp,0
+table8.claude_code_mimo_v2_5_low.delta_low_prior,Table 9 (tab:finder_calibration),+12.7,+12.6829 pp,0
+table8.claude_code_mimo_v2_5_low.delta_implementation_signal,Table 9 (tab:finder_calibration),+7.1,+7.0803 pp,0
+table8.claude_code_mimo_v2_5_pro_low.formal,Table 9 (tab:finder_calibration),96.7,1785/1845 = 96.7480%,0
+table8.claude_code_mimo_v2_5_pro_low.delta_all,Table 9 (tab:finder_calibration),+12.9,+12.9326 pp,0
+table8.claude_code_mimo_v2_5_pro_low.delta_low_prior,Table 9 (tab:finder_calibration),+36.7,+36.7213 pp,0
+table8.claude_code_mimo_v2_5_pro_low.delta_implementation_signal,Table 9 (tab:finder_calibration),+23.0,+22.9535 pp,0
+table8.claude_code_mimo_v2_5_pro_high.formal,Table 9 (tab:finder_calibration),96.7,1784/1845 = 96.6938%,0
+table8.claude_code_mimo_v2_5_pro_high.delta_all,Table 9 (tab:finder_calibration),+5.0,+4.9935 pp,0
+table8.claude_code_mimo_v2_5_pro_high.delta_low_prior,Table 9 (tab:finder_calibration),+19.9,+19.8824 pp,0
+table8.claude_code_mimo_v2_5_pro_high.delta_implementation_signal,Table 9 (tab:finder_calibration),+10.5,+10.5483 pp,0
+table8.codex_gpt5_5_low.formal,Table 9 (tab:finder_calibration),96.5,1781/1845 = 96.5312%,0
+table8.codex_gpt5_5_low.delta_all,Table 9 (tab:finder_calibration),-3.5,-3.4688 pp,0
+table8.codex_gpt5_5_low.delta_low_prior,Table 9 (tab:finder_calibration),-3.4,-3.4146 pp,0
+table8.codex_gpt5_5_low.delta_implementation_signal,Table 9 (tab:finder_calibration),-1.0,-0.9732 pp,0
+table8.codex_gpt5_5_high.formal,Table 9 (tab:finder_calibration),95.9,1770/1845 = 95.9350%,0
+table8.codex_gpt5_5_high.delta_all,Table 9 (tab:finder_calibration),-4.1,-4.0650 pp,0
+table8.codex_gpt5_5_high.delta_low_prior,Table 9 (tab:finder_calibration),-4.2,-4.2276 pp,0
+table8.codex_gpt5_5_high.delta_implementation_signal,Table 9 (tab:finder_calibration),-1.5,-1.4599 pp,0
+table8.codex_gpt5_4_mini_low.formal,Table 9 (tab:finder_calibration),95.2,1756/1845 = 95.1762%,0
+table8.codex_gpt5_4_mini_low.delta_all,Table 9 (tab:finder_calibration),-2.1,-2.0583 pp,0
+table8.codex_gpt5_4_mini_low.delta_low_prior,Table 9 (tab:finder_calibration),+0.4,+0.4272 pp,0
+table8.codex_gpt5_4_mini_low.delta_implementation_signal,Table 9 (tab:finder_calibration),+0.5,+0.5028 pp,0
+table8.codex_gpt5_4_mini_high.formal,Table 9 (tab:finder_calibration),94.1,1737/1845 = 94.1463%,0
+table8.codex_gpt5_4_mini_high.delta_all,Table 9 (tab:finder_calibration),-5.9,-5.8537 pp,0
+table8.codex_gpt5_4_mini_high.delta_low_prior,Table 9 (tab:finder_calibration),-7.3,-7.3171 pp,0
+table8.codex_gpt5_4_mini_high.delta_implementation_signal,Table 9 (tab:finder_calibration),-3.6,-3.5685 pp,0
+app_e.largest_question_only_lift.claude_code_mimo_v2_5_pro_low,"App. E (app:finder_calibration), selector paragraph",+12.9,+12.9326 pp,0
+app_e.selection_unchanged,"App. E (app:finder_calibration), selector paragraph",unchanged,"core claude_code_sonnet_4_6_low, claude_code_sonnet_4_6_high; audit claude_code_mimo_v2_5_pro_low",0
+app_f.clusters_overall,"App. F (app:metric_details), Uncertainty",30,,0
+app_f.clusters_low_prior,"App. F (app:metric_details), Uncertainty",10,,0
+app_f.clusters_per_task,"App. F (app:metric_details), Uncertainty",15,,0
+app_f.bootstrap_resamples,"App. F (app:metric_details), Uncertainty","2,000",,0
+app_n.question_only,"App. N (app:benchcard), Known biases",97.2,889/915 = 97.1585%,0

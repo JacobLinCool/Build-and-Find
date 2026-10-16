@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: >-
+  If you use Build-and-Find, please cite the paper given under
+  preferred-citation.
+type: software
+title: "Build-and-Find"
+abstract: >-
+  Build-and-Find is a protocol and benchmark for evaluating whether downstream
+  coding agents can recover the intended behavior and design choices of a
+  repository written by another agent, and how much inspection the recovery
+  requires. This release contains the harness, two Rust task specifications
+  with specification-traced multiple-choice question banks, the generated
+  artifacts, run records, canonical tables, derived reports, Croissant
+  metadata, and post-review audit records.
+version: 1.1.0
+license:
+  - Apache-2.0
+  - CC-BY-4.0
+repository-code: "https://github.com/JacobLinCool/Build-and-Find"
+repository-artifact: "https://huggingface.co/datasets/JacobLinCool/Build-and-Find"
+url: "https://openreview.net/forum?id=y48mj8HiWu"
+authors:
+  - given-names: "Jhen-Ke"
+    family-names: "Lin"
+    affiliation: "National Yang Ming Chiao Tung University"
+    email: "jacob.cs14@nycu.edu.tw"
+identifiers:
+  - type: url
+    value: "https://huggingface.co/datasets/JacobLinCool/Build-and-Find"
+    description: "Build-and-Find dataset on Hugging Face"
+keywords:
+  - coding agents
+  - benchmark
+  - intent recovery
+  - agent evaluation
+  - software engineering
+preferred-citation:
+  type: conference-paper
+  title: "Build-and-Find: An Effort-Aware Protocol for Evaluating Agent-Managed Codebases"
+  authors:
+    - name: "Jhen-Ke Lin"
+  collection-title: "Advances in Neural Information Processing Systems"
+  conference:
+    name: "NeurIPS 2026 Evaluations and Datasets Track"
+  year: 2026
+  url: "https://openreview.net/forum?id=y48mj8HiWu"

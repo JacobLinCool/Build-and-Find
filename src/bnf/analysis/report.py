@@ -49,7 +49,7 @@ def export_csv(build_runs: list[BuildRun], find_runs: list[FindRun], out_path: P
     obs = iter_observations(build_runs, find_runs)
     find_by_id = {fr.find_run_id: fr for fr in find_runs}
     with out_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(
             [
                 "task_id",

@@ -32,4 +32,4 @@ uv run bnf analyze tables
 uv run python scripts/analyze_eandd_final.py
 uv run python scripts/analyze_eandd_pivots.py
 uv run python scripts/analyze_eandd_within_finder_efficiency.py
-uv run python scripts/write_claim_evidence.py
+uv run python scripts/write_reproducibility_index.py

@@ -2,11 +2,14 @@
 
 The figures are disposable analysis outputs. They read only derived report CSVs
 under the configured reports root and write manuscript-ready PDF/PNG/SVG files
-under paper/neurips2026_eandd/figures.
+under the directory named by BNF_FIGURES_DIR (relative paths resolve against the
+repository root). Without it, they go to paper/neurips2026_eandd/figures when the
+manuscript sources are present, and to figures/ under the reports root otherwise.
 """
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import matplotlib as mpl
@@ -23,7 +26,19 @@ from bnf.config import paths
 ROOT = Path(__file__).resolve().parent.parent
 REPORTS = paths().reports_dir / "eandd_final"
 IMPACT_REPORTS = paths().reports_dir / "artifact_conformance_consensus" / "impact"
-OUT = ROOT / "paper" / "neurips2026_eandd" / "figures"
+FIGURES_DIR_ENV = "BNF_FIGURES_DIR"
+PAPER_DIR = ROOT / "paper" / "neurips2026_eandd"
+
+
+def _figures_dir() -> Path:
+    configured = os.environ.get(FIGURES_DIR_ENV)
+    if not configured:
+        return PAPER_DIR / "figures" if PAPER_DIR.is_dir() else paths().reports_dir / "figures"
+    path = Path(configured)
+    return path if path.is_absolute() else ROOT / path
+
+
+OUT = _figures_dir()
 
 TEXT = "#111827"
 MUTED = "#6b7280"
@@ -195,6 +210,10 @@ def _plot_builder_recovery() -> None:
     df["adjusted_recovery_pct"] = df["implementation_adjusted_downstream_recovery"] * 100.0
     ordered = [agent_id for agent_id in reversed(AGENT_ORDER) if agent_id in set(df["builder_id"])]
     df = df.set_index("builder_id").loc[ordered].reset_index()
+    x_min = 5.0 * np.floor((float(df["adjusted_recovery_pct"].min()) - 2.0) / 5.0)
+    x_max = 100.8
+    label_gap = 0.07 * (x_max - x_min)
+    label_offset = 0.01 * (x_max - x_min)
 
     y = np.arange(len(df))
     fig, ax = plt.subplots(figsize=(7.1, 3.85))
@@ -218,8 +237,12 @@ def _plot_builder_recovery() -> None:
             zorder=3,
         )
         ax.scatter(row["adjusted_recovery_pct"], idx, s=30, color=color, zorder=4)
-        close_to_coverage = row["implementation_coverage_pct"] - row["adjusted_recovery_pct"] < 1.2
-        label_x = row["adjusted_recovery_pct"] - 0.18 if close_to_coverage else row["adjusted_recovery_pct"] + 0.18
+        close_to_coverage = row["implementation_coverage_pct"] - row["adjusted_recovery_pct"] < label_gap
+        label_x = (
+            row["adjusted_recovery_pct"] - label_offset
+            if close_to_coverage
+            else row["adjusted_recovery_pct"] + label_offset
+        )
         label_ha = "right" if close_to_coverage else "left"
         ax.text(
             label_x,
@@ -235,7 +258,7 @@ def _plot_builder_recovery() -> None:
     ax.set_yticklabels(df["label"])
     ax.set_xlabel("Implementation-aware recovery and implementation coverage")
     ax.set_ylabel("")
-    _format_pct_axis(ax, xmin=83, xmax=100.8)
+    _format_pct_axis(ax, xmin=x_min, xmax=x_max)
     metric_handles = [
         Line2D([0], [0], marker="o", linestyle="", markersize=5.5, color=TEXT, label="Recovery × coverage"),
         Line2D(

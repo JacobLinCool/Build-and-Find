@@ -373,7 +373,7 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], preferred: list[str]) -> 
     fieldnames = [field for field in preferred if field in keys]
     fieldnames.extend(sorted(keys - set(fieldnames)))
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -871,7 +871,7 @@ def _write_manual_review_markdown(path: Path, rows: list[dict[str, Any]]) -> Non
     lines = [
         "# Manual Review Queue",
         "",
-        "These artifact-question pairs did not receive a stable high-effort GPT-5.5 / Opus 4.7 consensus prelabel.",
+        "These artifact-question pairs did not receive a stable high-effort consensus prelabel.",
         "",
     ]
     if not rows:

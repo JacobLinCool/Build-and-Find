@@ -460,7 +460,7 @@ def _run_analysis_outputs() -> None:
         ["uv", "run", "python", "scripts/analyze_eandd_final.py"],
         ["uv", "run", "python", "scripts/analyze_eandd_pivots.py"],
         ["uv", "run", "python", "scripts/analyze_eandd_within_finder_efficiency.py"],
-        ["uv", "run", "python", "scripts/write_claim_evidence.py"],
+        ["uv", "run", "python", "scripts/write_reproducibility_index.py"],
     ):
         subprocess.run(cmd, check=True)
 

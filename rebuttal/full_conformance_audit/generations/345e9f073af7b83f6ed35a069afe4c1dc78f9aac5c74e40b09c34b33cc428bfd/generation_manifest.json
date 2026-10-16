@@ -1,0 +1,48 @@
+{
+  "content_sha256": {
+    "disagreements.csv": "07832ae110093b9a55b044dd97a94bf35e8836412e33be9390141bd31ce28ac1",
+    "evidence_excerpts.jsonl": "532d30809cb34412dd349a6f72f05d4ec6615cf8e98fea0f99940f9d4dd943da",
+    "minidb_adjudication.csv": "a1c01056c196698fd3cdebe4e4a94b47d94d4e4c57e3f8982e2a6533d56023aa",
+    "nanoweb_adjudication.csv": "df3abc72153d61164bc93ae4c5653cc1ad59a796d6625472069afd39783e7b23",
+    "regression_check.csv": "3291dca253bd33b1d1b76c63d5b89345b315ba433f64e0212cacc8e74e929070",
+    "validation_manifest.json": "ab4af0b49e41ab6347956a8ba70441fe7348ef78ad6a654d940b016a1884d824"
+  },
+  "execution_manifest_sha256": "00119708908c886f942c4bc1b006877fbf3e3ad146a388c765fd3ed69fdd8058",
+  "generation_id": "345e9f073af7b83f6ed35a069afe4c1dc78f9aac5c74e40b09c34b33cc428bfd",
+  "generation_kind": "core_audit",
+  "generation_path": "rebuttal/full_conformance_audit/generations/345e9f073af7b83f6ed35a069afe4c1dc78f9aac5c74e40b09c34b33cc428bfd",
+  "integrity_attestation_manifest_sha256": "16b9cdb70ced33d3f0aa7e4d67868b62fa98145a85821a6ac0d823dbe7ddc7b8",
+  "manifest_version": "full_conformance_generation_v1",
+  "publication_contract": "This immutable directory is authoritative for its generation kind. Root-level files are convenience aliases; the matching generation pointer is atomically replaced only after every alias is written.",
+  "spec_sha256": "c9f59d63534813c1dc2952bd81b31a463968d84ce0fbf0f1f417a00ee872f18e",
+  "spec_version": "v1.2",
+  "transformation_script_sha256": "cf54e1e3be854ccd7cc120476b79abf4335e1ee39b34d6ff3bc17d5e27346301",
+  "validation": {
+    "author_flag_count": 205,
+    "crosscheck_result_hash_source_counts": {
+      "completion_record_and_parent_verified": 229,
+      "post_hoc_parent_attestation": 13
+    },
+    "crosscheck_rows_with_integrity_attestation": 242,
+    "crosscheck_rows_with_reachability": 242,
+    "crosscheck_selected_pairs": 242,
+    "integrity_attestation_manifest_verified": true,
+    "known_regressions_reproduced_by_both_passes": 9,
+    "known_regressions_reproduced_by_either_pass": 9,
+    "population_artifacts": 41,
+    "population_pairs": 592,
+    "primary_result_hash_source_counts": {
+      "post_hoc_parent_attestation": 592
+    },
+    "primary_rows_with_evidence_spans": 592,
+    "primary_rows_with_integrity_attestation": 592,
+    "primary_rows_with_model_and_prompt": 592,
+    "primary_rows_with_reachability": 592,
+    "result_hash_source_counts": {
+      "completion_record_and_parent_verified": 39,
+      "post_hoc_parent_attestation": 43
+    },
+    "runs_release_tree_verified_unchanged": true,
+    "validated_attempt_attestations": 82
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_nanoweb-question_only_open-codex_gpt5_5_high-t2-s20260726-96f4636c",
+  "condition": "question_only_open",
+  "task_id": "scratch_nanoweb",
+  "source_build_run_id": null,
+  "question_ids": [
+    "q_nw_01",
+    "q_nw_04",
+    "q_nw_07",
+    "q_nw_10"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_nanoweb-question_only_open-codex_gpt5_5_high-t2-s20260726-96f4636c",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "a37c0c33cd9d29ba",
+    "agent": {
+      "id": "codex_gpt5_5_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.5",
+      "adapter_version": null
+    },
+    "seed": 20260726,
+    "trial_id": 2,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:29:46.269914+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "How is HTTP/1.1 parsing wired into this framework?",
+      "claim": "HTTP/1.1 parsing is wired directly into the server's connection handling path: bytes read from the client socket are decoded into a request line, headers, and optional body, then materialized as the framework's Request object before routing. The framework uses its own small parser rather than delegating request parsing to a full external HTTP server.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A scratch nanoweb framework most likely keeps parsing minimal and in-process.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_04",
+      "intention_id": "I-SR4",
+      "question_prompt": "How is the middleware stack composed?",
+      "claim": "The middleware stack is composed as an ordered chain around the final route handler. Each middleware receives the request and a next callable, and the framework builds the executable stack by wrapping the handler in reverse registration order so the first registered middleware runs first on the way in.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "This is the standard compact design for lightweight web middleware.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_07",
+      "intention_id": "I-FR11",
+      "question_prompt": "How does the framework expose observability metrics?",
+      "claim": "The framework exposes observability metrics through a built-in metrics endpoint, conventionally /metrics, that returns process and HTTP request counters in a scrapeable text format. Request handling updates metrics such as total requests, status-code counts, and latency timing around the route dispatch.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A minimal framework generally exposes metrics as an HTTP endpoint rather than requiring a separate exporter.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_10",
+      "intention_id": "I-FR13",
+      "question_prompt": "What shape does the framework's built-in template engine take?",
+      "claim": "The built-in template engine is a small file-based renderer centered on placeholder interpolation. It loads a template string or file and substitutes context values into {{ name }}-style expressions, with little or no advanced template language beyond simple variable replacement.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "A nanoweb template engine is most likely intentionally small and dependency-free.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 21.755718708009226,
+    "usage_source": "session_log",
+    "session_id": "019f903d-4c6c-78b2-ba69-4707a3c28908",
+    "prompt_bytes": 1376,
+    "retrieval_payload_bytes": 381,
+    "tool_input_bytes": 2091,
+    "assistant_message_bytes": 5,
+    "final_answer_bytes": 5,
+    "bytes_to_model": 1757,
+    "bytes_from_model": 2096,
+    "tool_calls": 2,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 43388,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 32896,
+      "output_tokens": 875,
+      "reasoning_output_tokens": 385,
+      "total_tokens": 44263,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 281,
+      "novel_tool_call_bytes": 67,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 21.453601837158203,
+      "generation_tok_per_s": 47.40131740990101,
+      "tool_names": {
+        "exec_command": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 43388,
+        "cached_input_tokens": 32896,
+        "uncached_input_tokens": 10492,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 490,
+        "reasoning_output_tokens": 385,
+        "total_tokens": 44263
+      },
+      "proxy_session_id": "4Ce3cTcKcPe0_0Gz",
+      "request_count": 4,
+      "raw_request_bytes": 179678,
+      "raw_response_bytes": 677666
+    }
+  },
+  "status": "ok",
+  "error": null
+}

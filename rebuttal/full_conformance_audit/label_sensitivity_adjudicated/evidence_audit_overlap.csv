@@ -1,0 +1,61 @@
+scenario,slice_id,audit_label,sampled_answers,on_relabeled_pairs
+baseline,all,Supported,65,0
+baseline,all,Partially supported,3,0
+baseline,all,Unsupported,3,0
+baseline,all,Prior-like,1,0
+baseline,low_prior,Supported,35,0
+baseline,low_prior,Partially supported,0,0
+baseline,low_prior,Unsupported,1,0
+baseline,low_prior,Prior-like,0,0
+baseline,high_prior,Supported,30,0
+baseline,high_prior,Partially supported,3,0
+baseline,high_prior,Unsupported,2,0
+baseline,high_prior,Prior-like,1,0
+all_observed_corrected,all,Supported,65,1
+all_observed_corrected,all,Partially supported,3,0
+all_observed_corrected,all,Unsupported,3,0
+all_observed_corrected,all,Prior-like,1,0
+all_observed_corrected,low_prior,Supported,35,1
+all_observed_corrected,low_prior,Partially supported,0,0
+all_observed_corrected,low_prior,Unsupported,1,0
+all_observed_corrected,low_prior,Prior-like,0,0
+all_observed_corrected,high_prior,Supported,30,0
+all_observed_corrected,high_prior,Partially supported,3,0
+all_observed_corrected,high_prior,Unsupported,2,0
+all_observed_corrected,high_prior,Prior-like,1,0
+author_adjudicated,all,Supported,65,7
+author_adjudicated,all,Partially supported,3,0
+author_adjudicated,all,Unsupported,3,0
+author_adjudicated,all,Prior-like,1,0
+author_adjudicated,low_prior,Supported,35,5
+author_adjudicated,low_prior,Partially supported,0,0
+author_adjudicated,low_prior,Unsupported,1,0
+author_adjudicated,low_prior,Prior-like,0,0
+author_adjudicated,high_prior,Supported,30,2
+author_adjudicated,high_prior,Partially supported,3,0
+author_adjudicated,high_prior,Unsupported,2,0
+author_adjudicated,high_prior,Prior-like,1,0
+fully_adjudicated,all,Supported,65,23
+fully_adjudicated,all,Partially supported,3,0
+fully_adjudicated,all,Unsupported,3,0
+fully_adjudicated,all,Prior-like,1,0
+fully_adjudicated,low_prior,Supported,35,10
+fully_adjudicated,low_prior,Partially supported,0,0
+fully_adjudicated,low_prior,Unsupported,1,0
+fully_adjudicated,low_prior,Prior-like,0,0
+fully_adjudicated,high_prior,Supported,30,13
+fully_adjudicated,high_prior,Partially supported,3,0
+fully_adjudicated,high_prior,Unsupported,2,0
+fully_adjudicated,high_prior,Prior-like,1,0
+author_adjudicated_plus_unreviewed_flags,all,Supported,65,26
+author_adjudicated_plus_unreviewed_flags,all,Partially supported,3,0
+author_adjudicated_plus_unreviewed_flags,all,Unsupported,3,0
+author_adjudicated_plus_unreviewed_flags,all,Prior-like,1,0
+author_adjudicated_plus_unreviewed_flags,low_prior,Supported,35,11
+author_adjudicated_plus_unreviewed_flags,low_prior,Partially supported,0,0
+author_adjudicated_plus_unreviewed_flags,low_prior,Unsupported,1,0
+author_adjudicated_plus_unreviewed_flags,low_prior,Prior-like,0,0
+author_adjudicated_plus_unreviewed_flags,high_prior,Supported,30,15
+author_adjudicated_plus_unreviewed_flags,high_prior,Partially supported,3,0
+author_adjudicated_plus_unreviewed_flags,high_prior,Unsupported,2,0
+author_adjudicated_plus_unreviewed_flags,high_prior,Prior-like,1,0

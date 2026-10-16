@@ -1,0 +1,162 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t1-s20260725-b5a636f3",
+  "condition": "artifact_open",
+  "task_id": "scratch_nanoweb",
+  "source_build_run_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+  "question_ids": [
+    "q_nw_01",
+    "q_nw_04",
+    "q_nw_07",
+    "q_nw_10"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t1-s20260725-b5a636f3",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "c763acf83d20dff9",
+    "agent": {
+      "id": "codex_gpt5_5_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.5",
+      "adapter_version": null
+    },
+    "seed": 20260725,
+    "trial_id": 1,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:29:03.213891+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "How is HTTP/1.1 parsing wired into this framework?",
+      "claim": "HTTP/1.1 parsing is wired through a hand-written parser that reads a BytesMut buffer, parses the request line, lowercased headers, Content-Length bodies, and chunked bodies into RawHttpRequest. The async server calls parse_request after reading from the TCP/TLS stream, advances the consumed bytes, converts the raw request with Request::from_raw, and then sends it through routing and middleware.",
+      "evidence_files": [
+        "src/http/parser.rs",
+        "src/server.rs",
+        "src/http/request.rs"
+      ],
+      "evidence_symbols": [
+        "parse_request",
+        "parse_chunked_body",
+        "handle_connection",
+        "Request::from_raw"
+      ],
+      "rationale": "These functions form the direct path from socket bytes to the framework Request type.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_04",
+      "intention_id": "I-SR4",
+      "question_prompt": "How is the middleware stack composed?",
+      "claim": "Middleware is composed as an ordered Vec of boxed Middleware trait objects held behind an Arc in MiddlewareChain. Execution is recursive: each middleware receives the Request plus a next closure that invokes the next index, and Server::new installs the default global stack as LoggingMiddleware, CorsMiddleware, then RateLimitMiddleware before route/static handling.",
+      "evidence_files": [
+        "src/middleware/mod.rs",
+        "src/server.rs"
+      ],
+      "evidence_symbols": [
+        "Middleware",
+        "MiddlewareChain::from_vec",
+        "MiddlewareChain::execute",
+        "execute_at",
+        "Server::new"
+      ],
+      "rationale": "The chain executor and server constructor define both composition mechanics and default order.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_07",
+      "intention_id": "I-FR11",
+      "question_prompt": "How does the framework expose observability metrics?",
+      "claim": "The framework exposes observability through Prometheus metrics rendered as text from a Metrics registry. Metrics::new registers request count, request duration histogram, and response count collectors; handle_connection records each completed request, and Server::new mounts metrics_handler at the configured metrics_path, defaulting to /metrics.",
+      "evidence_files": [
+        "src/metrics.rs",
+        "src/server.rs",
+        "src/config.rs"
+      ],
+      "evidence_symbols": [
+        "Metrics::new",
+        "Metrics::record_request",
+        "Metrics::render",
+        "metrics_handler",
+        "Server::new",
+        "default_metrics_path"
+      ],
+      "rationale": "The metrics module defines the collectors and renderer, while the server records and exposes them over HTTP.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_10",
+      "intention_id": "I-FR13",
+      "question_prompt": "What shape does the framework's built-in template engine take?",
+      "claim": "The built-in template engine is a small mustache-like Renderer over serde_json::Value. It tokenizes templates into text, variable, section, section-end, and inverted-section tokens, supports {{name}}, dot notation, {{.}}, array sections, truthy sections, and missing/false/null inverted sections, and the server uses it for configured routes that provide a template.",
+      "evidence_files": [
+        "src/template.rs",
+        "src/server.rs"
+      ],
+      "evidence_symbols": [
+        "Renderer",
+        "Renderer::render",
+        "Token",
+        "tokenize",
+        "render_tokens",
+        "resolve_variable",
+        "create_handler_from_config"
+      ],
+      "rationale": "The renderer implementation defines the engine shape and the server shows how route templates are invoked.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 89.6223242499982,
+    "usage_source": "session_log",
+    "session_id": "019f903b-9cf6-7002-a4c6-c2ef37edaad8",
+    "prompt_bytes": 1733,
+    "retrieval_payload_bytes": 89034,
+    "tool_input_bytes": 8765,
+    "assistant_message_bytes": 1000,
+    "final_answer_bytes": 101,
+    "bytes_to_model": 90767,
+    "bytes_from_model": 9765,
+    "tool_calls": 21,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 258793,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 207232,
+      "output_tokens": 3713,
+      "reasoning_output_tokens": 581,
+      "total_tokens": 262506,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 88934,
+      "novel_tool_call_bytes": 5248,
+      "novel_tool_call_count": 20,
+      "novel_tool_result_count": 20,
+      "wall_clock_seconds": 89.40866017341614,
+      "generation_tok_per_s": 48.127359261694956,
+      "tool_names": {
+        "exec_command": 20
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 258793,
+        "cached_input_tokens": 207232,
+        "uncached_input_tokens": 51561,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 3132,
+        "reasoning_output_tokens": 581,
+        "total_tokens": 262506
+      },
+      "proxy_session_id": "fDWrpKDJ8I9ZavWI",
+      "request_count": 10,
+      "raw_request_bytes": 1128945,
+      "raw_response_bytes": 1650662
+    }
+  },
+  "status": "ok",
+  "error": null
+}

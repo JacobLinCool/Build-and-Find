@@ -1,0 +1,196 @@
+{
+  "analysis_id": "runtime_tests_v1",
+  "analysis_script": "scripts/summarize_runtime_tests.py",
+  "builders": [
+    {
+      "builder_id": "claude_code_mimo_v2_5_high",
+      "builds": 4,
+      "compiled": 4,
+      "suites_failed": 0,
+      "suites_passed": 4,
+      "tests_failed": 0,
+      "tests_passed": 285,
+      "tests_total": 285
+    },
+    {
+      "builder_id": "claude_code_mimo_v2_5_low",
+      "builds": 4,
+      "compiled": 3,
+      "suites_failed": 0,
+      "suites_passed": 3,
+      "tests_failed": 0,
+      "tests_passed": 154,
+      "tests_total": 154
+    },
+    {
+      "builder_id": "claude_code_mimo_v2_5_pro_high",
+      "builds": 4,
+      "compiled": 2,
+      "suites_failed": 0,
+      "suites_passed": 2,
+      "tests_failed": 0,
+      "tests_passed": 185,
+      "tests_total": 185
+    },
+    {
+      "builder_id": "claude_code_mimo_v2_5_pro_low",
+      "builds": 4,
+      "compiled": 1,
+      "suites_failed": 0,
+      "suites_passed": 1,
+      "tests_failed": 0,
+      "tests_passed": 101,
+      "tests_total": 101
+    },
+    {
+      "builder_id": "claude_code_opus_4_7_high",
+      "builds": 4,
+      "compiled": 4,
+      "suites_failed": 0,
+      "suites_passed": 4,
+      "tests_failed": 0,
+      "tests_passed": 263,
+      "tests_total": 263
+    },
+    {
+      "builder_id": "claude_code_opus_4_7_low",
+      "builds": 4,
+      "compiled": 4,
+      "suites_failed": 0,
+      "suites_passed": 4,
+      "tests_failed": 0,
+      "tests_passed": 162,
+      "tests_total": 162
+    },
+    {
+      "builder_id": "claude_code_sonnet_4_6_high",
+      "builds": 4,
+      "compiled": 4,
+      "suites_failed": 0,
+      "suites_passed": 4,
+      "tests_failed": 0,
+      "tests_passed": 357,
+      "tests_total": 357
+    },
+    {
+      "builder_id": "claude_code_sonnet_4_6_low",
+      "builds": 4,
+      "compiled": 4,
+      "suites_failed": 0,
+      "suites_passed": 4,
+      "tests_failed": 0,
+      "tests_passed": 251,
+      "tests_total": 251
+    },
+    {
+      "builder_id": "codex_gpt5_4_mini_high",
+      "builds": 4,
+      "compiled": 4,
+      "suites_failed": 0,
+      "suites_passed": 4,
+      "tests_failed": 0,
+      "tests_passed": 77,
+      "tests_total": 77
+    },
+    {
+      "builder_id": "codex_gpt5_4_mini_low",
+      "builds": 4,
+      "compiled": 3,
+      "suites_failed": 0,
+      "suites_passed": 3,
+      "tests_failed": 0,
+      "tests_passed": 41,
+      "tests_total": 41
+    },
+    {
+      "builder_id": "codex_gpt5_5_high",
+      "builds": 4,
+      "compiled": 4,
+      "suites_failed": 0,
+      "suites_passed": 4,
+      "tests_failed": 0,
+      "tests_passed": 107,
+      "tests_total": 107
+    },
+    {
+      "builder_id": "codex_gpt5_5_low",
+      "builds": 4,
+      "compiled": 4,
+      "suites_failed": 1,
+      "suites_passed": 3,
+      "tests_failed": 1,
+      "tests_passed": 77,
+      "tests_total": 78
+    }
+  ],
+  "builds": {
+    "compiled": 41,
+    "not_compiled": {
+      "no_root_cargo_toml": 7,
+      "release_build_failed": 0
+    },
+    "total": 48
+  },
+  "failed_suites": [
+    {
+      "build_run_id": "build-scratch_nanoweb-codex_gpt5_5_low-t1-s20260502-ce7e6480",
+      "build_trial_id": "1",
+      "builder_id": "codex_gpt5_5_low",
+      "failing_tests": [
+        "cors_sets_origin"
+      ],
+      "task_id": "scratch_nanoweb",
+      "tests_failed": 1,
+      "tests_passed": 25,
+      "tests_total": 26
+    }
+  ],
+  "input_hashes": {
+    "runs_release/reports/runtime_tests/artifact_tests.csv": "06c693838de9a9bad68dd378ce085ddcb455f10be3609139cf50467c40599597",
+    "runs_release/tables/build_runs.csv": "6ef9dc045cc4b004e591c17c862b121aeae4ccabb20ff63b225ea098e63d031c"
+  },
+  "inputs": {
+    "artifact_tests": "runs_release/reports/runtime_tests/artifact_tests.csv",
+    "build_runs": "runs_release/tables/build_runs.csv"
+  },
+  "outputs": [
+    "summary.json",
+    "report.md"
+  ],
+  "procedure": "cargo build --release, then cargo test, in each released build artifact; artifacts without a root Cargo.toml are not built",
+  "suite_origin": "builder-written test suites; they indicate self-consistency, not specification conformance",
+  "suites": {
+    "failed": 1,
+    "passed": 40,
+    "run": 41,
+    "without_tests": 0
+  },
+  "tasks": [
+    {
+      "builds": 24,
+      "compiled": 21,
+      "suites_failed": 0,
+      "suites_passed": 21,
+      "task_id": "scratch_minidb",
+      "tests_failed": 0,
+      "tests_passed": 1118,
+      "tests_total": 1118
+    },
+    {
+      "builds": 24,
+      "compiled": 20,
+      "suites_failed": 1,
+      "suites_passed": 19,
+      "task_id": "scratch_nanoweb",
+      "tests_failed": 1,
+      "tests_passed": 942,
+      "tests_total": 943
+    }
+  ],
+  "tests": {
+    "failed": 1,
+    "ignored": 0,
+    "passed": 2060,
+    "total": 2061
+  }
+}

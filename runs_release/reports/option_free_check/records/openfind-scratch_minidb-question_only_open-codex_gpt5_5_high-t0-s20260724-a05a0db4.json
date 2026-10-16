@@ -1,0 +1,122 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t0-s20260724-a05a0db4",
+  "condition": "question_only_open",
+  "task_id": "scratch_minidb",
+  "source_build_run_id": null,
+  "question_ids": [
+    "q_db_01",
+    "q_db_05",
+    "q_db_06",
+    "q_db_15"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t0-s20260724-a05a0db4",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "8eb01ca8f59d16ba",
+    "agent": {
+      "id": "codex_gpt5_5_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.5",
+      "adapter_version": null
+    },
+    "seed": 20260724,
+    "trial_id": 0,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:26:52.183174+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "Batch mode maps different failure categories to different exit codes. Which mapping does the codebase implement?",
+      "claim": "Batch execution exits with 0 on success, 1 for query execution or database/runtime failures, and 2 for command-line usage or SQL syntax/parse failures.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "This is the conventional split for a small CLI database with batch evaluation.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_05",
+      "intention_id": "I-SR3",
+      "question_prompt": "What execution model does the query engine use?",
+      "claim": "The query engine uses a Volcano-style iterator model: a plan is built from relational operators, and rows are pulled through the operator tree one tuple at a time.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "That is the simplest likely execution design for a scratch SQL engine.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_06",
+      "intention_id": "I-SR7",
+      "question_prompt": "How are secondary indexes physically organised?",
+      "claim": "Secondary indexes are non-clustered structures stored separately from table rows, keyed by the indexed column values and pointing back to row identifiers or primary keys in the base table.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "This keeps table storage canonical while allowing lookup acceleration.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_15",
+      "intention_id": "I-FR15",
+      "question_prompt": "The user invokes `minidb --format yaml --eval \"SELECT 1;\"`. `yaml` is not a supported value for `--format`. What does the process do?",
+      "claim": "The process rejects `yaml` during command-line argument validation before running the SQL, prints a usage/error message for the invalid `--format` value to stderr, and exits with status code 2.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Unsupported option values are normally handled by the CLI parser before evaluation.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 34.98790579198976,
+    "usage_source": "session_log",
+    "session_id": "019f903a-71d5-7c73-92e0-ef29187075ab",
+    "prompt_bytes": 1513,
+    "retrieval_payload_bytes": 552,
+    "tool_input_bytes": 1695,
+    "assistant_message_bytes": 5,
+    "final_answer_bytes": 5,
+    "bytes_to_model": 2065,
+    "bytes_from_model": 1700,
+    "tool_calls": 2,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 44651,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 23680,
+      "output_tokens": 1490,
+      "reasoning_output_tokens": 1032,
+      "total_tokens": 46141,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 452,
+      "novel_tool_call_bytes": 247,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 34.7282612323761,
+      "generation_tok_per_s": 48.910999461858815,
+      "tool_names": {
+        "exec_command": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 44651,
+        "cached_input_tokens": 23680,
+        "uncached_input_tokens": 20971,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 458,
+        "reasoning_output_tokens": 1032,
+        "total_tokens": 46141
+      },
+      "proxy_session_id": "1hmzlMpr9RQOJswk",
+      "request_count": 4,
+      "raw_request_bytes": 186309,
+      "raw_response_bytes": 672566
+    }
+  },
+  "status": "ok",
+  "error": null
+}

@@ -1,0 +1,164 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t2-s20260726-eb566f2f",
+  "condition": "artifact_open",
+  "task_id": "scratch_nanoweb",
+  "source_build_run_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+  "question_ids": [
+    "q_nw_01",
+    "q_nw_04",
+    "q_nw_07",
+    "q_nw_10"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t2-s20260726-eb566f2f",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "c763acf83d20dff9",
+    "agent": {
+      "id": "codex_gpt5_5_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.5",
+      "adapter_version": null
+    },
+    "seed": 20260726,
+    "trial_id": 2,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:29:13.147037+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "How is HTTP/1.1 parsing wired into this framework?",
+      "claim": "HTTP/1.1 parsing is implemented by the framework's own parser, not by an external HTTP server crate: each accepted connection reads bytes into a BytesMut buffer and passes that buffer to parse_request. A successful RawHttpRequest is consumed from the buffer, converted into Request::from_raw, and then routed through the framework.",
+      "evidence_files": [
+        "src/server.rs",
+        "src/http/parser.rs",
+        "src/http/request.rs"
+      ],
+      "evidence_symbols": [
+        "handle_connection",
+        "parse_request",
+        "RawHttpRequest",
+        "Request::from_raw"
+      ],
+      "rationale": "The server module directly calls the parser and then constructs the framework Request type from the parsed result.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_04",
+      "intention_id": "I-SR4",
+      "question_prompt": "How is the middleware stack composed?",
+      "claim": "The middleware stack is a vector of boxed Middleware trait objects stored inside an Arc, and execution is recursive: each middleware receives the request plus a next closure that advances to the next index. Server::new builds the default chain in this order: LoggingMiddleware, CorsMiddleware, then RateLimitMiddleware.",
+      "evidence_files": [
+        "src/middleware/mod.rs",
+        "src/server.rs"
+      ],
+      "evidence_symbols": [
+        "Middleware",
+        "MiddlewareChain",
+        "MiddlewareChain::from_vec",
+        "execute_at",
+        "Server::new"
+      ],
+      "rationale": "The chain executor defines composition mechanics, while Server::new shows the concrete default stack.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_07",
+      "intention_id": "I-FR11",
+      "question_prompt": "How does the framework expose observability metrics?",
+      "claim": "Observability metrics are exposed through a configurable GET route, defaulting to /metrics, whose handler renders a Prometheus text-format registry. The server records every completed request by incrementing aggregate request and response counters and observing duration in a histogram; the method, path, and status arguments are accepted but not used as Prometheus labels.",
+      "evidence_files": [
+        "src/server.rs",
+        "src/metrics.rs",
+        "src/config.rs"
+      ],
+      "evidence_symbols": [
+        "Metrics",
+        "Metrics::new",
+        "Metrics::record_request",
+        "Metrics::render",
+        "metrics_handler",
+        "default_metrics_path"
+      ],
+      "rationale": "Metrics are registered and rendered in metrics.rs, while server.rs wires the route and records request timing after handler execution.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_10",
+      "intention_id": "I-FR13",
+      "question_prompt": "What shape does the framework's built-in template engine take?",
+      "claim": "The built-in template engine is a small stateless, string-based Renderer that tokenizes mustache-like tags into text, variables, sections, section ends, and inverted sections. It renders against serde_json::Value, supporting dotted variable lookup, {{.}} for the current value, array iteration for sections, truthy sections, and inverted sections for missing, false, or null values.",
+      "evidence_files": [
+        "src/template.rs",
+        "src/server.rs",
+        "src/config.rs"
+      ],
+      "evidence_symbols": [
+        "Renderer",
+        "Renderer::render",
+        "Token",
+        "tokenize",
+        "render_tokens",
+        "resolve_variable",
+        "create_handler_from_config",
+        "RouteConfig::template"
+      ],
+      "rationale": "The template module implements parsing and rendering, and configured route templates are rendered by the server's generated handler.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 99.56801129199448,
+    "usage_source": "session_log",
+    "session_id": "019f903b-9bfe-72b0-8f62-b0fb88c1fbc9",
+    "prompt_bytes": 1733,
+    "retrieval_payload_bytes": 95731,
+    "tool_input_bytes": 10396,
+    "assistant_message_bytes": 1416,
+    "final_answer_bytes": 87,
+    "bytes_to_model": 97464,
+    "bytes_from_model": 11812,
+    "tool_calls": 26,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 300037,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 259840,
+      "output_tokens": 4450,
+      "reasoning_output_tokens": 629,
+      "total_tokens": 304487,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 95631,
+      "novel_tool_call_bytes": 6818,
+      "novel_tool_call_count": 25,
+      "novel_tool_result_count": 25,
+      "wall_clock_seconds": 99.35509514808655,
+      "generation_tok_per_s": 50.00147971235335,
+      "tool_names": {
+        "exec_command": 25
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 300037,
+        "cached_input_tokens": 259840,
+        "uncached_input_tokens": 40197,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 3821,
+        "reasoning_output_tokens": 629,
+        "total_tokens": 304487
+      },
+      "proxy_session_id": "_U-UWg2E2lo2qAz2",
+      "request_count": 11,
+      "raw_request_bytes": 1312093,
+      "raw_response_bytes": 1788970
+    }
+  },
+  "status": "ok",
+  "error": null
+}

@@ -1,0 +1,95 @@
+{
+  "artifact_counts": {
+    "scratch_minidb": 21,
+    "scratch_nanoweb": 20
+  },
+  "artifact_hashes": {
+    "scratch_minidb|build-scratch_minidb-claude_code_mimo_v2_5_high-t0-s20260501-acb184a1": "571ac74fcb7c04c5daa65dfb39d9bf8dc2dae16a73d54af705b98d98416eb864",
+    "scratch_minidb|build-scratch_minidb-claude_code_mimo_v2_5_high-t1-s20260502-550d8811": "a65bc09e5b30ff1abffa05adac3ff9bf2332222f66de086951926dce57b9921a",
+    "scratch_minidb|build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3": "4861d378d388c68309d6a43bbe3aae3b75ddb13f0f334504af5c2689abc16723",
+    "scratch_minidb|build-scratch_minidb-claude_code_mimo_v2_5_low-t1-s20260502-07943f95": "974c528fb694dea2ec21092616ab1f851e00a7d47ae10b80d48a52faaf6927ae",
+    "scratch_minidb|build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t0-s20260501-291ba58c": "c4c4c336cc7a6459fe8887fa640abec5d2b76d7662521dd56f4c94bc92cf9196",
+    "scratch_minidb|build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t1-s20260502-b6e82435": "26d9ed999c122a937c445419f9d7f6bf47a53f600cb6b4abc1d4d2f513cb872a",
+    "scratch_minidb|build-scratch_minidb-claude_code_opus_4_7_high-t0-s20260501-2d77e55a": "9188d2182c7eefe26bd73bd307d56959a9692bbd4e5afeab6d237e3ab0323bec",
+    "scratch_minidb|build-scratch_minidb-claude_code_opus_4_7_high-t1-s20260502-83f0c8f0": "c7502390aa0003a91152c0505e57ee05d7a086e2f4d6e5e610341ebb15a1cf8c",
+    "scratch_minidb|build-scratch_minidb-claude_code_opus_4_7_low-t0-s20260501-cdbba75d": "cc1863d6bba03f878804456f4489694570634f163c6bf32839a209182712ff06",
+    "scratch_minidb|build-scratch_minidb-claude_code_opus_4_7_low-t1-s20260502-5846c7eb": "ec07babb1655b9a750f0af9951cd833f5555a907c44a129c44385f2e8f0559cf",
+    "scratch_minidb|build-scratch_minidb-claude_code_sonnet_4_6_high-t0-s20260501-aa19a4dc": "e163f9d2349b9a12b8d6487352090ab177521a6b95ab13d59ce709501a034554",
+    "scratch_minidb|build-scratch_minidb-claude_code_sonnet_4_6_high-t1-s20260502-bd0b6695": "4c05adb18896e64fb17454cf4966c82f14b2bf46c242a5c6059d83fc2a41f54b",
+    "scratch_minidb|build-scratch_minidb-claude_code_sonnet_4_6_low-t0-s20260501-dd444f70": "4d2c8c5bd5494bc1b0210cf32a2b3f5d9c0db5587d1aafcc8845496ab53a46ad",
+    "scratch_minidb|build-scratch_minidb-claude_code_sonnet_4_6_low-t1-s20260502-0690460b": "d26f7affc34efaa5c725d2588730fa8d48a72e1ca5af25b6199fe41ad6451ad3",
+    "scratch_minidb|build-scratch_minidb-codex_gpt5_4_mini_high-t0-s20260501-7ba82072": "3831d8bca715cfbad2948499eac0e21cc985a4a28558aef5bcb24f429b0613b1",
+    "scratch_minidb|build-scratch_minidb-codex_gpt5_4_mini_high-t1-s20260502-05500a40": "f0c99a0dcbd8d320526e51a4407c0e657f302513c2f558ecf22f6c809fba7123",
+    "scratch_minidb|build-scratch_minidb-codex_gpt5_4_mini_low-t1-s20260502-c57ac23c": "aeb21b46d5cd99cecad0060f2315140504c3969ba4bfe587ef39dfd5bb8e9b3f",
+    "scratch_minidb|build-scratch_minidb-codex_gpt5_5_high-t0-s20260501-1924cec4": "8cfed1d60bd3825dfe0e3732524d8667b66c98213c2afdfd67951e518f4fdf6f",
+    "scratch_minidb|build-scratch_minidb-codex_gpt5_5_high-t1-s20260502-0c54a173": "935606eb44789f3d4ef8806ef95590770c080aabea937e9ae015c1140134a9fe",
+    "scratch_minidb|build-scratch_minidb-codex_gpt5_5_low-t0-s20260501-d0068f8c": "7d41ed3cb55692dc43d869d472e6193c36f1ab9850827c235dbef782ad206455",
+    "scratch_minidb|build-scratch_minidb-codex_gpt5_5_low-t1-s20260502-4c36b45f": "d709f248c7044c2d8481508970b4d2188743b0c53c79860477327fbbd01b4f68",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_mimo_v2_5_high-t0-s20260501-f80bd4f0": "419e982c76e9db5e33ed8ed2b0733d3dece39bdc9fef4e2eb0ebf8a5d75a4bf9",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601": "5520d9add797c7a72b5f0d92dc5a584f4709be4cc229a694da95225f677c54fe",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_mimo_v2_5_low-t1-s20260502-0ab2ca9f": "5fb83511ab021273c1ab291c418d2bc96a918502dfa0b21ad1fef289b77e1714",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t1-s20260502-e516fe14": "0dec53ebda3406cbf7aa51b52b58389febc30d4709b3d8b8ee1bdc4b212762f4",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_opus_4_7_high-t0-s20260501-c329ce51": "0f091a1d0368af3265b6b925af1cb69b9e26122a21403baa0b6d2512f1a9ed3e",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_opus_4_7_high-t1-s20261502-374bc791": "c3dbda248dbd577a1e7d6c515798815187dee0329201cc523aa4d9244a1b6b61",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_opus_4_7_low-t0-s20261501-636b758c": "6326d797b9b1b575fb2ae1ab264dfe6b7883945e3685b81ad0af52839888ee4d",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_opus_4_7_low-t1-s20261502-ae88af88": "11aca0b662f47405e10b8e0b9e75902dd85c0766caabee1cb700f78c7abb1a85",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_sonnet_4_6_high-t0-s20261501-05d5b610": "7d64dfeecbb916cb609aafdac18165b73e79d044914901f850b2f4ac5aae2f07",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_sonnet_4_6_high-t1-s20261502-f19379b3": "96cb5cb57adb0a33404d33e2cbae7dd94a9a1069dc978bb8f91a8a0dc9553c32",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_sonnet_4_6_low-t0-s20261501-e6047538": "f4c25dd52aac6edb93180a890cf640d3c519019ecf85026bfa9aa0399f970785",
+    "scratch_nanoweb|build-scratch_nanoweb-claude_code_sonnet_4_6_low-t1-s20261502-8328c0da": "7f6e0f14e4c2f15faef257acc25c47c1619921d354fd731d7cb72091639bd902",
+    "scratch_nanoweb|build-scratch_nanoweb-codex_gpt5_4_mini_high-t0-s20260501-aa87757d": "6c3a350f28f6ae0793f8e6ccdbaa05793a6fcb21f3549354f13675debd878197",
+    "scratch_nanoweb|build-scratch_nanoweb-codex_gpt5_4_mini_high-t1-s20260502-e25932eb": "b1f7b9f54a5b2e20257f62319fd20222bd6dddb531f7d957eb58bbae884ff573",
+    "scratch_nanoweb|build-scratch_nanoweb-codex_gpt5_4_mini_low-t0-s20260501-1a57cf95": "bb20b04471265d4839fdcd85079825bcd73e0545c63d775fbd8c8f86f88eccb2",
+    "scratch_nanoweb|build-scratch_nanoweb-codex_gpt5_4_mini_low-t1-s20260502-8f79ca6d": "2eccbe5219342e3064e449e9160a7c6a3a871a486cf8637d762da6f3e8ce82c3",
+    "scratch_nanoweb|build-scratch_nanoweb-codex_gpt5_5_high-t0-s20260501-b54f0634": "1f759fba2e19be799e22df5a5184c74b54fa2db6af56ed5ebdf56ca04a86dbe5",
+    "scratch_nanoweb|build-scratch_nanoweb-codex_gpt5_5_high-t1-s20260502-a5df8a82": "13dc6a0c2a9a6fc88efa051c9da989a25c2e1330d89bdcf169d8cd49fe79745c",
+    "scratch_nanoweb|build-scratch_nanoweb-codex_gpt5_5_low-t0-s20260501-6a64601d": "58752bba6cfd190a443ce9bddfaa750d85e5e12b2814ea0dc13132a726089f4c",
+    "scratch_nanoweb|build-scratch_nanoweb-codex_gpt5_5_low-t1-s20260502-ce7e6480": "a4e3c651cf32b9ff2d7c297143cf570e35b0f3e11416158f61b303ffce5800c9"
+  },
+  "artifact_tree_sha256": "39b04d2424103d2064b5eb40936dd194dfb4955a2301d8bb8eb9ab95f2915f5e",
+  "canonical_inputs_are_read_only": true,
+  "codex_cli_version": "not_applicable_collaboration_agent",
+  "codex_path": "",
+  "crosscheck_config": {
+    "model_id": "gpt-5.6-terra",
+    "pass_id": "crosscheck",
+    "reasoning_effort": "ultra"
+  },
+  "crosscheck_confirmed_rate": 0.1,
+  "crosscheck_seed": 20260728,
+  "execution_engine": "collaboration",
+  "experiment_id": "full_conformance_audit_v1",
+  "input_paths": {
+    "labels": "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv",
+    "questions_scratch_minidb": "benchmarks/questions/scratch_minidb.yaml",
+    "questions_scratch_nanoweb": "benchmarks/questions/scratch_nanoweb.yaml"
+  },
+  "input_sha256": {
+    "labels": "fda6afc775bcf50724632d8295989a5cd04561a46b6b992017e638c50704dfd4",
+    "questions_scratch_minidb": "909fadd03099d4f4ab28b11022de8cc433914f1f826470eae8fcf7bed67394d6",
+    "questions_scratch_nanoweb": "8545b7ade3314805e4a18d57946e2c33789547abd6a21266062820dfc9f97290"
+  },
+  "pair_counts": {
+    "scratch_minidb": 302,
+    "scratch_nanoweb": 290
+  },
+  "population_artifacts": 41,
+  "population_definition": "compile_pass=true AND final_label=implemented_gold in frozen final labels",
+  "population_pairs": 592,
+  "primary_config": {
+    "model_id": "gpt-5.6-sol",
+    "pass_id": "primary",
+    "reasoning_effort": "ultra"
+  },
+  "prompt_template_path": "rebuttal/full_conformance_audit/prompts/live_path_v1.md",
+  "prompt_template_sha256": "d02a81bb42f2f3cb685c4c8e3d9712f091f3508859a8f82381a79d3c24caef87",
+  "prompt_version": "full_conformance_live_path_v1",
+  "raw_selection_rule": "latest successful validated attempt per pass and artifact",
+  "result_schema_path": "rebuttal/full_conformance_audit/result_schema.json",
+  "result_schema_sha256": "b71b542e8e5e1ca24cf4d0061dfb194ca0b9673aa68fc7a4ee6aff712ef774df",
+  "spec_path": "rebuttal/full_conformance_audit/SPEC.md",
+  "task_order": [
+    "scratch_minidb",
+    "scratch_nanoweb"
+  ]
+}

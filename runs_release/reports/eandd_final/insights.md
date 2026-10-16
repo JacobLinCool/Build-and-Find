@@ -131,7 +131,7 @@ Largest artifact-conditioned lift over question-only:
 | scratch_minidb | q_db_10 | +5.6 pp | 100.0% | 94.4% |
 | scratch_nanoweb | q_nw_01 | +5.6 pp | 100.0% | 94.4% |
 
-## Reviewer-Risk Notes
+## Interpretation Notes
 
 - Existing broad canonical tables include historical/pilot records; final paper claims should cite this logical report or regenerate paper tables from the same logical panel.
 - Spec-only accuracy is high enough to require careful wording: the benchmark measures recoverability of implementation intent, not every question being implementation-exclusive.

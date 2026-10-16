@@ -1,0 +1,13 @@
+scenario,new_label,relabeled_pairs,primary_answer_rows,gold_option_rows,gold_option_share
+all_observed_corrected,all,9,324,312,0.9629629629629629
+all_observed_corrected,absent_or_ambiguous,8,288,276,0.9583333333333334
+all_observed_corrected,implemented_non_gold,1,36,36,1.0
+author_adjudicated,all,48,1728,1695,0.9809027777777778
+author_adjudicated,absent_or_ambiguous,45,1620,1588,0.980246913580247
+author_adjudicated,implemented_non_gold,3,108,107,0.9907407407407407
+fully_adjudicated,all,195,7020,6829,0.9727920227920228
+fully_adjudicated,absent_or_ambiguous,190,6840,6655,0.972953216374269
+fully_adjudicated,implemented_non_gold,5,180,174,0.9666666666666667
+author_adjudicated_plus_unreviewed_flags,all,203,7308,7114,0.9734537493158183
+author_adjudicated_plus_unreviewed_flags,absent_or_ambiguous,196,7056,6877,0.9746315192743764
+author_adjudicated_plus_unreviewed_flags,implemented_non_gold,7,252,237,0.9404761904761905

@@ -339,7 +339,7 @@ Primary outputs:
 
 Release outputs:
 
-- `runs/reports/claim_evidence.md`
+- `runs/reports/reproducibility_index.md`
 - paper-ready figures and tables
 - Croissant metadata for released task/run-record dataset
 - explicit code and data licenses

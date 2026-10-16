@@ -1,0 +1,122 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t1-s20260725-c2ac457f",
+  "condition": "question_only_open",
+  "task_id": "scratch_minidb",
+  "source_build_run_id": null,
+  "question_ids": [
+    "q_db_01",
+    "q_db_05",
+    "q_db_06",
+    "q_db_15"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t1-s20260725-c2ac457f",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "8eb01ca8f59d16ba",
+    "agent": {
+      "id": "claude_code_opus_4_7_high",
+      "adapter": "claude_code",
+      "model_id": "claude-opus-4-7",
+      "adapter_version": null
+    },
+    "seed": 20260725,
+    "trial_id": 1,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:27:31.170184+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "Batch mode maps different failure categories to different exit codes. Which mapping does the codebase implement?",
+      "claim": "In batch mode, minidb returns exit code 0 on success, exit code 1 for SQL/query errors (parse, plan, or runtime errors surfaced from a statement), and exit code 2 for CLI/usage errors such as bad flags or unreadable input files. I/O or unexpected internal errors fall under exit code 1 as well, so the distinction is essentially usage-vs-execution.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Standard Unix convention adopted by most SQL CLIs (psql, sqlite shell), and the natural split for a minimal database CLI.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_05",
+      "intention_id": "I-SR3",
+      "question_prompt": "What execution model does the query engine use?",
+      "claim": "The query engine uses a tree-walking / Volcano-style pull-based iterator model: the parser builds an AST, the planner turns it into a tree of operator nodes (scan, filter, project, join, aggregate), and execution calls next() on the root operator which recursively pulls tuples from its children. There is no vectorised batch execution or JIT compilation.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Iterator/Volcano is the canonical execution model for pedagogical/minimal SQL engines.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_06",
+      "intention_id": "I-SR7",
+      "question_prompt": "How are secondary indexes physically organised?",
+      "claim": "Secondary indexes are stored as separate B-tree (or sorted map) structures keyed by the indexed column value, whose entries hold the primary key / row id of the base table row rather than a direct row pointer. Lookups therefore go through an extra indirection into the primary heap or clustered primary index to fetch the full row.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Standard secondary-index-with-row-id layout, matching SQLite-like designs typical for a minidb.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_15",
+      "intention_id": "I-FR15",
+      "question_prompt": "The user invokes `minidb --format yaml --eval \"SELECT 1;\"`. `yaml` is not a supported value for `--format`. What does the process do?",
+      "claim": "The process rejects the invocation before running the query: it prints an error message to stderr indicating that 'yaml' is not a valid value for --format (listing the supported values, e.g. text/table/json/csv) and exits with a non-zero usage exit code (2), without opening any database or evaluating the SELECT statement.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Flag validation happens at argument parsing time, before query execution, and maps to the usage error exit code.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 19.207936958002392,
+    "usage_source": "project_log",
+    "session_id": "485177c5-ef80-4f4a-9061-048f5a73ae26",
+    "prompt_bytes": 1513,
+    "retrieval_payload_bytes": 289,
+    "tool_input_bytes": 2328,
+    "assistant_message_bytes": 57,
+    "final_answer_bytes": 57,
+    "bytes_to_model": 1802,
+    "bytes_from_model": 2385,
+    "tool_calls": 1,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 6,
+      "cache_creation_input_tokens": 26807,
+      "cache_read_input_tokens": 125932,
+      "output_tokens": 1024,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 153769,
+      "cost_usd": 0.36323099999999997
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 289,
+      "novel_tool_call_bytes": 2434,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 17.905944108963013,
+      "generation_tok_per_s": 66.53360779910001,
+      "tool_names": {
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 153958,
+        "cached_input_tokens": 125932,
+        "uncached_input_tokens": 28026,
+        "cache_creation_input_tokens": 26807,
+        "non_reasoning_output_tokens": 1044,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 155002
+      },
+      "proxy_session_id": "nT5d9IeBrfMglvE1",
+      "request_count": 3,
+      "raw_request_bytes": 417425,
+      "raw_response_bytes": 55012
+    }
+  },
+  "status": "ok",
+  "error": null
+}

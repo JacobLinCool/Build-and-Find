@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare runs/ for anonymous public release.
+"""Prepare runs/ for the public release.
 
 Copies runs/ to runs_release/, sanitizing absolute workspace paths and
 excluding legacy / draft / log files. Original runs/ is never modified.
@@ -321,7 +321,9 @@ def sanitize_build_table() -> int:
             rows.append(row)
     if changed:
         with path.open("w", newline="", encoding="utf-8") as handle:
-            writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="raise")
+            writer = csv.DictWriter(
+                handle, fieldnames=fieldnames, extrasaction="raise", lineterminator="\n"
+            )
             writer.writeheader()
             writer.writerows(rows)
     return changed

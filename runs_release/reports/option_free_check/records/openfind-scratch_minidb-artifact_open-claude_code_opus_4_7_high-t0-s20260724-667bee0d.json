@@ -1,0 +1,152 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t0-s20260724-667bee0d",
+  "condition": "artifact_open",
+  "task_id": "scratch_minidb",
+  "source_build_run_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+  "question_ids": [
+    "q_db_01",
+    "q_db_05",
+    "q_db_06",
+    "q_db_15"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t0-s20260724-667bee0d",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "908b85bc75890dcd",
+    "agent": {
+      "id": "claude_code_opus_4_7_high",
+      "adapter": "claude_code",
+      "model_id": "claude-opus-4-7",
+      "adapter_version": null
+    },
+    "seed": 20260724,
+    "trial_id": 0,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:25:46.219907+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "Batch mode maps different failure categories to different exit codes. Which mapping does the codebase implement?",
+      "claim": "Batch mode exits 0 on success, 1 on SQL execution errors returned from run_eval/run_file (and init or REPL runtime errors), 2 on CLI argument-parsing errors (missing flag values, unknown options, unknown --format), and 3 when opening the database fails before executing SQL.",
+      "evidence_files": [
+        "src/main.rs",
+        "src/cli/mod.rs"
+      ],
+      "evidence_symbols": [
+        "main",
+        "MiniDbCli::run_eval",
+        "MiniDbCli::run_file",
+        "MiniDbCli::open"
+      ],
+      "rationale": "main.rs branches std::process::exit calls by category: 1 for run_eval/run_file/init/REPL Err, 2 for arg errors, 3 for cli.open failure.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_05",
+      "intention_id": "I-SR3",
+      "question_prompt": "What execution model does the query engine use?",
+      "claim": "The engine defines a Volcano-style iterator model via a PhysicalOperator trait with open()/next()/close()/schema() methods that each physical operator (seq_scan, filter, project, join, sort, limit, index_scan, insert, update, delete_op) implements for composable tuple-at-a-time execution.",
+      "evidence_files": [
+        "src/exec/operators/mod.rs",
+        "src/exec/operators/seq_scan.rs"
+      ],
+      "evidence_symbols": [
+        "PhysicalOperator",
+        "PhysicalOperator::open",
+        "PhysicalOperator::next",
+        "PhysicalOperator::close"
+      ],
+      "rationale": "The PhysicalOperator trait in src/exec/operators/mod.rs prescribes the classic Volcano open/next/close interface used by all operator modules.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_06",
+      "intention_id": "I-SR7",
+      "question_prompt": "How are secondary indexes physically organised?",
+      "claim": "Secondary indexes are stored as a simplified B+-tree in slotted 4096-byte pages: each node has a 5-byte header (is_leaf flag, num_keys, next_leaf pointer) followed by fixed-width 20-byte key slots that pack the serialized key bytes together with the (page_id, slot) row-id pointing back into the heap; leaves are linked via next_leaf for range scans and splits create a new internal root with child page pointers stored after the key area.",
+      "evidence_files": [
+        "src/storage/btree.rs"
+      ],
+      "evidence_symbols": [
+        "BTreeIndex",
+        "BTreeKey",
+        "BTreeIndex::insert_and_split",
+        "BTreeIndex::range_search",
+        "serialize_value_for_index"
+      ],
+      "rationale": "btree.rs lays out is_leaf/num_keys/next_leaf headers, 20-byte key slots with (key, page_id, slot) tuples, and splits that link leaves and add an internal root.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_15",
+      "intention_id": "I-FR15",
+      "question_prompt": "The user invokes `minidb --format yaml --eval \"SELECT 1;\"`. `yaml` is not a supported value for `--format`. What does the process do?",
+      "claim": "The process rejects the unknown format during CLI argument handling before opening the database or evaluating the SQL: it prints \"Error: unknown format 'yaml'\" to stderr and exits with status code 2, so the SELECT 1; is never parsed or executed.",
+      "evidence_files": [
+        "src/main.rs"
+      ],
+      "evidence_symbols": [
+        "main"
+      ],
+      "rationale": "The --format match in main.rs falls through to an eprintln! + std::process::exit(2) branch prior to the eval_sql handling.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 94.10042737500044,
+    "usage_source": "project_log",
+    "session_id": "009e374a-0d2b-43ca-aca9-ac104600d6cc",
+    "prompt_bytes": 1871,
+    "retrieval_payload_bytes": 63316,
+    "tool_input_bytes": 3949,
+    "assistant_message_bytes": 39,
+    "final_answer_bytes": 39,
+    "bytes_to_model": 65187,
+    "bytes_from_model": 3988,
+    "tool_calls": 8,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 179292,
+      "cache_read_input_tokens": 800123,
+      "output_tokens": 3202,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 982630,
+      "cost_usd": 2.2804365000000004
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 63316,
+      "novel_tool_call_bytes": 4293,
+      "novel_tool_call_count": 8,
+      "novel_tool_result_count": 8,
+      "wall_clock_seconds": 92.64223885536194,
+      "generation_tok_per_s": 70.42213856313754,
+      "tool_names": {
+        "Bash": 3,
+        "Read": 4,
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 980776,
+        "cached_input_tokens": 800123,
+        "uncached_input_tokens": 180653,
+        "cache_creation_input_tokens": 179292,
+        "non_reasoning_output_tokens": 3226,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 984002
+      },
+      "proxy_session_id": "H_j3SgfaPw9N1h0U",
+      "request_count": 11,
+      "raw_request_bytes": 2654682,
+      "raw_response_bytes": 112351
+    }
+  },
+  "status": "ok",
+  "error": null
+}

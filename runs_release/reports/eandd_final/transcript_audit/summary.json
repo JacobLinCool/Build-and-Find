@@ -1,0 +1,200 @@
+{
+  "accuracy": {
+    "all_rows": {
+      "all_runs": {
+        "correct": 21413,
+        "pct": "96.716",
+        "total": 22140
+      },
+      "change_pp": "+0.106",
+      "excluding_listed_runs": {
+        "correct": 20536,
+        "pct": "96.822",
+        "total": 21210
+      }
+    },
+    "implemented_gold": {
+      "all_runs": {
+        "correct": 21084,
+        "pct": "98.930",
+        "total": 21312
+      },
+      "change_pp": "+0.047",
+      "excluding_listed_runs": {
+        "correct": 20216,
+        "pct": "98.977",
+        "total": 20425
+      }
+    }
+  },
+  "analysis_id": "transcript_exposure_v1",
+  "analysis_script": "scripts/analyze_transcript_exposure.py",
+  "exclusion_rule": "primary-panel runs whose transcripts show reads, file listings, or git commands that reach outside their workspace",
+  "generated_at": "2026-05-03T20:04:26.141382+00:00",
+  "input_hashes": {
+    "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv": "d89d92dc92b00488984cb52965c5cb1f774894fea845ef90ed9b9b8eee3a2b1e",
+    "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv": "6430dd0b42919b7f8b25214ae10d20f0f5958cb8c784093f92bd084e08910b29",
+    "runs_release/reports/eandd_final/transcript_audit/primary_panel_exposure.csv": "02c7d4fbd53b7cfbc9d3049304c453a026a71c9c3ec9e9af44acfff7f61206d7",
+    "runs_release/tables/MANIFEST.json": "f6c8edc1f4e7ee96295c7aad33f8cfa554ffa9583963bdeeab0b2c1cb62ef8a4",
+    "runs_release/tables/find_runs.csv": "5f1285bfb746a5c53da54ad57f69e7a451a670bc58b09c283fb9c31082645540",
+    "runs_release/tables/question_answers.csv": "30ca51f75d2d87cda16c410f83eb20b89f5a028f03a2c5d8f8e33eca88fa01df"
+  },
+  "inputs": {
+    "exposure": "runs_release/reports/eandd_final/transcript_audit/primary_panel_exposure.csv",
+    "final_labels": "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv",
+    "find_runs": "runs_release/tables/find_runs.csv",
+    "label_corrections": "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv",
+    "question_answers": "runs_release/tables/question_answers.csv",
+    "table_manifest": "runs_release/tables/MANIFEST.json"
+  },
+  "label_sources_v1_1": {
+    "consensus_prelabel": 681,
+    "manual_review": 24,
+    "rule_empty_artifact": 15
+  },
+  "labels": "v1.0 final labels with label_corrections_v1_1.csv applied",
+  "listed_runs": 62,
+  "listed_runs_by_category": {
+    "answer_files_in_search_output": 1,
+    "git_checkout_attempt": 1,
+    "git_status_listing": 48,
+    "host_config_read": 1,
+    "workspace_listing": 11
+  },
+  "max_abs_accuracy_change_pp": "0.11",
+  "max_abs_accuracy_change_pp_exact": "0.1059",
+  "outputs": [
+    "summary.json",
+    "report.md"
+  ],
+  "primary_find_runs": {
+    "all_runs": 1476,
+    "excluding_listed_runs": 1414
+  },
+  "rb": {
+    "gate": "perfect_run",
+    "metric": "total_bytes",
+    "panels": {
+      "high_effort": {
+        "builders": [
+          {
+            "builder_id": "codex_gpt5_5_high",
+            "n_cells_all_runs": 12,
+            "n_cells_excluding_listed_runs": 12,
+            "rank_all_runs": 1,
+            "rank_excluding_listed_runs": 1,
+            "score_all_runs": 1.032701,
+            "score_excluding_listed_runs": 1.032701
+          },
+          {
+            "builder_id": "codex_gpt5_4_mini_high",
+            "n_cells_all_runs": 12,
+            "n_cells_excluding_listed_runs": 12,
+            "rank_all_runs": 2,
+            "rank_excluding_listed_runs": 2,
+            "score_all_runs": 1.320039,
+            "score_excluding_listed_runs": 1.326898
+          },
+          {
+            "builder_id": "claude_code_opus_4_7_high",
+            "n_cells_all_runs": 12,
+            "n_cells_excluding_listed_runs": 12,
+            "rank_all_runs": 3,
+            "rank_excluding_listed_runs": 3,
+            "score_all_runs": 1.513603,
+            "score_excluding_listed_runs": 1.522022
+          },
+          {
+            "builder_id": "claude_code_sonnet_4_6_high",
+            "n_cells_all_runs": 12,
+            "n_cells_excluding_listed_runs": 12,
+            "rank_all_runs": 4,
+            "rank_excluding_listed_runs": 4,
+            "score_all_runs": 1.579745,
+            "score_excluding_listed_runs": 1.596133
+          },
+          {
+            "builder_id": "claude_code_mimo_v2_5_high",
+            "n_cells_all_runs": 12,
+            "n_cells_excluding_listed_runs": 11,
+            "rank_all_runs": 5,
+            "rank_excluding_listed_runs": 5,
+            "score_all_runs": 1.636426,
+            "score_excluding_listed_runs": 1.622955
+          },
+          {
+            "builder_id": "claude_code_mimo_v2_5_pro_high",
+            "n_cells_all_runs": 6,
+            "n_cells_excluding_listed_runs": 6,
+            "rank_all_runs": 6,
+            "rank_excluding_listed_runs": 6,
+            "score_all_runs": 1.9757,
+            "score_excluding_listed_runs": 2.021395
+          }
+        ],
+        "ranks_unchanged": true
+      },
+      "low_effort": {
+        "builders": [
+          {
+            "builder_id": "codex_gpt5_5_low",
+            "n_cells_all_runs": 12,
+            "n_cells_excluding_listed_runs": 12,
+            "rank_all_runs": 1,
+            "rank_excluding_listed_runs": 1,
+            "score_all_runs": 1.150991,
+            "score_excluding_listed_runs": 1.144299
+          },
+          {
+            "builder_id": "codex_gpt5_4_mini_low",
+            "n_cells_all_runs": 11,
+            "n_cells_excluding_listed_runs": 11,
+            "rank_all_runs": 2,
+            "rank_excluding_listed_runs": 2,
+            "score_all_runs": 1.151405,
+            "score_excluding_listed_runs": 1.151405
+          },
+          {
+            "builder_id": "claude_code_opus_4_7_low",
+            "n_cells_all_runs": 12,
+            "n_cells_excluding_listed_runs": 12,
+            "rank_all_runs": 3,
+            "rank_excluding_listed_runs": 3,
+            "score_all_runs": 1.749169,
+            "score_excluding_listed_runs": 1.740073
+          },
+          {
+            "builder_id": "claude_code_mimo_v2_5_pro_low",
+            "n_cells_all_runs": 6,
+            "n_cells_excluding_listed_runs": 6,
+            "rank_all_runs": 4,
+            "rank_excluding_listed_runs": 4,
+            "score_all_runs": 1.793273,
+            "score_excluding_listed_runs": 1.800504
+          },
+          {
+            "builder_id": "claude_code_sonnet_4_6_low",
+            "n_cells_all_runs": 12,
+            "n_cells_excluding_listed_runs": 12,
+            "rank_all_runs": 5,
+            "rank_excluding_listed_runs": 5,
+            "score_all_runs": 1.874313,
+            "score_excluding_listed_runs": 1.893503
+          },
+          {
+            "builder_id": "claude_code_mimo_v2_5_low",
+            "n_cells_all_runs": 11,
+            "n_cells_excluding_listed_runs": 11,
+            "rank_all_runs": 6,
+            "rank_excluding_listed_runs": 6,
+            "score_all_runs": 1.930621,
+            "score_excluding_listed_runs": 1.930621
+          }
+        ],
+        "ranks_unchanged": true
+      }
+    }
+  },
+  "rb_ranks_unchanged": true,
+  "rounding": "round half up on the exact rational"
+}

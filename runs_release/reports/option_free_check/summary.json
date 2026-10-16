@@ -1,0 +1,1185 @@
+{
+  "analysis_id": "option_free_check_v1",
+  "analysis_script": "scripts/analyze_option_free_check.py",
+  "artifact_rule": {
+    "eligible": {
+      "scratch_minidb": [
+        "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3"
+      ],
+      "scratch_nanoweb": [
+        "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+        "build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t1-s20260502-e516fe14"
+      ]
+    },
+    "finder_families": [
+      "claude",
+      "codex"
+    ],
+    "rule": "compile_pass, implemented_gold on every question under the released v1.0 labels, builder_family outside the finder families, first build_run_id",
+    "selected": {
+      "scratch_minidb": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+      "scratch_nanoweb": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601"
+    }
+  },
+  "checks": {
+    "artifact_rule_reproduced": true,
+    "grading_sheets_match_records": true,
+    "questions_match_frozen_low_prior_without_negative_contrast": true,
+    "records_drop_trace_path": true,
+    "shuffle_order_reproduced": true,
+    "shuffle_rule": "sort by sha256('20260725|<open_find_run_id>|<question_id>')"
+  },
+  "compute": {
+    "first_session_created_at": "2026-07-23T18:25:46.219907+00:00",
+    "session_dates_utc": [
+      "2026-07-23"
+    ],
+    "sessions": 24,
+    "vendor_total_tokens": 9849679,
+    "vendor_total_tokens_by_finder": {
+      "claude_code_opus_4_7_high": 7655032,
+      "codex_gpt5_5_high": 2194647
+    },
+    "wall_clock_seconds": 1432.3
+  },
+  "design": {
+    "artifacts": {
+      "scratch_minidb": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+      "scratch_nanoweb": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601"
+    },
+    "conditions": [
+      "artifact_open",
+      "question_only_open"
+    ],
+    "excluded_negative_contrast": [
+      "scratch_minidb:q_db_07",
+      "scratch_nanoweb:q_nw_11"
+    ],
+    "finders": [
+      "codex_gpt5_5_high",
+      "claude_code_opus_4_7_high"
+    ],
+    "frozen_low_prior_questions": [
+      "scratch_minidb:q_db_01",
+      "scratch_minidb:q_db_05",
+      "scratch_minidb:q_db_06",
+      "scratch_minidb:q_db_07",
+      "scratch_minidb:q_db_15",
+      "scratch_nanoweb:q_nw_01",
+      "scratch_nanoweb:q_nw_04",
+      "scratch_nanoweb:q_nw_07",
+      "scratch_nanoweb:q_nw_10",
+      "scratch_nanoweb:q_nw_11"
+    ],
+    "questions": {
+      "scratch_minidb": [
+        "q_db_01",
+        "q_db_05",
+        "q_db_06",
+        "q_db_15"
+      ],
+      "scratch_nanoweb": [
+        "q_nw_01",
+        "q_nw_04",
+        "q_nw_07",
+        "q_nw_10"
+      ]
+    },
+    "responses": 96,
+    "sessions": 24,
+    "trials": 3
+  },
+  "grading": {
+    "artifact_open_evidence_sufficient": {
+      "correct": 48,
+      "pct": "100.0",
+      "total": 48
+    },
+    "correctness_unchanged_pass1_to_pass2": {
+      "correct": 96,
+      "pct": "100.0",
+      "total": 96
+    },
+    "evidence_labels_pass2": {
+      "artifact_open": {
+        "sufficient": 48
+      },
+      "question_only_open": {
+        "no_evidence_cited": 48
+      }
+    },
+    "llm_correct_author_incorrect": 12,
+    "llm_correctness_agreement": {
+      "correct": 82,
+      "pct": "85.4",
+      "total": 96
+    },
+    "llm_evidence_agreement": {
+      "correct": 96,
+      "pct": "100.0",
+      "total": 96
+    },
+    "llm_incorrect_author_correct": 2,
+    "pass1_rows_with_evidence_citations": {
+      "artifact_open": {
+        "correct": 48,
+        "pct": "100.0",
+        "total": 48
+      },
+      "question_only_open": {
+        "correct": 0,
+        "pct": "0.0",
+        "total": 48
+      }
+    },
+    "rows_with_grader_note": 25,
+    "sufficient_among_correct_artifact_open": {
+      "correct": 38,
+      "pct": "100.0",
+      "total": 38
+    }
+  },
+  "input_hashes": {
+    "rebuttal/conformance_spot_audit/minidb_adjudication.csv": "1adbbd5fb30cdb349c56a5f26da49062319a20bd1e1631ce72df1cbe61255a38",
+    "rebuttal/conformance_spot_audit/nanoweb_adjudication.csv": "80bed0d927c1f98effdb4087f53891dea0bf3d426927602a8ccfcafe142b9d1f",
+    "rebuttal/conformance_spot_audit/sample_manifest.csv": "ad6cf9c45b4e1f11156e411785291db44991600aad95d9666f067d4db05b2c86",
+    "rebuttal/full_conformance_audit/author_decisions.csv": "0d7826a49385678bf79f22daae945fa67d71ac5d85f7d21a159f3ff0a577d0a3",
+    "rebuttal/full_conformance_audit/disagreements.csv": "07832ae110093b9a55b044dd97a94bf35e8836412e33be9390141bd31ce28ac1",
+    "rebuttal/full_conformance_audit/model_assisted_decisions.csv": "82092af15ef8dcd097bf45c34a333ba0ea53a192ffbaa25ab1b752cf4d4d91cc",
+    "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv": "d89d92dc92b00488984cb52965c5cb1f774894fea845ef90ed9b9b8eee3a2b1e",
+    "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv": "6430dd0b42919b7f8b25214ae10d20f0f5958cb8c784093f92bd084e08910b29",
+    "runs_release/reports/eandd_final/control_exclusions/excluded_question_only_runs.csv": "9b8566d5f3064ae12289d93697fa7ae38c3a9e5e0b789bb06977372b41e87858",
+    "runs_release/reports/eandd_final/control_exclusions/low_prior_questions.csv": "bd44c2761d0fe8c4c06478df67315f717f7b745f8a607586d21f667de633a37e",
+    "runs_release/reports/eandd_final/low_prior/manifest.json": "f47e43ba9ec702bdb79241dee001aab094d63be95102d80c1fa9aff740e8f050",
+    "runs_release/reports/option_free_check/grading_key.csv": "16701370cf99b9a7f79ff8a1fb2ad9f51cb58f08f29261394de8076ca80d39d7",
+    "runs_release/reports/option_free_check/grading_sheet.pass1.csv": "6ec8edd7a48628da5bbdfb2a7e2c1772d0af0611c683164373c5d2adf9dd5575",
+    "runs_release/reports/option_free_check/grading_sheet.pass2.csv": "8a479b6c79bbafa0cf876af3be43698ae23062c3c5a3e48d04aacc6c7f0b53a9",
+    "runs_release/reports/option_free_check/llm_prelabels.csv": "f5193fa98d80eab84ffe9efb8f7eeef0c0780e2294e0cf3e64ba48aa2d03b6ad",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t0-s20260724-667bee0d.json": "f16078f078f55e302d0d6d63de1d97f029c97022556354fcf95d2a2373959ab7",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t1-s20260725-8b5791b9.json": "baa45878b900e83d7bce4b9d5a64887d315b4cb84c86e2bb27304c4f05f9ddaa",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t2-s20260726-f3095332.json": "f17123b090e0d99f85e86fc14e9b90c869c25afa2ac17d1999647ff7559bee3b",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-codex_gpt5_5_high-t0-s20260724-a4e086b0.json": "ab934a07789a8907d887e7f9c9950759c45791d049a48b70fe13a5ca5bc0cd34",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-codex_gpt5_5_high-t1-s20260725-5ae4b30e.json": "de5066756eb71c378eeaeb02383f4f76daf411ee3b8ee6a5c37a8c099e50a160",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-codex_gpt5_5_high-t2-s20260726-03419513.json": "19fd443de584334fbfe1de37bcb5d15a5c6699504e90fb94d775466f77c79b68",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t0-s20260724-02e5b3ec.json": "f99cb363c83742005e154bc0847ff1db705c2e67a0029d384cc76448170efefb",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t1-s20260725-c2ac457f.json": "67ca3de9b0e04a029a5f24d78d2ce824ee750033cd132102d51ed939bc5b1823",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t2-s20260726-30c91f56.json": "1c066db97a11549ecae35bf5b0a4271df5c97893e4314fb162ea3c47dc339065",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t0-s20260724-a05a0db4.json": "dfa130a61c7a729b0b13681a35ed5884213f1b2f8480554136283a0a9a53216b",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t1-s20260725-20039752.json": "d578d74350764688f33b5f27e033bcda923f2405c19b7c9190f59948ea2aff8d",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t2-s20260726-8fb11703.json": "46d6293f2acc6f6143bcb64e7244001773bdd6e582f55fff4ca47739e06448d3",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-claude_code_opus_4_7_high-t0-s20260724-1da0c35d.json": "a3538c9f1bbd9be5f3c1b01dc8e921fec77b9f8b46e914bd7145d06970ad421e",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-claude_code_opus_4_7_high-t1-s20260725-285a97ae.json": "6a04f0116c4e59a09d7539acd81f6becaf827343256c3c6626316e9c8723c55e",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-claude_code_opus_4_7_high-t2-s20260726-76505bc4.json": "53ffbcbd78df5e2c6a619f40566028d42361966617684a0937b539a8e968437d",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t0-s20260724-7e097050.json": "19b546f2554a2d0a3fb0f7493115e710bfc35645824d022d7a0f8097a198bc5a",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t1-s20260725-b5a636f3.json": "c0dc237ac97f18c84a1a1ac86f83f8e4f7b31328ca76d11615d0793afc7a2a73",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t2-s20260726-eb566f2f.json": "9646e8d0bdf8b17d3aa0d8dc246bc99e85a65abe33ff405c72957f831210e7aa",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t0-s20260724-b931cc7e.json": "8f2e87f7b715cf0c2891209152c3f614fb59d7b2e1247d3b0c316d413655ab81",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t1-s20260725-f628627a.json": "071dba13b97417ccdb9fb1bad8ccfe3c485b138ea0a65812c555b457fa9605cb",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t2-s20260726-9e99cb2f.json": "3024b477e727a5697051f2ef878c30bc5400c59a1eff3fcc387f3d6add8b24f6",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-codex_gpt5_5_high-t0-s20260724-9c6cf445.json": "e2e4582b915d3c250526a70464ebf7ac4f0a26369876a856eba0939e6b879fda",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-codex_gpt5_5_high-t1-s20260725-8c18356a.json": "06a7275fb0689a7d34200ad564eeaed03988b0f77ad1bedbd20f1a4d9f5d8c31",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-codex_gpt5_5_high-t2-s20260726-96f4636c.json": "e71306ab9644bc2a09ad49deb0f8cb34cdddf194dea5e4a0c94d592df3406634",
+    "runs_release/tables/MANIFEST.json": "f6c8edc1f4e7ee96295c7aad33f8cfa554ffa9583963bdeeab0b2c1cb62ef8a4",
+    "runs_release/tables/build_runs.csv": "6ef9dc045cc4b004e591c17c862b121aeae4ccabb20ff63b225ea098e63d031c",
+    "runs_release/tables/find_runs.csv": "5f1285bfb746a5c53da54ad57f69e7a451a670bc58b09c283fb9c31082645540",
+    "runs_release/tables/question_answers.csv": "30ca51f75d2d87cda16c410f83eb20b89f5a028f03a2c5d8f8e33eca88fa01df"
+  },
+  "inputs": {
+    "author_decisions": "rebuttal/full_conformance_audit/author_decisions.csv",
+    "build_runs": "runs_release/tables/build_runs.csv",
+    "control_exclusions": "runs_release/reports/eandd_final/control_exclusions/excluded_question_only_runs.csv",
+    "control_low_prior": "runs_release/reports/eandd_final/control_exclusions/low_prior_questions.csv",
+    "final_labels": "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv",
+    "find_runs": "runs_release/tables/find_runs.csv",
+    "full_audit_disagreements": "rebuttal/full_conformance_audit/disagreements.csv",
+    "grading_key": "runs_release/reports/option_free_check/grading_key.csv",
+    "grading_pass1": "runs_release/reports/option_free_check/grading_sheet.pass1.csv",
+    "grading_pass2": "runs_release/reports/option_free_check/grading_sheet.pass2.csv",
+    "label_corrections": "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv",
+    "llm_labels": "runs_release/reports/option_free_check/llm_prelabels.csv",
+    "low_prior_manifest": "runs_release/reports/eandd_final/low_prior/manifest.json",
+    "model_assisted_decisions": "rebuttal/full_conformance_audit/model_assisted_decisions.csv",
+    "question_answers": "runs_release/tables/question_answers.csv",
+    "spot_audit_minidb": "rebuttal/conformance_spot_audit/minidb_adjudication.csv",
+    "spot_audit_nanoweb": "rebuttal/conformance_spot_audit/nanoweb_adjudication.csv",
+    "spot_audit_sample_manifest": "rebuttal/conformance_spot_audit/sample_manifest.csv",
+    "table_manifest": "runs_release/tables/MANIFEST.json"
+  },
+  "label_sensitivity": {
+    "artifacts": [
+      {
+        "adjudicated_implemented_gold": 9,
+        "artifact_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+        "full_audit_flags": 6,
+        "pairs": 15,
+        "released_implemented_gold": 15,
+        "task_id": "scratch_minidb"
+      },
+      {
+        "adjudicated_implemented_gold": 5,
+        "artifact_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+        "full_audit_flags": 10,
+        "pairs": 15,
+        "released_implemented_gold": 15,
+        "task_id": "scratch_nanoweb"
+      }
+    ],
+    "corrected_pairs": {
+      "adjudicated": 195,
+      "observed_errors": 9
+    },
+    "label_base": "v1.0 labels with label_corrections_v1_1.csv",
+    "pairs": [
+      {
+        "adjudicated_label": "absent_or_ambiguous",
+        "artifact_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+        "decision": "model-assisted, author_approved on 2026-10-16",
+        "full_audit_flag": "both_passes",
+        "observed_errors_label": "implemented_gold",
+        "question_id": "q_db_01",
+        "released_label": "implemented_gold",
+        "task_id": "scratch_minidb"
+      },
+      {
+        "adjudicated_label": "implemented_non_gold",
+        "artifact_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+        "decision": "model-assisted, author_approved on 2026-10-16",
+        "full_audit_flag": "both_passes",
+        "observed_errors_label": "implemented_non_gold",
+        "question_id": "q_db_05",
+        "released_label": "implemented_gold",
+        "task_id": "scratch_minidb"
+      },
+      {
+        "adjudicated_label": "implemented_gold",
+        "artifact_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+        "decision": "",
+        "full_audit_flag": "",
+        "observed_errors_label": "implemented_gold",
+        "question_id": "q_db_06",
+        "released_label": "implemented_gold",
+        "task_id": "scratch_minidb"
+      },
+      {
+        "adjudicated_label": "implemented_gold",
+        "artifact_id": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+        "decision": "",
+        "full_audit_flag": "",
+        "observed_errors_label": "implemented_gold",
+        "question_id": "q_db_15",
+        "released_label": "implemented_gold",
+        "task_id": "scratch_minidb"
+      },
+      {
+        "adjudicated_label": "implemented_gold",
+        "artifact_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+        "decision": "",
+        "full_audit_flag": "",
+        "observed_errors_label": "implemented_gold",
+        "question_id": "q_nw_01",
+        "released_label": "implemented_gold",
+        "task_id": "scratch_nanoweb"
+      },
+      {
+        "adjudicated_label": "implemented_gold",
+        "artifact_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+        "decision": "",
+        "full_audit_flag": "",
+        "observed_errors_label": "implemented_gold",
+        "question_id": "q_nw_04",
+        "released_label": "implemented_gold",
+        "task_id": "scratch_nanoweb"
+      },
+      {
+        "adjudicated_label": "absent_or_ambiguous",
+        "artifact_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+        "decision": "model-assisted, author_approved on 2026-10-16",
+        "full_audit_flag": "both_passes",
+        "observed_errors_label": "absent_or_ambiguous",
+        "question_id": "q_nw_07",
+        "released_label": "implemented_gold",
+        "task_id": "scratch_nanoweb"
+      },
+      {
+        "adjudicated_label": "implemented_gold",
+        "artifact_id": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+        "decision": "",
+        "full_audit_flag": "",
+        "observed_errors_label": "implemented_gold",
+        "question_id": "q_nw_10",
+        "released_label": "implemented_gold",
+        "task_id": "scratch_nanoweb"
+      }
+    ],
+    "scenarios": {
+      "adjudicated": {
+        "artifact_open": {
+          "correct": 28,
+          "pct": "93.3",
+          "total": 30
+        },
+        "description": "the adjudicated labels (decisions on all full-audit flags)",
+        "difference_pp": "+63.3",
+        "excluded_pairs": [
+          "scratch_minidb:q_db_01",
+          "scratch_minidb:q_db_05",
+          "scratch_nanoweb:q_nw_07"
+        ],
+        "question_only_open": {
+          "correct": 9,
+          "pct": "30.0",
+          "total": 30
+        }
+      },
+      "observed_errors": {
+        "artifact_open": {
+          "correct": 32,
+          "pct": "88.9",
+          "total": 36
+        },
+        "description": "the nine observed source-audit errors",
+        "difference_pp": "+63.9",
+        "excluded_pairs": [
+          "scratch_minidb:q_db_05",
+          "scratch_nanoweb:q_nw_07"
+        ],
+        "question_only_open": {
+          "correct": 9,
+          "pct": "25.0",
+          "total": 36
+        }
+      }
+    }
+  },
+  "low_prior_corrected_controls": {
+    "option_free_questions": 8,
+    "still_low_prior": [
+      "scratch_minidb:q_db_06",
+      "scratch_nanoweb:q_nw_04",
+      "scratch_nanoweb:q_nw_07",
+      "scratch_nanoweb:q_nw_10"
+    ],
+    "still_low_prior_count": 4
+  },
+  "multiple_choice": {
+    "artifact_present": {
+      "correct": 48,
+      "pct": "100.0",
+      "total": 48
+    },
+    "artifact_present_runs": [
+      "find-build-scratch_minidb-cla-claude_code_opus_4_7_high-t0-s20260501-4b89faef",
+      "find-build-scratch_minidb-cla-claude_code_opus_4_7_high-t1-s20260502-4e2faf4c",
+      "find-build-scratch_minidb-cla-claude_code_opus_4_7_high-t2-s20260503-1e1400ba",
+      "find-build-scratch_minidb-cla-codex_gpt5_5_high-t0-s20260501-06f8473e",
+      "find-build-scratch_minidb-cla-codex_gpt5_5_high-t1-s20260502-56b49c19",
+      "find-build-scratch_minidb-cla-codex_gpt5_5_high-t2-s20260503-8f15d2db",
+      "find-build-scratch_nanoweb-cl-claude_code_opus_4_7_high-t0-s20260501-2eb1d3c8",
+      "find-build-scratch_nanoweb-cl-claude_code_opus_4_7_high-t1-s20260502-f736d64a",
+      "find-build-scratch_nanoweb-cl-claude_code_opus_4_7_high-t2-s20260503-ebc21929",
+      "find-build-scratch_nanoweb-cl-codex_gpt5_5_high-t0-s20260501-7d507606",
+      "find-build-scratch_nanoweb-cl-codex_gpt5_5_high-t1-s20260502-51c1077d",
+      "find-build-scratch_nanoweb-cl-codex_gpt5_5_high-t2-s20260503-a46d5c1e"
+    ],
+    "question_only": {
+      "correct": 48,
+      "pct": "100.0",
+      "total": 48
+    },
+    "question_only_runs": [
+      "control-find-control-build-question_only--claude_code_opus_4_7_high-t0-s20260501-09965c0d",
+      "control-find-control-build-question_only--claude_code_opus_4_7_high-t0-s20260501-f828b927",
+      "control-find-control-build-question_only--claude_code_opus_4_7_high-t1-s20260502-3404bc2b",
+      "control-find-control-build-question_only--claude_code_opus_4_7_high-t1-s20260502-801bc102",
+      "control-find-control-build-question_only--claude_code_opus_4_7_high-t2-s20260503-57e01e6f",
+      "control-find-control-build-question_only--claude_code_opus_4_7_high-t2-s20260503-c3f6a686",
+      "control-find-control-build-question_only--codex_gpt5_5_high-t0-s20260501-16873ada",
+      "control-find-control-build-question_only--codex_gpt5_5_high-t0-s20260501-d274fdfb",
+      "control-find-control-build-question_only--codex_gpt5_5_high-t1-s20260502-8467d399",
+      "control-find-control-build-question_only--codex_gpt5_5_high-t1-s20260502-e34c4c3f",
+      "control-find-control-build-question_only--codex_gpt5_5_high-t2-s20260503-1e231463",
+      "control-find-control-build-question_only--codex_gpt5_5_high-t2-s20260503-d202679f"
+    ],
+    "question_only_runs_excluded_by_control_exclusions": 0,
+    "run_dates_utc": [
+      "2026-05-02"
+    ]
+  },
+  "option_free": {
+    "all": {
+      "artifact_open": {
+        "correct": 38,
+        "pct": "79.2",
+        "total": 48
+      },
+      "difference_pp": "+52.1",
+      "question_only_open": {
+        "correct": 13,
+        "pct": "27.1",
+        "total": 48
+      }
+    },
+    "finder:claude_code_opus_4_7_high": {
+      "artifact_open": {
+        "correct": 19,
+        "pct": "79.2",
+        "total": 24
+      },
+      "difference_pp": "+45.8",
+      "question_only_open": {
+        "correct": 8,
+        "pct": "33.3",
+        "total": 24
+      }
+    },
+    "finder:codex_gpt5_5_high": {
+      "artifact_open": {
+        "correct": 19,
+        "pct": "79.2",
+        "total": 24
+      },
+      "difference_pp": "+58.3",
+      "question_only_open": {
+        "correct": 5,
+        "pct": "20.8",
+        "total": 24
+      }
+    },
+    "low_prior_corrected": {
+      "artifact_open": {
+        "correct": 18,
+        "pct": "75.0",
+        "total": 24
+      },
+      "difference_pp": "+62.5",
+      "question_only_open": {
+        "correct": 3,
+        "pct": "12.5",
+        "total": 24
+      }
+    },
+    "question:scratch_minidb:q_db_01": {
+      "artifact_open": {
+        "correct": 4,
+        "pct": "66.7",
+        "total": 6
+      },
+      "difference_pp": "+66.7",
+      "question_only_open": {
+        "correct": 0,
+        "pct": "0.0",
+        "total": 6
+      }
+    },
+    "question:scratch_minidb:q_db_05": {
+      "artifact_open": {
+        "correct": 4,
+        "pct": "66.7",
+        "total": 6
+      },
+      "difference_pp": "+50.0",
+      "question_only_open": {
+        "correct": 1,
+        "pct": "16.7",
+        "total": 6
+      }
+    },
+    "question:scratch_minidb:q_db_06": {
+      "artifact_open": {
+        "correct": 4,
+        "pct": "66.7",
+        "total": 6
+      },
+      "difference_pp": "+66.7",
+      "question_only_open": {
+        "correct": 0,
+        "pct": "0.0",
+        "total": 6
+      }
+    },
+    "question:scratch_minidb:q_db_15": {
+      "artifact_open": {
+        "correct": 6,
+        "pct": "100.0",
+        "total": 6
+      },
+      "difference_pp": "+33.3",
+      "question_only_open": {
+        "correct": 4,
+        "pct": "66.7",
+        "total": 6
+      }
+    },
+    "question:scratch_nanoweb:q_nw_01": {
+      "artifact_open": {
+        "correct": 6,
+        "pct": "100.0",
+        "total": 6
+      },
+      "difference_pp": "+16.7",
+      "question_only_open": {
+        "correct": 5,
+        "pct": "83.3",
+        "total": 6
+      }
+    },
+    "question:scratch_nanoweb:q_nw_04": {
+      "artifact_open": {
+        "correct": 6,
+        "pct": "100.0",
+        "total": 6
+      },
+      "difference_pp": "+100.0",
+      "question_only_open": {
+        "correct": 0,
+        "pct": "0.0",
+        "total": 6
+      }
+    },
+    "question:scratch_nanoweb:q_nw_07": {
+      "artifact_open": {
+        "correct": 2,
+        "pct": "33.3",
+        "total": 6
+      },
+      "difference_pp": "-16.7",
+      "question_only_open": {
+        "correct": 3,
+        "pct": "50.0",
+        "total": 6
+      }
+    },
+    "question:scratch_nanoweb:q_nw_10": {
+      "artifact_open": {
+        "correct": 6,
+        "pct": "100.0",
+        "total": 6
+      },
+      "difference_pp": "+100.0",
+      "question_only_open": {
+        "correct": 0,
+        "pct": "0.0",
+        "total": 6
+      }
+    },
+    "task:scratch_minidb": {
+      "artifact_open": {
+        "correct": 18,
+        "pct": "75.0",
+        "total": 24
+      },
+      "difference_pp": "+54.2",
+      "question_only_open": {
+        "correct": 5,
+        "pct": "20.8",
+        "total": 24
+      }
+    },
+    "task:scratch_nanoweb": {
+      "artifact_open": {
+        "correct": 20,
+        "pct": "83.3",
+        "total": 24
+      },
+      "difference_pp": "+50.0",
+      "question_only_open": {
+        "correct": 8,
+        "pct": "33.3",
+        "total": 24
+      }
+    }
+  },
+  "outputs": [
+    "summary.json",
+    "report.md"
+  ],
+  "printed_values": [
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "8 of 10",
+      "source": "low_prior/manifest.json:question_subset.questions minus question_answers.csv:question_type == negative_contrast; records:question_ids",
+      "value_id": "design.questions"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "q_db_07, q_nw_11",
+      "source": "question_answers.csv:question_type == negative_contrast",
+      "value_id": "design.excluded_questions"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "24",
+      "source": "records/openfind-*.json",
+      "value_id": "design.sessions"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "96",
+      "source": "grading_key.csv rows",
+      "value_id": "design.responses"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "3",
+      "source": "records:manifest.trial_id",
+      "value_id": "design.trials"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "codex_gpt5_5_high, claude_code_opus_4_7_high",
+      "source": "records:manifest.agent.id",
+      "value_id": "design.finders"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3",
+      "source": "records:source_build_run_id; replayed artifact rule on build_runs.csv and artifact_conformance_final.csv",
+      "value_id": "design.artifact.scratch_minidb"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601",
+      "source": "records:source_build_run_id; replayed artifact rule on build_runs.csv and artifact_conformance_final.csv",
+      "value_id": "design.artifact.scratch_nanoweb"
+    },
+    {
+      "exact": "38/48 = 79.1667%",
+      "half_tie": 0,
+      "printed": "38/48",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "option_free.artifact_open"
+    },
+    {
+      "exact": "13/48 = 27.0833%",
+      "half_tie": 0,
+      "printed": "13/48",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "option_free.question_only_open"
+    },
+    {
+      "exact": "38/48 = 79.1667%",
+      "half_tie": 0,
+      "printed": "79.2",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "option_free.artifact_open_pct"
+    },
+    {
+      "exact": "13/48 = 27.0833%",
+      "half_tie": 0,
+      "printed": "27.1",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "option_free.question_only_open_pct"
+    },
+    {
+      "exact": "+52.0833 pp",
+      "half_tie": 0,
+      "printed": "+52.1",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "option_free.difference_pp"
+    },
+    {
+      "exact": "48/48 = 100.0000%",
+      "half_tie": 0,
+      "printed": "48/48",
+      "source": "question_answers.csv:is_correct (panel paper_final_scratch on the two artifacts, or panel question_only), same finders and questions",
+      "value_id": "mcq.artifact_present"
+    },
+    {
+      "exact": "48/48 = 100.0000%",
+      "half_tie": 0,
+      "printed": "48/48",
+      "source": "question_answers.csv:is_correct (panel paper_final_scratch on the two artifacts, or panel question_only), same finders and questions",
+      "value_id": "mcq.question_only"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "0",
+      "source": "excluded_question_only_runs.csv:find_run_id",
+      "value_id": "mcq.question_only_runs_excluded"
+    },
+    {
+      "exact": "19/24 = 79.1667%",
+      "half_tie": 0,
+      "printed": "19/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "finder.codex_gpt5_5_high.artifact_open"
+    },
+    {
+      "exact": "5/24 = 20.8333%",
+      "half_tie": 0,
+      "printed": "5/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "finder.codex_gpt5_5_high.question_only_open"
+    },
+    {
+      "exact": "+58.3333 pp",
+      "half_tie": 0,
+      "printed": "+58.3",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "finder.codex_gpt5_5_high.difference_pp"
+    },
+    {
+      "exact": "19/24 = 79.1667%",
+      "half_tie": 0,
+      "printed": "19/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "finder.claude_code_opus_4_7_high.artifact_open"
+    },
+    {
+      "exact": "8/24 = 33.3333%",
+      "half_tie": 0,
+      "printed": "8/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "finder.claude_code_opus_4_7_high.question_only_open"
+    },
+    {
+      "exact": "+45.8333 pp",
+      "half_tie": 0,
+      "printed": "+45.8",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "finder.claude_code_opus_4_7_high.difference_pp"
+    },
+    {
+      "exact": "18/24 = 75.0000%",
+      "half_tie": 0,
+      "printed": "18/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "task.scratch_minidb.artifact_open"
+    },
+    {
+      "exact": "5/24 = 20.8333%",
+      "half_tie": 0,
+      "printed": "5/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "task.scratch_minidb.question_only_open"
+    },
+    {
+      "exact": "+54.1667 pp",
+      "half_tie": 0,
+      "printed": "+54.2",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "task.scratch_minidb.difference_pp"
+    },
+    {
+      "exact": "20/24 = 83.3333%",
+      "half_tie": 0,
+      "printed": "20/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "task.scratch_nanoweb.artifact_open"
+    },
+    {
+      "exact": "8/24 = 33.3333%",
+      "half_tie": 0,
+      "printed": "8/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "task.scratch_nanoweb.question_only_open"
+    },
+    {
+      "exact": "+50.0000 pp",
+      "half_tie": 0,
+      "printed": "+50.0",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "task.scratch_nanoweb.difference_pp"
+    },
+    {
+      "exact": "4/6 = 66.6667%",
+      "half_tie": 0,
+      "printed": "4/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_db_01.artifact_open"
+    },
+    {
+      "exact": "0/6 = 0.0000%",
+      "half_tie": 0,
+      "printed": "0/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_db_01.question_only_open"
+    },
+    {
+      "exact": "4/6 = 66.6667%",
+      "half_tie": 0,
+      "printed": "4/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_db_05.artifact_open"
+    },
+    {
+      "exact": "1/6 = 16.6667%",
+      "half_tie": 0,
+      "printed": "1/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_db_05.question_only_open"
+    },
+    {
+      "exact": "4/6 = 66.6667%",
+      "half_tie": 0,
+      "printed": "4/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_db_06.artifact_open"
+    },
+    {
+      "exact": "0/6 = 0.0000%",
+      "half_tie": 0,
+      "printed": "0/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_db_06.question_only_open"
+    },
+    {
+      "exact": "6/6 = 100.0000%",
+      "half_tie": 0,
+      "printed": "6/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_db_15.artifact_open"
+    },
+    {
+      "exact": "4/6 = 66.6667%",
+      "half_tie": 0,
+      "printed": "4/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_db_15.question_only_open"
+    },
+    {
+      "exact": "6/6 = 100.0000%",
+      "half_tie": 0,
+      "printed": "6/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_nw_01.artifact_open"
+    },
+    {
+      "exact": "5/6 = 83.3333%",
+      "half_tie": 0,
+      "printed": "5/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_nw_01.question_only_open"
+    },
+    {
+      "exact": "6/6 = 100.0000%",
+      "half_tie": 0,
+      "printed": "6/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_nw_04.artifact_open"
+    },
+    {
+      "exact": "0/6 = 0.0000%",
+      "half_tie": 0,
+      "printed": "0/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_nw_04.question_only_open"
+    },
+    {
+      "exact": "2/6 = 33.3333%",
+      "half_tie": 0,
+      "printed": "2/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_nw_07.artifact_open"
+    },
+    {
+      "exact": "3/6 = 50.0000%",
+      "half_tie": 0,
+      "printed": "3/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_nw_07.question_only_open"
+    },
+    {
+      "exact": "6/6 = 100.0000%",
+      "half_tie": 0,
+      "printed": "6/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_nw_10.artifact_open"
+    },
+    {
+      "exact": "0/6 = 0.0000%",
+      "half_tie": 0,
+      "printed": "0/6",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition",
+      "value_id": "question.q_nw_10.question_only_open"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "4 of 8",
+      "source": "control_exclusions/low_prior_questions.csv:still_low_prior",
+      "value_id": "low_prior.still_low_prior"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "q_db_06, q_nw_04, q_nw_07, q_nw_10",
+      "source": "control_exclusions/low_prior_questions.csv:still_low_prior",
+      "value_id": "low_prior.questions"
+    },
+    {
+      "exact": "18/24 = 75.0000%",
+      "half_tie": 0,
+      "printed": "18/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; control_exclusions/low_prior_questions.csv:still_low_prior",
+      "value_id": "low_prior.artifact_open"
+    },
+    {
+      "exact": "3/24 = 12.5000%",
+      "half_tie": 0,
+      "printed": "3/24",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; control_exclusions/low_prior_questions.csv:still_low_prior",
+      "value_id": "low_prior.question_only_open"
+    },
+    {
+      "exact": "+62.5000 pp",
+      "half_tie": 0,
+      "printed": "+62.5",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; control_exclusions/low_prior_questions.csv:still_low_prior",
+      "value_id": "low_prior.difference_pp"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "2",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the nine observed source-audit errors",
+      "value_id": "sensitivity.observed_errors.pairs"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "q_db_05, q_nw_07",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the nine observed source-audit errors",
+      "value_id": "sensitivity.observed_errors.questions"
+    },
+    {
+      "exact": "32/36 = 88.8889%",
+      "half_tie": 0,
+      "printed": "32/36",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the nine observed source-audit errors",
+      "value_id": "sensitivity.observed_errors.artifact_open"
+    },
+    {
+      "exact": "9/36 = 25.0000%",
+      "half_tie": 0,
+      "printed": "9/36",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the nine observed source-audit errors",
+      "value_id": "sensitivity.observed_errors.question_only_open"
+    },
+    {
+      "exact": "+63.8889 pp",
+      "half_tie": 0,
+      "printed": "+63.9",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the nine observed source-audit errors",
+      "value_id": "sensitivity.observed_errors.difference_pp"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "3",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the adjudicated labels (decisions on all full-audit flags)",
+      "value_id": "sensitivity.adjudicated.pairs"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "q_db_01, q_db_05, q_nw_07",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the adjudicated labels (decisions on all full-audit flags)",
+      "value_id": "sensitivity.adjudicated.questions"
+    },
+    {
+      "exact": "28/30 = 93.3333%",
+      "half_tie": 0,
+      "printed": "28/30",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the adjudicated labels (decisions on all full-audit flags)",
+      "value_id": "sensitivity.adjudicated.artifact_open"
+    },
+    {
+      "exact": "9/30 = 30.0000%",
+      "half_tie": 0,
+      "printed": "9/30",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the adjudicated labels (decisions on all full-audit flags)",
+      "value_id": "sensitivity.adjudicated.question_only_open"
+    },
+    {
+      "exact": "+63.3333 pp",
+      "half_tie": 0,
+      "printed": "+63.3",
+      "source": "grading_sheet.pass1.csv:claim_correct joined on grading_id with grading_key.csv:condition; pairs whose label changes under the adjudicated labels (decisions on all full-audit flags)",
+      "value_id": "sensitivity.adjudicated.difference_pp"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "6/15",
+      "source": "artifact_conformance_final.csv + label_corrections_v1_1.csv:final_label; disagreements.csv; author_decisions.csv; model_assisted_decisions.csv",
+      "value_id": "artifact.scratch_minidb.full_audit_flags"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "15/15",
+      "source": "artifact_conformance_final.csv + label_corrections_v1_1.csv:final_label; disagreements.csv; author_decisions.csv; model_assisted_decisions.csv",
+      "value_id": "artifact.scratch_minidb.released_implemented_gold"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "9/15",
+      "source": "artifact_conformance_final.csv + label_corrections_v1_1.csv:final_label; disagreements.csv; author_decisions.csv; model_assisted_decisions.csv",
+      "value_id": "artifact.scratch_minidb.adjudicated_implemented_gold"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "10/15",
+      "source": "artifact_conformance_final.csv + label_corrections_v1_1.csv:final_label; disagreements.csv; author_decisions.csv; model_assisted_decisions.csv",
+      "value_id": "artifact.scratch_nanoweb.full_audit_flags"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "15/15",
+      "source": "artifact_conformance_final.csv + label_corrections_v1_1.csv:final_label; disagreements.csv; author_decisions.csv; model_assisted_decisions.csv",
+      "value_id": "artifact.scratch_nanoweb.released_implemented_gold"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "5/15",
+      "source": "artifact_conformance_final.csv + label_corrections_v1_1.csv:final_label; disagreements.csv; author_decisions.csv; model_assisted_decisions.csv",
+      "value_id": "artifact.scratch_nanoweb.adjudicated_implemented_gold"
+    },
+    {
+      "exact": "96/96 = 100.0000%",
+      "half_tie": 0,
+      "printed": "96/96",
+      "source": "grading_sheet.pass1.csv:claim_correct == grading_sheet.pass2.csv:claim_correct",
+      "value_id": "grading.correctness_unchanged"
+    },
+    {
+      "exact": "48/48 = 100.0000%",
+      "half_tie": 0,
+      "printed": "48/48",
+      "source": "grading_sheet.pass2.csv:evidence_sufficient on artifact_open rows",
+      "value_id": "grading.artifact_open_evidence_sufficient"
+    },
+    {
+      "exact": "38/38 = 100.0000%",
+      "half_tie": 0,
+      "printed": "38/38",
+      "source": "grading_sheet.pass2.csv:evidence_sufficient on correct artifact_open rows",
+      "value_id": "grading.sufficient_among_correct"
+    },
+    {
+      "exact": "48/48 = 100.0000%",
+      "half_tie": 0,
+      "printed": "48/48",
+      "source": "grading_sheet.pass1.csv:evidence_files non-empty",
+      "value_id": "grading.pass1_evidence_rows.artifact_open"
+    },
+    {
+      "exact": "0/48 = 0.0000%",
+      "half_tie": 0,
+      "printed": "0/48",
+      "source": "grading_sheet.pass1.csv:evidence_files non-empty",
+      "value_id": "grading.pass1_evidence_rows.question_only_open"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "48",
+      "source": "grading_sheet.pass2.csv:evidence_sufficient on question_only_open rows",
+      "value_id": "grading.question_only_no_evidence_cited"
+    },
+    {
+      "exact": "82/96 = 85.4167%",
+      "half_tie": 0,
+      "printed": "82/96",
+      "source": "llm_prelabels.csv:claim_correct vs grading_sheet.pass1.csv:claim_correct",
+      "value_id": "grading.llm_correctness_agreement"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "14",
+      "source": "llm_prelabels.csv:claim_correct vs grading_sheet.pass1.csv:claim_correct",
+      "value_id": "grading.llm_disagreements"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "12",
+      "source": "llm_prelabels.csv:claim_correct vs grading_sheet.pass1.csv:claim_correct",
+      "value_id": "grading.llm_disagreements_author_stricter"
+    },
+    {
+      "exact": "96/96 = 100.0000%",
+      "half_tie": 0,
+      "printed": "96/96",
+      "source": "llm_prelabels.csv:evidence_sufficient vs grading_sheet.pass2.csv:evidence_sufficient",
+      "value_id": "grading.llm_evidence_agreement"
+    },
+    {
+      "exact": "9849679",
+      "half_tie": 0,
+      "printed": "9.85M",
+      "source": "records:usage.vendor_usage.total_tokens",
+      "value_id": "compute.vendor_tokens"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "2026-07-23",
+      "source": "records:manifest.created_at (UTC)",
+      "value_id": "dates.option_free_sessions"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "2026-05-02",
+      "source": "find_runs.csv:find_created_at (UTC)",
+      "value_id": "dates.mcq_runs"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "July 2026",
+      "source": "records:manifest.created_at (UTC)",
+      "value_id": "dates.option_free_sessions_month"
+    },
+    {
+      "exact": "",
+      "half_tie": 0,
+      "printed": "May 2026",
+      "source": "find_runs.csv:find_created_at (UTC)",
+      "value_id": "dates.mcq_runs_month"
+    }
+  ],
+  "records": [
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t0-s20260724-667bee0d.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t1-s20260725-8b5791b9.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-claude_code_opus_4_7_high-t2-s20260726-f3095332.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-codex_gpt5_5_high-t0-s20260724-a4e086b0.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-codex_gpt5_5_high-t1-s20260725-5ae4b30e.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-artifact_open-codex_gpt5_5_high-t2-s20260726-03419513.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t0-s20260724-02e5b3ec.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t1-s20260725-c2ac457f.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-claude_code_opus_4_7_high-t2-s20260726-30c91f56.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t0-s20260724-a05a0db4.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t1-s20260725-20039752.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t2-s20260726-8fb11703.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-claude_code_opus_4_7_high-t0-s20260724-1da0c35d.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-claude_code_opus_4_7_high-t1-s20260725-285a97ae.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-claude_code_opus_4_7_high-t2-s20260726-76505bc4.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t0-s20260724-7e097050.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t1-s20260725-b5a636f3.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-artifact_open-codex_gpt5_5_high-t2-s20260726-eb566f2f.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t0-s20260724-b931cc7e.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t1-s20260725-f628627a.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t2-s20260726-9e99cb2f.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-codex_gpt5_5_high-t0-s20260724-9c6cf445.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-codex_gpt5_5_high-t1-s20260725-8c18356a.json",
+    "runs_release/reports/option_free_check/records/openfind-scratch_nanoweb-question_only_open-codex_gpt5_5_high-t2-s20260726-96f4636c.json"
+  ],
+  "table_manifest_generated_at": "2026-05-03T20:04:26.141382+00:00"
+}

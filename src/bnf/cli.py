@@ -631,7 +631,7 @@ def analyze_scatter(
         else:
             keys = list(rows[0].keys())
             with out.open("w", encoding="utf-8", newline="") as f:
-                writer = _csv.DictWriter(f, fieldnames=keys)
+                writer = _csv.DictWriter(f, fieldnames=keys, lineterminator="\n")
                 writer.writeheader()
                 for row in rows:
                     writer.writerow(row)

@@ -121,7 +121,7 @@ def main() -> None:
     residual_rows = _affinity_residual_rows(finds, low_prior_questions)
     family_rows = _family_residual_rows(residual_rows)
     _write_csv(plots_dir / "recovery_affinity_residual_12x12.csv", residual_rows)
-    family_rows.to_csv(plots_dir / "recovery_affinity_residual_family.csv")
+    family_rows.to_csv(plots_dir / "recovery_affinity_residual_family.csv", lineterminator="\n")
 
     manifest = {
         "generated_at": _source_snapshot_at(builds, finds, controls),

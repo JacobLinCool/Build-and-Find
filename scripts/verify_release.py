@@ -7,6 +7,7 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 from typing import Any
 
@@ -17,6 +18,17 @@ from bnf.config import paths
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+from scripts.update_croissant_metadata import (  # noqa: E402
+    CroissantLayoutError,
+    content_path,
+    dataset_url,
+    is_repository_object,
+)
+
+HF_DATASET_URL_PREFIX = "https://huggingface.co/datasets/"
+# The dataset URL can still be a template placeholder, filled in before publishing.
+URL_PLACEHOLDER_RE = re.compile(r"\{\{[A-Z][A-Z0-9_]*\}\}")
 CSV_TABLES = {
     "build_runs.csv",
     "find_runs.csv",
@@ -55,7 +67,7 @@ REQUIRED_RAI_FIELDS = {
     "rai:dataReleaseMaintenancePlan",
 }
 REQUIRED_REPORT_PATHS = {
-    "runs_release/reports/claim_evidence.md",
+    "runs_release/reports/reproducibility_index.md",
     "runs_release/reports/evidence_citation_audit.md",
     "runs_release/reports/eandd_final/metrics.json",
     "runs_release/reports/eandd_final/insights.md",
@@ -63,6 +75,20 @@ REQUIRED_REPORT_PATHS = {
     "runs_release/reports/eandd_final/validity_stress/stress_summary.csv",
     "runs_release/reports/eandd_final/validity_stress/bootstrap_lift.csv",
     "runs_release/reports/eandd_final/low_prior/manifest.json",
+    "runs_release/reports/eandd_final/control_exclusions/excluded_question_only_runs.csv",
+    "runs_release/reports/eandd_final/control_exclusions/summary.json",
+    "runs_release/reports/eandd_final/transcript_audit/primary_panel_exposure.csv",
+    "runs_release/reports/eandd_final/transcript_audit/summary.json",
+    "runs_release/reports/runtime_tests/artifact_tests.csv",
+    "runs_release/reports/runtime_tests/summary.json",
+    "runs_release/reports/option_free_check/summary.json",
+    "runs_release/reports/option_free_check/report.md",
+    "runs_release/reports/option_free_check/rubric.md",
+    "runs_release/reports/option_free_check/grading_key.csv",
+    "runs_release/reports/option_free_check/grading_sheet.pass1.csv",
+    "runs_release/reports/option_free_check/grading_sheet.pass2.csv",
+    "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv",
+    "runs_release/reports/artifact_conformance_consensus/impact/conditioned_builder_scores_by_task.csv",
 }
 
 
@@ -188,32 +214,57 @@ def verify_croissant_metadata(table_dir: Path) -> None:
     if not isinstance(manifest_files, dict):
         raise ReleaseError("table MANIFEST files must be an object")
 
+    try:
+        url = dataset_url(metadata)
+    except CroissantLayoutError as error:
+        raise ReleaseError(str(error)) from None
+    if not URL_PLACEHOLDER_RE.fullmatch(url) and not url.startswith(HF_DATASET_URL_PREFIX):
+        raise ReleaseError(f"Croissant url must be a Hugging Face dataset URL, got {url!r}")
+    repositories = {
+        str(item.get("@id"))
+        for item in distribution
+        if isinstance(item, dict) and is_repository_object(item)
+    }
+    if len(repositories) != 1:
+        raise ReleaseError(
+            f"Croissant distribution must have one git repository FileObject, got {sorted(repositories)}"
+        )
+
     for item in distribution:
         if not isinstance(item, dict):
             raise ReleaseError("Croissant distribution entries must be objects")
         item_type = item.get("@type")
         item_id = item.get("@id", "<unknown>")
-        if item_type == "cr:FileObject":
+        if item_type == "cr:FileObject" and is_repository_object(item):
+            if item.get("contentUrl") != url:
+                raise ReleaseError(
+                    f"Croissant repository {item_id} contentUrl must be the dataset url {url!r}"
+                )
+        elif item_type == "cr:FileObject":
             content_url = item.get("contentUrl")
             if not isinstance(content_url, str) or not content_url:
                 raise ReleaseError(f"Croissant FileObject {item_id} has no contentUrl")
-            path = ROOT / content_url
-            if not path.exists():
-                raise ReleaseError(f"Croissant FileObject missing: {content_url}")
+            try:
+                relative = content_path(metadata, content_url)
+            except CroissantLayoutError as error:
+                raise ReleaseError(f"Croissant FileObject {item_id}: {error}") from None
+            path = ROOT / relative
+            if not path.is_file():
+                raise ReleaseError(f"Croissant FileObject missing: {relative}")
             actual_size = path.stat().st_size
             actual_sha = sha256_of(path)
             if str(actual_size) != str(item.get("contentSize")):
                 raise ReleaseError(
-                    f"Croissant FileObject size mismatch for {content_url}: "
+                    f"Croissant FileObject size mismatch for {relative}: "
                     f"metadata={item.get('contentSize')} actual={actual_size}"
                 )
             if item.get("sha256") != actual_sha:
                 raise ReleaseError(
-                    f"Croissant FileObject sha256 mismatch for {content_url}: "
+                    f"Croissant FileObject sha256 mismatch for {relative}: "
                     f"metadata={item.get('sha256')} actual={actual_sha}"
                 )
-            if content_url.startswith(f"{display_path(table_dir)}/"):
-                table_name = Path(content_url).name
+            if relative.startswith(f"{display_path(table_dir)}/"):
+                table_name = Path(relative).name
                 if table_name == "MANIFEST.json":
                     continue
                 info = manifest_files.get(table_name)
@@ -224,6 +275,11 @@ def verify_croissant_metadata(table_dir: Path) -> None:
                 if info.get("sha256") != actual_sha:
                     raise ReleaseError(f"Croissant/table-manifest sha256 mismatch for {table_name}")
         elif item_type == "cr:FileSet":
+            contained_in = item.get("containedIn")
+            if not isinstance(contained_in, dict) or contained_in.get("@id") not in repositories:
+                raise ReleaseError(
+                    f"Croissant FileSet {item_id} must be containedIn the git repository FileObject"
+                )
             includes = item.get("includes")
             if not isinstance(includes, str) or not includes:
                 raise ReleaseError(f"Croissant FileSet {item_id} has no includes pattern")

@@ -1,0 +1,122 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t0-s20260724-b931cc7e",
+  "condition": "question_only_open",
+  "task_id": "scratch_nanoweb",
+  "source_build_run_id": null,
+  "question_ids": [
+    "q_nw_01",
+    "q_nw_04",
+    "q_nw_07",
+    "q_nw_10"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_nanoweb-question_only_open-claude_code_opus_4_7_high-t0-s20260724-b931cc7e",
+    "spec_hash": "b1b767bde14db727",
+    "prompt_hash": "a37c0c33cd9d29ba",
+    "agent": {
+      "id": "claude_code_opus_4_7_high",
+      "adapter": "claude_code",
+      "model_id": "claude-opus-4-7",
+      "adapter_version": null
+    },
+    "seed": 20260724,
+    "trial_id": 0,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:29:58.155606+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_nw_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "How is HTTP/1.1 parsing wired into this framework?",
+      "claim": "HTTP/1.1 parsing is implemented as a hand-written incremental byte-oriented parser inside a dedicated connection/protocol module that reads from the raw socket buffer, extracts the request line, headers, and body length (Content-Length or chunked transfer-encoding), and produces a Request object which is then dispatched into the router/middleware pipeline. The parser is invoked directly by the server's accept loop on each new connection rather than delegated to an external HTTP library.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Micro-frameworks named 'nanoweb' typically ship their own minimal HTTP/1.1 parser rather than depend on an external stack.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_04",
+      "intention_id": "I-SR4",
+      "question_prompt": "How is the middleware stack composed?",
+      "claim": "The middleware stack is composed as an ordered list of callable functions wrapped from the outside in, where each middleware receives the next handler as an argument and returns a new handler, producing a single onion-style chain that is built once at application configuration time and invoked per request with a shared context/request object. Middlewares are registered via an `app.use(...)` style method in the order they should execute.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "The onion/next-handler pattern is the canonical composition model for small web frameworks.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_07",
+      "intention_id": "I-FR11",
+      "question_prompt": "How does the framework expose observability metrics?",
+      "claim": "The framework exposes observability metrics through a built-in `/metrics` HTTP endpoint that serves counters and histograms (request count, latency, status-code breakdown, in-flight connections) in Prometheus text exposition format, populated by an internal middleware that times each request and increments the corresponding metric. No external metrics client is required; the collection registry is a small in-process module.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Prometheus text on /metrics is the de facto standard for framework-level observability.",
+      "answered": true
+    },
+    {
+      "question_id": "q_nw_10",
+      "intention_id": "I-FR13",
+      "question_prompt": "What shape does the framework's built-in template engine take?",
+      "claim": "The built-in template engine is a small string-substitution renderer that supports `{{ variable }}` interpolation, basic `{% if %}` / `{% for %}` block tags, and automatic HTML escaping by default, compiling each template source into a cached Python (or host-language) function that takes a context dict and returns the rendered string. Templates are loaded from a configurable templates directory and looked up by filename.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Jinja/Mustache-style mustache syntax with autoescape is the standard shape for a nano-framework's own engine.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 22.154957624996314,
+    "usage_source": "project_log",
+    "session_id": "a155fd87-55b5-402b-bc91-13841c2d999c",
+    "prompt_bytes": 1376,
+    "retrieval_payload_bytes": 290,
+    "tool_input_bytes": 2749,
+    "assistant_message_bytes": 57,
+    "final_answer_bytes": 57,
+    "bytes_to_model": 1666,
+    "bytes_from_model": 2806,
+    "tool_calls": 1,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "project_log",
+      "input_tokens": 6,
+      "cache_creation_input_tokens": 26809,
+      "cache_read_input_tokens": 125932,
+      "output_tokens": 1102,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 153849,
+      "cost_usd": 0.365101
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 290,
+      "novel_tool_call_bytes": 2855,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 20.925956964492798,
+      "generation_tok_per_s": 61.665486147226446,
+      "tool_names": {
+        "Write": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 153920,
+        "cached_input_tokens": 125932,
+        "uncached_input_tokens": 27988,
+        "cache_creation_input_tokens": 26809,
+        "non_reasoning_output_tokens": 1126,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 155046
+      },
+      "proxy_session_id": "3BufF0EEJxu72dso",
+      "request_count": 3,
+      "raw_request_bytes": 417376,
+      "raw_response_bytes": 63039
+    }
+  },
+  "status": "ok",
+  "error": null
+}

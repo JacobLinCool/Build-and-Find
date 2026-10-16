@@ -1,4 +1,7 @@
-"""Write an auditable claim-evidence index from canonical analysis tables.
+"""Write the reproducibility index from canonical analysis tables.
+
+The index maps the paper's main results to the scripts, tables, and reports that
+produce them, and records the hashes of the canonical tables.
 
 The canonical primary paper panel contains compile-passing scratch builds. The
 artifact-present diagnostic panel retains status-ok builds whose release artifact
@@ -8,6 +11,7 @@ stress reports.
 
 from __future__ import annotations
 
+import csv
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -57,6 +61,55 @@ def _row_count_label(entry: dict[str, object]) -> object:
     return row_count if row_count not in ("", None) else "n/a"
 
 
+def _paper_repeatability(path: Path) -> list[str]:
+    """Table 2 rows as printed in the paper, with the corrected question-only control."""
+    if not path.exists():
+        return ["- Paper Table 2 repeatability: n/a"]
+    with path.open(newline="", encoding="utf-8") as handle:
+        rows = [row for row in csv.DictReader(handle) if row["table"] == "table2"]
+    return [
+        f"- Paper Table 2 {row['slice_id']}: {row['agreement_pct']}% three-trial agreement; "
+        f"{row['reliable_questions']} / {row['questions']} reliable questions "
+        f"({row['find_runs']} find runs, {row['answer_rows']} answer rows)"
+        for row in rows
+    ]
+
+
+def _count(rate: dict[str, object]) -> str:
+    return f"{rate['correct']}/{rate['total']}"
+
+
+def _option_free_claim(path: Path) -> str:
+    """Option-free counts as printed in Section 4.2 and Appendix L.1."""
+    if not path.exists():
+        return "- Claim: option-free check: n/a"
+    summary = json.loads(path.read_text(encoding="utf-8"))
+    overall = summary["option_free"]["all"]
+    mcq = summary["multiple_choice"]
+    return (
+        "- Claim: in the additional option-free check (eight low-prior questions, one "
+        "artifact per task, two finders, three trials), free-text answers are correct in "
+        f"{_count(overall['artifact_open'])} responses with artifact access and "
+        f"{_count(overall['question_only_open'])} from the question alone "
+        f"({overall['difference_pp']} pp); the matched multiple-choice arms are correct in "
+        f"{_count(mcq['artifact_present'])} and {_count(mcq['question_only'])} answer rows."
+    )
+
+
+def _runtime_tests_claim(path: Path) -> str:
+    """Builder-written test-suite counts as printed in Section 6 and Appendix G."""
+    if not path.exists():
+        return "- Claim: builder-written test suites: n/a"
+    summary = json.loads(path.read_text(encoding="utf-8"))
+    suites = summary["suites"]
+    tests = summary["tests"]
+    return (
+        f"- Claim: the builder-written test suites pass in full in {suites['passed']} of "
+        f"{suites['run']} compile-pass builds, and {tests['passed']} of {tests['total']} tests "
+        "pass; the suites indicate self-consistency of each artifact with its own tests."
+    )
+
+
 def main() -> None:
     p = paths()
     require_analysis_tables(p.tables_dir)
@@ -92,6 +145,14 @@ def main() -> None:
         )
         if row["task_id"] in SCRATCH_TASKS
     ]
+    control_exclusions_dir = p.reports_dir / "eandd_final" / "control_exclusions"
+    transcript_audit_dir = p.reports_dir / "eandd_final" / "transcript_audit"
+    conformance_dir = p.reports_dir / "artifact_conformance_consensus"
+    option_free_dir = p.reports_dir / "option_free_check"
+    runtime_tests_dir = p.reports_dir / "runtime_tests"
+    label_sensitivity_dir = (
+        ROOT / "rebuttal" / "full_conformance_audit" / "label_sensitivity_adjudicated"
+    )
     experiments = json.loads((p.tables_dir / "experiments.json").read_text(encoding="utf-8"))
     manifest = json.loads((p.tables_dir / "MANIFEST.json").read_text(encoding="utf-8"))
 
@@ -108,7 +169,12 @@ def main() -> None:
     }
 
     lines = [
-        "# Claim Evidence",
+        "# Reproducibility Index",
+        "",
+        "This index maps the paper's main results to the scripts, tables, and reports "
+        "that produce them, and records the hashes of the canonical tables. The "
+        "implementation-label audits are in `rebuttal/full_conformance_audit/` and "
+        "`rebuttal/conformance_spot_audit/`.",
         "",
         f"- Primary panel: `{PAPER_FINAL_PANEL_ID}`",
         f"- Artifact-present diagnostic panel: `{ARTIFACT_PRESENT_DIAGNOSTIC_PANEL_ID}`",
@@ -138,7 +204,7 @@ def main() -> None:
         f"- Duplicate OK formal logical cells selected away: {duplicates.get('formal_logical_cells_with_multiple_ok_records', 'n/a')}",
         f"- Duplicate OK control logical cells selected away: {duplicates.get('control_logical_cells_with_multiple_ok_records', 'n/a')}",
         (
-            "- Formal three-trial agreement: "
+            "- Formal three-trial agreement, all answer rows: "
             f"{_percent(stability_all['with_codebase']['stable_cell_rate'])}; "
             f"{_percent(stability_all['with_codebase']['stable_questions_ge_090'] / stability_all['with_codebase']['question_count'])} reliable questions"
         )
@@ -152,12 +218,13 @@ def main() -> None:
         if stability_all
         else "- Spec-only three-trial agreement: n/a",
         (
-            "- Question-only three-trial agreement: "
+            "- Question-only three-trial agreement, all released runs: "
             f"{_percent(stability_all['question_only']['stable_cell_rate'])}; "
             f"{_percent(stability_all['question_only']['stable_questions_ge_090'] / stability_all['question_only']['question_count'])} reliable questions"
         )
         if stability_all
         else "- Question-only three-trial agreement: n/a",
+        *_paper_repeatability(control_exclusions_dir / "repeatability.csv"),
         f"- Formal tokens: {headline.get('formal_total_tokens', 'n/a')}",
         f"- Control tokens: {headline.get('control_total_tokens', 'n/a')}",
         f"- Formal cost USD: {headline.get('formal_total_cost_usd', float('nan')):.2f}" if headline else "- Formal cost USD: n/a",
@@ -184,7 +251,7 @@ def main() -> None:
         "",
         *_coverage(primary_find_rows),
         "",
-        "## Major Claim Sources",
+        "## Sources of the Main Results",
         "",
         "### Benchmark scope and controls",
         "",
@@ -216,7 +283,7 @@ def main() -> None:
         "",
         "### Within-finder builder efficiency",
         "",
-        "- Claim: GPT-5.5 rows are full-coverage, low-effort examples under the conditional within-finder effort diagnostic in the reported compile-pass panel.",
+        "- Claim: the GPT-5.5 rows show low-effort artifact recovery on all 12 finder-task cells under the conditional within-finder effort diagnostic in the reported compile-pass panel.",
         f"- Analysis output: `{_display_path(p.reports_dir / 'eandd_final' / 'within_finder_efficiency' / 'within_finder_efficiency_insights.md')}`",
         "- Tables: `builder_scores.csv`, `recovery_scores.csv`, `rank_stability.csv`",
         "- Script: `scripts/analyze_eandd_within_finder_efficiency.py`",
@@ -235,6 +302,55 @@ def main() -> None:
         "- Tables: `low_prior/within_finder_efficiency/builder_scores.csv`, `low_prior/within_finder_efficiency/recovery_scores.csv`, `evidence_citation_audit_sample.csv`",
         "- Scripts: `scripts/analyze_eandd_low_prior.py`, `scripts/audit_finder_evidence_sample.py`, `scripts/summarize_evidence_audit.py`",
         "",
+        "### Question-only control exclusions",
+        "",
+        "- Claim: question-only control runs whose transcripts show reads outside their workspace are excluded; control-dependent values (calibration and repeatability rows, matched differences, per-finder calibration, low-prior accuracy and lift, the core-finder selector rerun) use the corrected control, while the frozen low-prior and implementation-signal question sets stay as selected on the released controls.",
+        f"- Analysis output: `{_display_path(control_exclusions_dir / 'report.md')}`",
+        "- Tables: `excluded_question_only_runs.csv`, `printed_values.csv`, `calibration_rows.csv`, `contrasts.csv`, `repeatability.csv`, `finder_calibration.csv`, `finder_selection.csv`, `summary.json`",
+        "- Script: `scripts/analyze_control_exclusions.py`",
+        "",
+        "### Primary-panel transcript exposure",
+        "",
+        "- Claim: no primary-panel finder read the specification or the gold-annotated question files, and excluding the primary-panel runs whose transcripts reach outside their workspace changes accuracy by at most 0.11 pp and leaves every R_b rank unchanged.",
+        f"- Analysis output: `{_display_path(transcript_audit_dir / 'report.md')}`",
+        "- Tables: `primary_panel_exposure.csv`, `summary.json`",
+        "- Script: `scripts/analyze_transcript_exposure.py`",
+        "",
+        "### Implementation labels (v1.1)",
+        "",
+        "- Claim: implementation-conditioned results use the released v1.0 labels with the v1.1 corrections overlaid; the build without source files is labeled `absent_or_ambiguous` on all of its questions (`rule_empty_artifact`).",
+        f"- Analysis output: `{_display_path(conformance_dir / 'impact' / 'impact_report.md')}`, `{_display_path(conformance_dir / 'final' / 'README.md')}`",
+        "- Tables: `final/artifact_conformance_final.csv` (v1.0), `final/label_corrections_v1_1.csv`, `impact/conformance_gate_summary.csv`, `impact/builder_conformance_summary.csv`, `impact/conditioned_builder_scores.csv`, `impact/manifest.json`",
+        "- Script: `scripts/analyze_artifact_conformance_impact.py`",
+        "",
+        "### Implementation-label sensitivity",
+        "",
+        "- Claim: under the adjudicated implementation labels (43 author decisions and 162 model-assisted decisions reviewed and approved by the author), the high-effort R_b order is unchanged, the two low-effort leaders swap, and low-effort ranks three to six keep their order; per-builder implementation coverage over artifact-present builds ranges from 35.0% to 83.3%, implemented-gold accuracy is 99.7% (99.4% low-prior), and 23 of the 65 supported evidence-audit answers fall on relabeled pairs. The paper's other analyses use the released labels.",
+        f"- Analysis output: `{_display_path(label_sensitivity_dir / 'report.md')}`",
+        "- Tables: `rb_rankings.csv`, `rb_rank_changes.csv`, `corrections.csv`, `implementation_coverage.csv`, `conditioned_accuracy.csv`, `evidence_audit_overlap.csv`, `relabeled_pairs.csv`, `question_labels.csv`, `manifest.json`",
+        f"- Decisions: `{_display_path(label_sensitivity_dir.parent / 'author_decisions.csv')}`, `{_display_path(label_sensitivity_dir.parent / 'model_assisted_decisions.csv')}`",
+        "- Script: `scripts/analyze_rebuttal_label_sensitivity.py` (`make label-sensitivity`)",
+        "",
+        "### Per-task R_b",
+        "",
+        "- Claim: the total-byte R_b of Figure 1 is recomputed on each task separately under the released labels, with a bootstrap over that task's finder clusters and the pooled rank of each builder (paper Table 16).",
+        f"- Analysis output: `{_display_path(conformance_dir / 'impact' / 'conditioned_builder_scores_by_task.csv')}`",
+        "- Script: `scripts/analyze_artifact_conformance_impact.py`",
+        "",
+        "### Option-free check",
+        "",
+        _option_free_claim(option_free_dir / "summary.json"),
+        f"- Analysis output: `{_display_path(option_free_dir / 'report.md')}`",
+        "- Tables: `summary.json`, `grading_key.csv`, `grading_sheet.pass1.csv`, `grading_sheet.pass2.csv`, `llm_prelabels.csv`, `rubric.md`, `records/openfind-*.json`",
+        "- Scripts: `scripts/run_open_pilot.py` (sessions), `scripts/analyze_option_free_check.py`",
+        "",
+        "### Builder-written test suites",
+        "",
+        _runtime_tests_claim(runtime_tests_dir / "summary.json"),
+        f"- Analysis output: `{_display_path(runtime_tests_dir / 'report.md')}`",
+        "- Tables: `artifact_tests.csv`, `summary.json`",
+        "- Scripts: `scripts/run_artifact_tests.py` (test run), `scripts/summarize_runtime_tests.py`",
+        "",
         "### Builder-finder affinity",
         "",
         "- Claim: affinity residuals diagnose panel-local builder--finder interaction effects after accounting for builder and finder marginals.",
@@ -251,7 +367,7 @@ def main() -> None:
         "",
     ]
 
-    out = p.reports_dir / "claim_evidence.md"
+    out = p.reports_dir / "reproducibility_index.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines), encoding="utf-8")
     print(f"wrote {out}")

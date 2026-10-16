@@ -1,0 +1,122 @@
+{
+  "record_type": "open_find_run",
+  "open_find_run_id": "openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t1-s20260725-20039752",
+  "condition": "question_only_open",
+  "task_id": "scratch_minidb",
+  "source_build_run_id": null,
+  "question_ids": [
+    "q_db_01",
+    "q_db_05",
+    "q_db_06",
+    "q_db_15"
+  ],
+  "manifest": {
+    "run_id": "openfind-scratch_minidb-question_only_open-codex_gpt5_5_high-t1-s20260725-20039752",
+    "spec_hash": "6e9570001a33eb4c",
+    "prompt_hash": "8eb01ca8f59d16ba",
+    "agent": {
+      "id": "codex_gpt5_5_high",
+      "adapter": "codex",
+      "model_id": "gpt-5.5",
+      "adapter_version": null
+    },
+    "seed": 20260725,
+    "trial_id": 1,
+    "env_hash": "74abf393e494ed06",
+    "created_at": "2026-07-23T18:26:44.839175+00:00",
+    "bnf_version": "0.1.0"
+  },
+  "answers": [
+    {
+      "question_id": "q_db_01",
+      "intention_id": "I-FR2",
+      "question_prompt": "Batch mode maps different failure categories to different exit codes. Which mapping does the codebase implement?",
+      "claim": "Batch mode exits with code 0 when every statement succeeds, code 1 for runtime or execution failures, code 2 for SQL parse or validation failures, and code 3 for storage or internal database errors.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "The mapping separates user-query mistakes from execution and persistence failures.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_05",
+      "intention_id": "I-SR3",
+      "question_prompt": "What execution model does the query engine use?",
+      "claim": "The query engine uses a pull-based Volcano iterator model. Physical operators expose an open/next/close-style interface and produce one row at a time as their parent operator requests it.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "This is the standard execution shape for a small relational database with composable operators.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_06",
+      "intention_id": "I-SR7",
+      "question_prompt": "How are secondary indexes physically organised?",
+      "claim": "Secondary indexes are non-clustered structures stored separately from the table data. Each index maps the indexed key to the primary key or row id of matching records, with duplicate index keys represented by multiple referenced row ids.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "This keeps the table heap authoritative while allowing indexed lookup paths.",
+      "answered": true
+    },
+    {
+      "question_id": "q_db_15",
+      "intention_id": "I-FR15",
+      "question_prompt": "The user invokes `minidb --format yaml --eval \"SELECT 1;\"`. `yaml` is not a supported value for `--format`. What does the process do?",
+      "claim": "The process rejects the command during CLI argument parsing before running the SQL. It prints an invalid-choice style error for `--format yaml` to stderr and exits with status code 2.",
+      "evidence_files": [],
+      "evidence_symbols": [],
+      "rationale": "Unsupported enum-like command-line values are handled as usage errors by the parser.",
+      "answered": true
+    }
+  ],
+  "usage": {
+    "wall_clock_seconds": 26.162112291989615,
+    "usage_source": "session_log",
+    "session_id": "019f903a-7747-7622-9d14-961411fb62d3",
+    "prompt_bytes": 1513,
+    "retrieval_payload_bytes": 380,
+    "tool_input_bytes": 1665,
+    "assistant_message_bytes": 186,
+    "final_answer_bytes": 54,
+    "bytes_to_model": 1893,
+    "bytes_from_model": 1851,
+    "tool_calls": 2,
+    "network_requests": 0,
+    "vendor_usage": {
+      "source": "session_log",
+      "input_tokens": 43094,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 32896,
+      "output_tokens": 983,
+      "reasoning_output_tokens": 516,
+      "total_tokens": 44077,
+      "cost_usd": null
+    },
+    "efficiency": {
+      "novel_retrieval_bytes": 280,
+      "novel_tool_call_bytes": 71,
+      "novel_tool_call_count": 1,
+      "novel_tool_result_count": 1,
+      "wall_clock_seconds": 25.875384092330933,
+      "generation_tok_per_s": 45.10024429166444,
+      "tool_names": {
+        "exec_command": 1
+      },
+      "turn_count": 2,
+      "vendor_tokens": {
+        "total_input_tokens": 43094,
+        "cached_input_tokens": 32896,
+        "uncached_input_tokens": 10198,
+        "cache_creation_input_tokens": 0,
+        "non_reasoning_output_tokens": 467,
+        "reasoning_output_tokens": 516,
+        "total_tokens": 44077
+      },
+      "proxy_session_id": "qneTpeF-JQ015mNl",
+      "request_count": 4,
+      "raw_request_bytes": 175960,
+      "raw_response_bytes": 664547
+    }
+  },
+  "status": "ok",
+  "error": null
+}

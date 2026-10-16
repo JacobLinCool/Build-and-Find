@@ -1,0 +1,49 @@
+build_run_id,task_id,cargo_present,build_rc,build_ok,build_seconds,test_rc,test_ok,test_seconds,test_binaries,tests_passed,tests_failed,tests_ignored,note
+build-scratch_minidb-claude_code_mimo_v2_5_high-t0-s20260501-acb184a1,scratch_minidb,True,0,True,0.0,0,True,0.6,2,76,0,0,
+build-scratch_minidb-claude_code_mimo_v2_5_high-t1-s20260502-550d8811,scratch_minidb,True,0,True,10.2,0,True,4.8,4,70,0,0,
+build-scratch_minidb-claude_code_mimo_v2_5_low-t0-s20260501-51f333b3,scratch_minidb,True,0,True,2.0,0,True,1.6,1,46,0,0,
+build-scratch_minidb-claude_code_mimo_v2_5_low-t1-s20260502-07943f95,scratch_minidb,True,0,True,2.2,0,True,4.1,2,67,0,0,
+build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t0-s20260501-291ba58c,scratch_minidb,True,0,True,3.6,0,True,6.5,2,71,0,0,
+build-scratch_minidb-claude_code_mimo_v2_5_pro_high-t1-s20260502-b6e82435,scratch_minidb,True,0,True,9.3,0,True,9.3,2,114,0,0,
+build-scratch_minidb-claude_code_mimo_v2_5_pro_low-t0-s20260501-f53e2357,scratch_minidb,False,,False,,,False,,0,0,0,0,"no root Cargo.toml (excluded by release-mode compile probe; 6 nested-crate layouts + 1 empty artifact, see paper Table 10)"
+build-scratch_minidb-claude_code_mimo_v2_5_pro_low-t1-s20260502-e387a96b,scratch_minidb,False,,False,,,False,,0,0,0,0,"no root Cargo.toml (excluded by release-mode compile probe; 6 nested-crate layouts + 1 empty artifact, see paper Table 10)"
+build-scratch_minidb-claude_code_opus_4_7_high-t0-s20260501-2d77e55a,scratch_minidb,True,0,True,13.2,0,True,3.9,4,69,0,0,
+build-scratch_minidb-claude_code_opus_4_7_high-t1-s20260502-83f0c8f0,scratch_minidb,True,0,True,3.8,0,True,13.2,5,80,0,0,
+build-scratch_minidb-claude_code_opus_4_7_low-t0-s20260501-cdbba75d,scratch_minidb,True,0,True,1.9,0,True,4.2,4,51,0,0,
+build-scratch_minidb-claude_code_opus_4_7_low-t1-s20260502-5846c7eb,scratch_minidb,True,0,True,5.7,0,True,3.2,4,31,0,0,
+build-scratch_minidb-claude_code_sonnet_4_6_high-t0-s20260501-aa19a4dc,scratch_minidb,True,0,True,8.3,0,True,8.2,4,93,0,0,
+build-scratch_minidb-claude_code_sonnet_4_6_high-t1-s20260502-bd0b6695,scratch_minidb,True,0,True,2.2,0,True,3.0,4,65,0,0,
+build-scratch_minidb-claude_code_sonnet_4_6_low-t0-s20260501-dd444f70,scratch_minidb,True,0,True,1.8,0,True,3.9,2,86,0,0,
+build-scratch_minidb-claude_code_sonnet_4_6_low-t1-s20260502-0690460b,scratch_minidb,True,0,True,3.3,0,True,5.2,2,92,0,0,
+build-scratch_minidb-codex_gpt5_4_mini_high-t0-s20260501-7ba82072,scratch_minidb,True,0,True,18.1,0,True,5.2,4,14,0,0,
+build-scratch_minidb-codex_gpt5_4_mini_high-t1-s20260502-05500a40,scratch_minidb,True,0,True,2.7,0,True,4.7,4,20,0,0,
+build-scratch_minidb-codex_gpt5_4_mini_low-t0-s20260501-6923533c,scratch_minidb,False,,False,,,False,,0,0,0,0,"no root Cargo.toml (excluded by release-mode compile probe; 6 nested-crate layouts + 1 empty artifact, see paper Table 10)"
+build-scratch_minidb-codex_gpt5_4_mini_low-t1-s20260502-c57ac23c,scratch_minidb,True,0,True,2.7,0,True,4.4,4,8,0,0,
+build-scratch_minidb-codex_gpt5_5_high-t0-s20260501-1924cec4,scratch_minidb,True,0,True,2.8,0,True,4.6,4,22,0,0,
+build-scratch_minidb-codex_gpt5_5_high-t1-s20260502-0c54a173,scratch_minidb,True,0,True,4.3,0,True,4.6,4,18,0,0,
+build-scratch_minidb-codex_gpt5_5_low-t0-s20260501-d0068f8c,scratch_minidb,True,0,True,2.7,0,True,3.7,4,11,0,0,
+build-scratch_minidb-codex_gpt5_5_low-t1-s20260502-4c36b45f,scratch_minidb,True,0,True,3.7,0,True,5.0,4,14,0,0,
+build-scratch_nanoweb-claude_code_mimo_v2_5_high-t0-s20260501-f80bd4f0,scratch_nanoweb,True,0,True,52.3,0,True,31.0,4,76,0,0,
+build-scratch_nanoweb-claude_code_mimo_v2_5_high-t1-s20260502-44ad1601,scratch_nanoweb,True,0,True,24.1,0,True,26.1,4,63,0,0,
+build-scratch_nanoweb-claude_code_mimo_v2_5_low-t0-s20260501-957fa423,scratch_nanoweb,False,,False,,,False,,0,0,0,0,"no root Cargo.toml (excluded by release-mode compile probe; 6 nested-crate layouts + 1 empty artifact, see paper Table 10)"
+build-scratch_nanoweb-claude_code_mimo_v2_5_low-t1-s20260502-0ab2ca9f,scratch_nanoweb,True,0,True,10.6,0,True,17.8,4,41,0,0,
+build-scratch_nanoweb-claude_code_mimo_v2_5_pro_high-t0-s20260501-a6d76cc1,scratch_nanoweb,False,,False,,,False,,0,0,0,0,"no root Cargo.toml (excluded by release-mode compile probe; 6 nested-crate layouts + 1 empty artifact, see paper Table 10)"
+build-scratch_nanoweb-claude_code_mimo_v2_5_pro_high-t1-s20260502-beb8c87d,scratch_nanoweb,False,,False,,,False,,0,0,0,0,"no root Cargo.toml (excluded by release-mode compile probe; 6 nested-crate layouts + 1 empty artifact, see paper Table 10)"
+build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t0-s20260501-d22d724b,scratch_nanoweb,False,,False,,,False,,0,0,0,0,"no root Cargo.toml (excluded by release-mode compile probe; 6 nested-crate layouts + 1 empty artifact, see paper Table 10)"
+build-scratch_nanoweb-claude_code_mimo_v2_5_pro_low-t1-s20260502-e516fe14,scratch_nanoweb,True,0,True,12.9,0,True,15.9,4,101,0,0,
+build-scratch_nanoweb-claude_code_opus_4_7_high-t0-s20260501-c329ce51,scratch_nanoweb,True,0,True,14.3,0,True,11.2,4,59,0,0,
+build-scratch_nanoweb-claude_code_opus_4_7_high-t1-s20261502-374bc791,scratch_nanoweb,True,0,True,8.5,0,True,10.0,4,55,0,0,
+build-scratch_nanoweb-claude_code_opus_4_7_low-t0-s20261501-636b758c,scratch_nanoweb,True,0,True,4.1,0,True,5.2,4,46,0,0,
+build-scratch_nanoweb-claude_code_opus_4_7_low-t1-s20261502-ae88af88,scratch_nanoweb,True,0,True,38.2,0,True,5.2,4,34,0,0,
+build-scratch_nanoweb-claude_code_sonnet_4_6_high-t0-s20261501-05d5b610,scratch_nanoweb,True,0,True,5.2,0,True,5.5,4,115,0,0,
+build-scratch_nanoweb-claude_code_sonnet_4_6_high-t1-s20261502-f19379b3,scratch_nanoweb,True,0,True,6.7,0,True,6.5,4,84,0,0,
+build-scratch_nanoweb-claude_code_sonnet_4_6_low-t0-s20261501-e6047538,scratch_nanoweb,True,0,True,5.6,0,True,7.0,4,40,0,0,
+build-scratch_nanoweb-claude_code_sonnet_4_6_low-t1-s20261502-8328c0da,scratch_nanoweb,True,0,True,2.9,0,True,8.4,4,33,0,0,
+build-scratch_nanoweb-codex_gpt5_4_mini_high-t0-s20260501-aa87757d,scratch_nanoweb,True,0,True,16.8,0,True,5.4,4,16,0,0,
+build-scratch_nanoweb-codex_gpt5_4_mini_high-t1-s20260502-e25932eb,scratch_nanoweb,True,0,True,8.6,0,True,9.8,4,27,0,0,
+build-scratch_nanoweb-codex_gpt5_4_mini_low-t0-s20260501-1a57cf95,scratch_nanoweb,True,0,True,4.7,0,True,5.6,4,19,0,0,
+build-scratch_nanoweb-codex_gpt5_4_mini_low-t1-s20260502-8f79ca6d,scratch_nanoweb,True,0,True,8.9,0,True,9.8,4,14,0,0,
+build-scratch_nanoweb-codex_gpt5_5_high-t0-s20260501-b54f0634,scratch_nanoweb,True,0,True,4.8,0,True,6.9,4,32,0,0,
+build-scratch_nanoweb-codex_gpt5_5_high-t1-s20260502-a5df8a82,scratch_nanoweb,True,0,True,8.1,0,True,8.0,4,35,0,0,
+build-scratch_nanoweb-codex_gpt5_5_low-t0-s20260501-6a64601d,scratch_nanoweb,True,0,True,4.4,0,True,6.9,4,27,0,0,
+build-scratch_nanoweb-codex_gpt5_5_low-t1-s20260502-ce7e6480,scratch_nanoweb,True,0,True,3.3,101,False,5.1,3,25,1,0,test cors_sets_origin ... FAILED
