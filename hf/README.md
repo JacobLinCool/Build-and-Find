@@ -71,6 +71,7 @@ the paper.
 
 - Paper: https://openreview.net/forum?id=y48mj8HiWu
 - Code: https://github.com/JacobLinCool/Build-and-Find
+- DOI: [10.57967/hf/11347](https://doi.org/10.57967/hf/11347)
 - Version: 1.1.0 (camera-ready), revision `v1.1.0` of this dataset; changes
   from the reviewed v1.0.0 are listed in `CHANGELOG.md`.
 

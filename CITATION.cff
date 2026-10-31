@@ -25,6 +25,9 @@ authors:
     affiliation: "National Yang Ming Chiao Tung University"
     email: "jacob.cs14@nycu.edu.tw"
 identifiers:
+  - type: doi
+    value: "10.57967/hf/11347"
+    description: "DOI of the Build-and-Find dataset on Hugging Face"
   - type: url
     value: "https://huggingface.co/datasets/JacobLinCool/Build-and-Find"
     description: "Build-and-Find dataset on Hugging Face"

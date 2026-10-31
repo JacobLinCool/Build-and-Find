@@ -30,4 +30,4 @@ quoted in run records and audit records come from those artifacts and remain
 available under Apache-2.0 as well.
 
 Attribution should cite the Build-and-Find paper (https://openreview.net/forum?id=y48mj8HiWu) and the
-Build-and-Find dataset (https://huggingface.co/datasets/JacobLinCool/Build-and-Find); see CITATION.cff.
+Build-and-Find dataset (https://huggingface.co/datasets/JacobLinCool/Build-and-Find, DOI 10.57967/hf/11347); see CITATION.cff.

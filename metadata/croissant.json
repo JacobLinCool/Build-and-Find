@@ -70,6 +70,7 @@
   "conformsTo": "http://mlcommons.org/croissant/1.1",
   "license": "https://creativecommons.org/licenses/by/4.0/",
   "url": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find",
+  "identifier": "https://doi.org/10.57967/hf/11347",
   "version": "1.1.0",
   "dateCreated": "2026-05-01",
   "datePublished": "2026-05-04",

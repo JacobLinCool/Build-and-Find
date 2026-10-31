@@ -175,6 +175,8 @@ the paper.
 
 ### Release documentation
 
+- The Hugging Face dataset has DOI 10.57967/hf/11347; README, CITATION.cff,
+  the dataset card, LICENSE-DATA, Croissant, and the paper cite it.
 - `runs_release/reports/claim_evidence.md` is renamed
   `reproducibility_index.md`, written by `scripts/write_reproducibility_index.py`
   and `make reproducibility-index` (formerly `scripts/write_claim_evidence.py`

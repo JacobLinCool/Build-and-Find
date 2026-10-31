@@ -11,7 +11,7 @@ harness, the two released Rust task packs, the generated artifacts and run
 records, the analysis scripts, and the reports behind the paper's numbers.
 
 - Paper: https://openreview.net/forum?id=y48mj8HiWu
-- Dataset (Hugging Face): https://huggingface.co/datasets/JacobLinCool/Build-and-Find
+- Dataset (Hugging Face): https://huggingface.co/datasets/JacobLinCool/Build-and-Find (DOI: [10.57967/hf/11347](https://doi.org/10.57967/hf/11347))
 - Code: https://github.com/JacobLinCool/Build-and-Find
 - Changes since the reviewed release: [`CHANGELOG.md`](CHANGELOG.md)
 
