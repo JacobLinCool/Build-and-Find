@@ -10,10 +10,7 @@
     "seed": 20260602
   },
   "core_finder_selection": {
-    "default_core_finders": [
-      "claude_code_sonnet_4_6_low",
-      "claude_code_sonnet_4_6_high"
-    ],
+    "default_core_finders": [],
     "inputs_replaced": [
       "question_only_accuracy",
       "formal_minus_question_only",
@@ -27,10 +24,7 @@
     "prior_stress_audit_finders": [
       "claude_code_mimo_v2_5_pro_low"
     ],
-    "released_default_core_finders": [
-      "claude_code_sonnet_4_6_low",
-      "claude_code_sonnet_4_6_high"
-    ],
+    "released_default_core_finders": [],
     "released_prior_stress_audit_finders": [
       "claude_code_mimo_v2_5_pro_low"
     ],
@@ -48,8 +42,8 @@
     "runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv": "d89d92dc92b00488984cb52965c5cb1f774894fea845ef90ed9b9b8eee3a2b1e",
     "runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv": "6430dd0b42919b7f8b25214ae10d20f0f5958cb8c784093f92bd084e08910b29",
     "runs_release/reports/eandd_final/control_exclusions/excluded_question_only_runs.csv": "9b8566d5f3064ae12289d93697fa7ae38c3a9e5e0b789bb06977372b41e87858",
-    "runs_release/reports/eandd_final/core_finder_selection/core_finders.json": "d6e370e13a168f32059e83b09715ea87f5f84521704dc00f3732bcdbf75c8e30",
-    "runs_release/reports/eandd_final/finder_summary.csv": "d3e32cbf72eb436caf03335a2221387994c23ed916b4868a0b5f02534567e790",
+    "runs_release/reports/eandd_final/core_finder_selection/core_finders.json": "651cdab5eaa7d5256413a3f58ae5bc444ada80db02b6950f64d14d0bc14552ff",
+    "runs_release/reports/eandd_final/finder_summary.csv": "d5d5d6df99eecbbdc457a6591a6513f0b61031d042573d654d98654d5672aba2",
     "runs_release/reports/eandd_final/low_prior/manifest.json": "f47e43ba9ec702bdb79241dee001aab094d63be95102d80c1fa9aff740e8f050",
     "runs_release/reports/eandd_final/pivots/affinity_by_agent.csv": "9fcbaff2b04874b1a6ac96bc91536ffada4503085f0c230bc864aadea30e955b",
     "runs_release/reports/eandd_final/pivots/manifest.json": "f327294d9f0e37343fdff0393ea1ecade43d7e6576739ea18b7031ff10416817",

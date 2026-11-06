@@ -357,16 +357,25 @@ def test_headline_printed_values(analysis, printed) -> None:
     assert printed["table1.caption.unscored_runs"] == "36"
     assert printed["app_e.largest_question_only_lift.claude_code_mimo_v2_5_pro_low"] == "+12.9"
     assert analysis.selection.unchanged
-    assert analysis.selection.core_finders == [
-        "claude_code_sonnet_4_6_low",
-        "claude_code_sonnet_4_6_high",
-    ]
+    assert analysis.selection.core_finders == []
     assert analysis.selection.audit_finders == ["claude_code_mimo_v2_5_pro_low"]
     assert analysis.label_sources == {
         "consensus_prelabel": 681,
         "manual_review": 24,
         "rule_empty_artifact": 15,
     }
+
+
+def test_finder_cost_gate_includes_subagent_tokens(analysis) -> None:
+    tokens = {finder.finder_id: finder.mean_find_tokens for finder in analysis.finders}
+    assert tokens["claude_code_sonnet_4_6_low"] == 670_960
+    assert tokens["claude_code_sonnet_4_6_high"] == 729_460
+    assert min(tokens.values()) == 329_206
+    assert all(
+        "mean tokens > 150000" in row["core_gate_failures"]
+        for row in analysis.selection.rows
+    )
+    assert analysis.selection.core_finders == analysis.selection.released_core_finders == []
 
 
 def _formatted(row) -> tuple:

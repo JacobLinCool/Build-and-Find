@@ -177,10 +177,16 @@ def _figure_legend(fig: plt.Figure, *, y: float = 0.02) -> None:
     fig.legend(handles=handles, loc="lower center", frameon=False, ncol=3, fontsize=7.5, bbox_to_anchor=(0.5, y))
 
 
-def _save(fig: plt.Figure, stem: str) -> None:
+def _save(fig: plt.Figure, stem: str, *, fixed_size: bool = False) -> None:
     for suffix in ("pdf", "png", "svg"):
         path = OUT / f"{stem}.{suffix}"
-        fig.savefig(path, bbox_inches="tight", pad_inches=0.04, facecolor="white")
+        fig.savefig(
+            path,
+            bbox_inches=None if fixed_size else "tight",
+            pad_inches=0 if fixed_size else 0.04,
+            dpi=300 if fixed_size else None,
+            facecolor="white",
+        )
         if suffix == "svg":
             _strip_trailing_whitespace(path)
     plt.close(fig)
@@ -216,7 +222,8 @@ def _plot_builder_recovery() -> None:
     label_offset = 0.01 * (x_max - x_min)
 
     y = np.arange(len(df))
-    fig, ax = plt.subplots(figsize=(7.1, 3.85))
+    fig, ax = plt.subplots(figsize=(5.5, 3.1))
+    fig.subplots_adjust(left=0.25, right=0.98, bottom=0.26, top=0.98)
     for idx, row in df.iterrows():
         color = COLORS.get(row["family"], MUTED)
         ax.hlines(
@@ -255,9 +262,10 @@ def _plot_builder_recovery() -> None:
             clip_on=False,
         )
     ax.set_yticks(y)
-    ax.set_yticklabels(df["label"])
-    ax.set_xlabel("Implementation-aware recovery and implementation coverage")
+    ax.set_yticklabels(df["label"], fontsize=7.2)
+    ax.set_xlabel("Implementation-aware recovery and implementation coverage", fontsize=7.2)
     ax.set_ylabel("")
+    ax.tick_params(axis="x", labelsize=7.2)
     _format_pct_axis(ax, xmin=x_min, xmax=x_max)
     metric_handles = [
         Line2D([0], [0], marker="o", linestyle="", markersize=5.5, color=TEXT, label="Recovery × coverage"),
@@ -277,15 +285,22 @@ def _plot_builder_recovery() -> None:
         for label, color in (("GPT", COLORS["codex"]), ("Claude", COLORS["claude"]), ("MiMo", COLORS["mimo"]))
     ]
     fig.legend(
-        handles=metric_handles + family_handles,
+        handles=metric_handles,
         loc="lower center",
         frameon=False,
-        ncol=5,
+        ncol=2,
+        fontsize=7.2,
+        bbox_to_anchor=(0.5, 0.065),
+    )
+    fig.legend(
+        handles=family_handles,
+        loc="lower center",
+        frameon=False,
+        ncol=3,
         fontsize=7.2,
         bbox_to_anchor=(0.5, 0.002),
     )
-    fig.tight_layout(rect=[0.0, 0.12, 1.0, 1.0])
-    _save(fig, "fig_builder_recovery")
+    _save(fig, "fig_builder_recovery", fixed_size=True)
 
 
 def _effort(agent_id: str) -> str:
@@ -338,7 +353,9 @@ def _plot_robustness_slices() -> None:
         columns=["#1", "#2", "#3", "#1", "#2", "#3"],
     )
 
-    fig, ax = plt.subplots(figsize=(7.4, 2.75))
+    fig = plt.figure(figsize=(5.5, 2.65))
+    ax = fig.add_axes((0.195, 0.115, 0.695, 0.77))
+    colorbar_ax = fig.add_axes((0.92, 0.16, 0.018, 0.67))
     cmap = LinearSegmentedColormap.from_list("recovery_blue", ["#f8fafc", "#dbeafe", "#93c5fd"])
     sns.heatmap(
         matrix,
@@ -348,7 +365,7 @@ def _plot_robustness_slices() -> None:
         vmax=100,
         linewidths=1.0,
         linecolor="white",
-        cbar_kws={"label": "Recovery", "shrink": 0.78, "pad": 0.025},
+        cbar_ax=colorbar_ax,
     )
     for row_i, annotation_row in enumerate(annotations):
         for col_i, text in enumerate(annotation_row):
@@ -358,19 +375,22 @@ def _plot_robustness_slices() -> None:
                 text,
                 ha="center",
                 va="center",
-                fontsize=6.15,
-                fontweight="bold",
+                fontsize=7.0,
                 color=TEXT,
             )
     ax.axvline(3, color="white", linewidth=2.4)
-    ax.text(1.5 / 6, 1.06, "Builder view", ha="center", va="bottom", transform=ax.transAxes, fontsize=8.5, fontweight="bold")
-    ax.text(4.5 / 6, 1.06, "Finder view", ha="center", va="bottom", transform=ax.transAxes, fontsize=8.5, fontweight="bold")
+    ax.text(1.5 / 6, 1.04, "Builder view", ha="center", va="bottom", transform=ax.transAxes, fontsize=8, fontweight="bold")
+    ax.text(4.5 / 6, 1.04, "Finder view", ha="center", va="bottom", transform=ax.transAxes, fontsize=8, fontweight="bold")
     ax.set_xlabel("")
     ax.set_ylabel("")
     ax.tick_params(axis="x", labelrotation=0, labelsize=7.3, length=0)
     ax.tick_params(axis="y", labelrotation=0, labelsize=7.3, length=0)
-    fig.tight_layout(rect=[0.0, 0.0, 1.0, 0.98])
-    _save(fig, "fig_robustness_slices")
+    colorbar_ax.tick_params(labelsize=7)
+    colorbar_ax.text(
+        0.5, 1.04, "Recovery", transform=colorbar_ax.transAxes,
+        ha="center", va="bottom", fontsize=7,
+    )
+    _save(fig, "fig_robustness_slices", fixed_size=True)
 
 
 def _heatmap_label(label: str) -> str:
@@ -391,6 +411,7 @@ def _plot_builder_rb_forest() -> None:
         "conditioned_builder_scores.csv",
         "fig_builder_rb_forest",
         impact=True,
+        legend_offset_pt=3.0,
     )
 
 
@@ -402,7 +423,9 @@ def _plot_low_prior_builder_rb_forest() -> None:
     )
 
 
-def _plot_builder_rb_forest_from(source: str, stem: str, *, impact: bool = False) -> None:
+def _plot_builder_rb_forest_from(
+    source: str, stem: str, *, impact: bool = False, legend_offset_pt: float = 0.0
+) -> None:
     df = _read_impact_csv(source) if impact else _read_csv(source)
     df = df[
         (df["primary_panel"] == 1)
@@ -412,10 +435,12 @@ def _plot_builder_rb_forest_from(source: str, stem: str, *, impact: bool = False
     ].copy()
     df["label"] = df["builder_id"].map(_short_label)
     finite_high_all = df["ci95_high"].replace([np.inf, -np.inf], np.nan).dropna()
-    x_max = max(2.18, float(finite_high_all.max()) + 0.22 if len(finite_high_all) else 2.18)
+    x_max = max(2.18, float(finite_high_all.max()) + 0.45 if len(finite_high_all) else 2.18)
     coverage_x = x_max - 0.03
 
-    fig, axes = plt.subplots(ncols=2, figsize=(7.4, 3.2), sharex=True)
+    fig, axes = plt.subplots(ncols=2, figsize=(5.5, 2.35), sharex=True)
+    axes[0].set_position((0.165, 0.245, 0.315, 0.61))
+    axes[1].set_position((0.665, 0.245, 0.315, 0.61))
 
     for ax, panel_id, title in zip(axes, ["high_effort", "low_effort"], ["High effort", "Low effort"], strict=True):
         work = df[df["panel_id"] == panel_id].sort_values("score", ascending=False).reset_index(drop=True)
@@ -426,22 +451,25 @@ def _plot_builder_rb_forest_from(source: str, stem: str, *, impact: bool = False
             ax.plot(row["score"], idx, marker="o", markersize=4.8, markerfacecolor="white", markeredgecolor=color, markeredgewidth=1.4)
             ax.text(coverage_x, idx, f"{int(row['n_cells'])}/12", ha="right", va="center", fontsize=6.8, color=MUTED)
         ax.set_yticks(y, work["label"])
-        ax.set_title(title, fontsize=8.5, fontweight="bold")
+        ax.set_title(title, fontsize=8.1, fontweight="bold", pad=14)
         ax.set_xlim(0.95, x_max)
-        ax.text(coverage_x, len(work) - 0.28, "cells", ha="right", va="bottom", fontsize=6.5, color=MUTED)
-        ax.set_xlabel(TOTAL_BYTE_RB_LABEL)
+        ax.set_ylim(-0.5, len(work) - 0.5)
+        ax.text(1.0, 1.01, "cells", ha="right", va="bottom", transform=ax.transAxes, fontsize=7, color=MUTED)
+        ax.set_xlabel(TOTAL_BYTE_RB_LABEL, fontsize=7.5, labelpad=4)
         ax.grid(axis="x", color=GRID)
         ax.grid(axis="y", visible=False)
-        ax.tick_params(axis="both", labelsize=7.3)
+        ax.tick_params(axis="both", labelsize=7.2, pad=3)
         sns.despine(ax=ax, left=True, bottom=False)
 
-    _figure_legend(fig, y=-0.005)
-    fig.tight_layout(rect=[0.0, 0.045, 1.0, 1.0])
-    _save(fig, stem)
+    _figure_legend(fig, y=0.005 - legend_offset_pt / (72 * fig.get_figheight()))
+    _save(fig, stem, fixed_size=True)
 
 
 def _write_task_recovery_gate_table() -> None:
-    _write_task_recovery_gate_table_from("conditioned_run_rows.csv", "tab_task_recovery_gate.tex")
+    _write_task_recovery_gate_table_from(
+        "conditioned_run_rows.csv", "tab_task_recovery_gate.tex",
+        font_size=r"\footnotesize", column_sep="4.0pt",
+    )
 
 
 def _write_low_prior_task_recovery_gate_table() -> None:
@@ -451,7 +479,9 @@ def _write_low_prior_task_recovery_gate_table() -> None:
     )
 
 
-def _write_task_recovery_gate_table_from(source: str, stem: str) -> None:
+def _write_task_recovery_gate_table_from(
+    source: str, stem: str, *, font_size: str = r"\scriptsize", column_sep: str = "2.7pt"
+) -> None:
     df = _read_impact_csv(source)
     task_order = ["scratch_minidb", "scratch_nanoweb"]
     task_labels = {
@@ -467,8 +497,8 @@ def _write_task_recovery_gate_table_from(source: str, stem: str) -> None:
         r"\begin{minipage}[t]{0.49\textwidth}",
         r"\centering",
         r"\textbf{High effort}\\[0.25em]",
-        r"\scriptsize",
-        r"\setlength{\tabcolsep}{2.7pt}",
+        font_size,
+        rf"\setlength{{\tabcolsep}}{{{column_sep}}}",
         rf"\begin{{tabular}}{{@{{}}l{'c' * len(task_order)}@{{}}}}",
         r"\toprule",
         "Builder & " + " & ".join(task_labels[task_id] for task_id in task_order) + r" \\",
@@ -483,8 +513,8 @@ def _write_task_recovery_gate_table_from(source: str, stem: str) -> None:
             r"\begin{minipage}[t]{0.49\textwidth}",
             r"\centering",
             r"\textbf{Low effort}\\[0.25em]",
-            r"\scriptsize",
-            r"\setlength{\tabcolsep}{2.7pt}",
+            font_size,
+            rf"\setlength{{\tabcolsep}}{{{column_sep}}}",
             rf"\begin{{tabular}}{{@{{}}l{'c' * len(task_order)}@{{}}}}",
             r"\toprule",
             "Builder & " + " & ".join(task_labels[task_id] for task_id in task_order) + r" \\",
@@ -796,7 +826,10 @@ def _plot_affinity_residual_from(source: str, stem: str, *, impact: bool = False
     ).loc[label_order, label_order]
     limit = max(abs(float(matrix.min().min())), abs(float(matrix.max().max())))
 
-    fig, ax = plt.subplots(figsize=(8.7, 7.5))
+    fig = plt.figure(figsize=(5.5, 4.4))
+    matrix_width = 0.65
+    ax = fig.add_axes((0.23, 0.14, matrix_width, matrix_width * 5.5 / 4.4))
+    colorbar_ax = fig.add_axes((0.90, 0.25, 0.018, 0.62))
     sns.heatmap(
         matrix,
         ax=ax,
@@ -809,24 +842,33 @@ def _plot_affinity_residual_from(source: str, stem: str, *, impact: bool = False
         linecolor="white",
         annot=True,
         fmt="+.2f",
-        annot_kws={"fontsize": 5.1, "fontweight": "semibold"},
-        cbar_kws={"label": "Affinity residual", "shrink": 0.68, "pad": 0.035},
+        annot_kws={"fontsize": 6.5},
+        cbar_ax=colorbar_ax,
     )
     ax.axvline(6, color="#111827", linewidth=1.9)
     ax.axhline(6, color="#111827", linewidth=1.9)
-    ax.set_xlabel("Finder", labelpad=8, fontsize=8.5)
-    ax.set_ylabel("Builder", labelpad=26, fontsize=8.5)
-    ax.tick_params(axis="x", labelrotation=45, labelsize=5.8, pad=2)
-    ax.tick_params(axis="y", labelrotation=0, labelsize=5.9, pad=2)
-    for tick in ax.get_xticklabels():
-        tick.set_horizontalalignment("right")
-        tick.set_rotation_mode("anchor")
+    row_labels = [
+        f"{index}: {_short_label(agent_id)} {'H' if _effort(agent_id) == 'high' else 'L'}"
+        for index, agent_id in enumerate(AGENT_ORDER, start=1)
+    ]
+    ax.set_xticklabels(range(1, len(AGENT_ORDER) + 1))
+    ax.set_yticklabels(row_labels)
+    ax.set_xlabel("Finder (row IDs)", labelpad=5, fontsize=7.5)
+    ax.set_ylabel("Builder", labelpad=6, fontsize=7.5)
+    ax.tick_params(axis="x", labelrotation=0, labelsize=7, pad=2)
+    ax.tick_params(axis="y", labelrotation=0, labelsize=7, pad=2)
     for spine in ax.spines.values():
         spine.set_visible(False)
-    ax.collections[0].colorbar.ax.tick_params(labelsize=7)
-    ax.collections[0].colorbar.ax.yaxis.label.set_size(7.5)
-    fig.tight_layout()
-    _save(fig, stem)
+    colorbar_ax.tick_params(labelsize=7)
+    colorbar_ax.text(
+        0.0, 1.05, "Affinity\nresidual", transform=colorbar_ax.transAxes,
+        ha="left", va="bottom", fontsize=7,
+    )
+    fig.text(
+        0.5, 0.012, "H: high reasoning effort  ·  L: low reasoning effort",
+        ha="center", va="bottom", fontsize=7, color=MUTED,
+    )
+    _save(fig, stem, fixed_size=True)
 
 
 def _write_readme() -> None:

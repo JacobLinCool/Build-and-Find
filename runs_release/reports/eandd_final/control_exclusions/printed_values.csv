@@ -146,7 +146,7 @@ table8.codex_gpt5_4_mini_high.delta_all,Table 9 (tab:finder_calibration),-5.9,-5
 table8.codex_gpt5_4_mini_high.delta_low_prior,Table 9 (tab:finder_calibration),-7.3,-7.3171 pp,0
 table8.codex_gpt5_4_mini_high.delta_implementation_signal,Table 9 (tab:finder_calibration),-3.6,-3.5685 pp,0
 app_e.largest_question_only_lift.claude_code_mimo_v2_5_pro_low,"App. E (app:finder_calibration), selector paragraph",+12.9,+12.9326 pp,0
-app_e.selection_unchanged,"App. E (app:finder_calibration), selector paragraph",unchanged,"core claude_code_sonnet_4_6_low, claude_code_sonnet_4_6_high; audit claude_code_mimo_v2_5_pro_low",0
+app_e.selection_unchanged,"App. E (app:finder_calibration), selector paragraph",unchanged,core none; audit claude_code_mimo_v2_5_pro_low,0
 app_f.clusters_overall,"App. F (app:metric_details), Uncertainty",30,,0
 app_f.clusters_low_prior,"App. F (app:metric_details), Uncertainty",10,,0
 app_f.clusters_per_task,"App. F (app:metric_details), Uncertainty",15,,0

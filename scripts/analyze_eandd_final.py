@@ -394,14 +394,11 @@ def _created_at_sort_key(run: FindRun) -> str:
 
 
 def _usage_total_tokens(run: BuildRun | FindRun) -> int:
-    usage = run.usage
-    vendor = usage.vendor_usage
-    if vendor is not None and vendor.total_tokens:
-        return vendor.total_tokens
-    efficiency = usage.efficiency
-    if efficiency is not None and efficiency.vendor_tokens is not None:
-        return efficiency.vendor_tokens.total_tokens
-    return 0
+    """Use observed usage across all requests, including delegated subagents."""
+    efficiency = run.usage.efficiency
+    if efficiency is None or efficiency.vendor_tokens is None:
+        raise ValueError(f"missing observed vendor tokens for {run.manifest.run_id}")
+    return efficiency.vendor_tokens.total_tokens
 
 
 def _usage_cost(run: BuildRun | FindRun) -> float:

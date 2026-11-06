@@ -66,15 +66,15 @@
   "@id": "build_and_find_scratch_task_pack_v1",
   "name": "Build-and-Find",
   "alternateName": "Build-and-Find: An Effort-Aware Protocol for Evaluating Agent-Managed Codebases",
-  "description": "Release data of Build-and-Find, a protocol and benchmark for evaluating whether downstream coding agents can recover the intended behavior and design choices of a repository written by another agent, and how much inspection the recovery requires. A builder agent receives a hidden specification and writes a codebase; a finder agent is given only the codebase and a specification-traced multiple-choice question bank. The release contains two Rust build-from-scratch task specifications with their question banks, the 48 generated build artifacts, 1,924 sanitized run records (48 builds, 1,728 artifact-conditioned find runs, 144 question-only and spec-only control find runs, and 4 control build records), canonical CSV and JSON tables with a manifest, derived analysis reports, the v1.1.0 post-review layers (question-only control exclusions, transcript audit, implementation-label corrections, option-free check, builder-written test-suite runs, and per-task R_b), and the post-review implementation-label audit records with the author and model-assisted decisions. Each FileObject contentUrl points to the file in the Hugging Face dataset at revision v1.1.0, and each FileSet is contained in the git repository of the dataset, with includes relative to the dataset root. The dataset root has the layout of the code repository root; this file is stored there as croissant.json and in the code repository as metadata/croissant.json.",
+  "description": "Release data of Build-and-Find, a protocol and benchmark for evaluating whether downstream coding agents can recover the intended behavior and design choices of a repository written by another agent, and how much inspection the recovery requires. A builder agent receives a hidden specification and writes a codebase; a finder agent is given only the codebase and a specification-traced multiple-choice question bank. The release contains two Rust build-from-scratch task specifications with their question banks, the 48 generated build artifacts, 1,924 sanitized run records (48 builds, 1,728 artifact-conditioned find runs, 144 question-only and spec-only control find runs, and 4 control build records), canonical CSV and JSON tables with a manifest, derived analysis reports, the v1.1.0 post-review layers (question-only control exclusions, transcript audit, implementation-label corrections, option-free check, builder-written test-suite runs, and per-task R_b), and the post-review implementation-label audit records with the author and model-assisted decisions. Each FileObject contentUrl points to the file in the Hugging Face dataset at revision v1.1.1, and each FileSet is contained in the git repository of the dataset, with includes relative to the dataset root. The dataset root has the layout of the code repository root; this file is stored there as croissant.json and in the code repository as metadata/croissant.json.",
   "conformsTo": "http://mlcommons.org/croissant/1.1",
   "license": "https://creativecommons.org/licenses/by/4.0/",
   "url": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find",
   "identifier": "https://doi.org/10.57967/hf/11347",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "dateCreated": "2026-05-01",
   "datePublished": "2026-05-04",
-  "dateModified": "2026-10-16",
+  "dateModified": "2026-11-07",
   "creator": [
     {
       "@type": "sc:Person",
@@ -141,7 +141,7 @@
   "rai:dataCollection": "Task specifications and source-traced question banks were authored for the benchmark. Builder and finder runs were collected between 30 April and 3 May 2026 (UTC) with the Build-and-Find harness from twelve agent configurations: GPT-5.5 and GPT-5.4-mini through the Codex CLI, and Claude Opus 4.7, Claude Sonnet 4.6, MiMo-v2.5-pro, and MiMo-v2.5 through the Claude Code CLI, each at high and low reasoning effort. Each builder built each task twice (48 builds). Each finder answered the 15-question bank of each of the 48 artifacts three times (1,728 artifact-conditioned find runs), and three times per task without an artifact (question-only control) and with the specification only (spec-only control), giving 144 control find runs. Option order was shuffled per run with a recorded seed, answers were written to a file in the finder workspace, and usage was recorded as bytes exchanged with the model. Builder and finder workspaces were per-run directories inside the harness repository, and the agent CLIs ran with permission prompts disabled and without an OS-level sandbox. Post-review layers were collected from July to October 2026: a transcript check of the artifact-conditioned and control find runs; an option-free check (GPT-5.5-high and Opus 4.7-high, 24 sessions, 96 free-text answers on eight low-prior questions); one run of each artifact's builder-written test suite (cargo build --release and cargo test); and model-assisted source-trace audits of the implementation labels (rebuttal/conformance_spot_audit/ and rebuttal/full_conformance_audit/).",
   "rai:dataPreprocessingProtocol": "Append-only local run records were sanitized into runs_release/ by scripts/prepare_release.py: records were pruned to the final panel, the controls, and the build-fidelity diagnostics; local trace paths were removed and artifact paths rewritten to release-relative paths; per-run session logs were not released. Repairable malformed or nested answer files were recovered by recorded rules (malformed_answer_recovery_manifest.json and nested_answer_recovery_manifest.json under runs_release/reports/eandd_final/, with the original records kept). Canonical CSV and JSON tables under runs_release/tables are deterministic projections of the records; MANIFEST.json records row counts, sizes, hashes, schema version, and generation time. The v1.1.0 corrections leave the released records, tables, artifacts, and v1.0 labels unchanged: control exclusions and label corrections are added files that the analysis scripts apply. Release CSVs use LF line endings, and recorded checksums are computed on those bytes.",
   "rai:dataAnnotationProtocol": "Gold answers: the question banks and their gold answers were written by the author with LLM assistance and reviewed by the author; every question carries a source trace to a specification intention, which bnf specs validate checks. No crowdsourced annotation or human-subject labeling was used. Implementation labels (runs_release/reports/artifact_conformance_consensus/final/): each artifact-question pair was prelabeled when the stable answers (at least two of three trials) of the Codex GPT-5.5-high and Claude Opus 4.7-high finders agreed, as implemented_gold on the gold answer and implemented_non_gold on another answer (696 pairs); the 24 pairs without such consensus were labeled by manual review. These prelabels are triage labels, not independent conformance annotations. v1.1.0 adds one rule-based correction in label_corrections_v1_1.csv: the 15 pairs of the build without source files become absent_or_ambiguous (rule_empty_artifact). Source-trace audit (rebuttal/full_conformance_audit/): after review, a model-assisted source trace of the 592 scored compile-pass pairs (a primary pass and a cross-check pass; models, prompts, session ids, and result hashes are recorded in the audit tables) flagged 205 pairs. Every flag has a recorded decision: 43 by the author (author_decisions.csv; 41 relabeled, 2 kept) and 162 drafted by model-assisted adjudication (two passes, the second without access to the audit verdicts, with arbitration where they disagreed) and reviewed and approved by the author (model_assisted_decisions.csv; 154 relabeled, 8 kept). The adjudicated labels enter the sensitivity analysis in label_sensitivity_adjudicated/. Option-free check (runs_release/reports/option_free_check/): the author graded all 96 free-text answers against a rubric fixed before the sessions, in two frozen passes (claim correctness, then evidence sufficiency); an LLM labeled the same rows for a consistency check that enters only the agreement counts.",
-  "rai:dataReleaseMaintenancePlan": "The release is versioned. v1.0.0 is the reviewed release, kept as a tagged commit of the code repository; v1.1.0, the version of this dataset, adds the camera-ready corrections as new files and changed analysis outputs, and CHANGELOG.md lists every change. Corrections to specifications, questions, gold answers, labels, or analysis transforms are released as new versions that keep the prior records. Code is maintained in the GitHub repository and data in the Hugging Face dataset; questions and corrections can be sent through repository issues or to jacob.cs14@nycu.edu.tw.",
+  "rai:dataReleaseMaintenancePlan": "The release is versioned. v1.0.0 is the reviewed release, kept as a tagged commit of the code repository; v1.1.0 adds the camera-ready corrections as new files and changed analysis outputs. v1.1.1 includes subagent requests in token totals and updates the derived cost summaries and finder selection; the released records, canonical tables, artifacts, and labels are unchanged. CHANGELOG.md lists every change, and prior versions remain available. Corrections to specifications, questions, gold answers, labels, or analysis transforms are released as new versions that keep the prior records. Code is maintained in the GitHub repository and data in the Hugging Face dataset; questions and corrections can be sent through repository issues or to jacob.cs14@nycu.edu.tw.",
   "prov:wasDerivedFrom": [
     {
       "@id": "benchmarks/specs/scratch_minidb.yaml"
@@ -282,7 +282,7 @@
       "@id": "build_runs_csv",
       "name": "build_runs.csv",
       "description": "Canonical build-run table.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/tables/build_runs.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/tables/build_runs.csv",
       "contentSize": "30278",
       "encodingFormat": "text/csv",
       "sha256": "6ef9dc045cc4b004e591c17c862b121aeae4ccabb20ff63b225ea098e63d031c"
@@ -292,7 +292,7 @@
       "@id": "find_runs_csv",
       "name": "find_runs.csv",
       "description": "Canonical finder-run table with run-level metrics and manifest fields.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/tables/find_runs.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/tables/find_runs.csv",
       "contentSize": "1322367",
       "encodingFormat": "text/csv",
       "sha256": "5f1285bfb746a5c53da54ad57f69e7a451a670bc58b09c283fb9c31082645540"
@@ -302,7 +302,7 @@
       "@id": "question_answers_csv",
       "name": "question_answers.csv",
       "description": "Canonical per-question answer table.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/tables/question_answers.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/tables/question_answers.csv",
       "contentSize": "24554824",
       "encodingFormat": "text/csv",
       "sha256": "30ca51f75d2d87cda16c410f83eb20b89f5a028f03a2c5d8f8e33eca88fa01df"
@@ -312,7 +312,7 @@
       "@id": "panel_membership_csv",
       "name": "panel_membership.csv",
       "description": "Panel membership table linking named analysis panels to table row ids.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/tables/panel_membership.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/tables/panel_membership.csv",
       "contentSize": "18202760",
       "encodingFormat": "text/csv",
       "sha256": "eb0e5d63a33f36cb86fe4346dec14fd1577fc2af5df1e101c0a7c010d8f1d402"
@@ -322,7 +322,7 @@
       "@id": "experiments_json",
       "name": "experiments.json",
       "description": "Experiment and panel metadata for released analysis tables.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/tables/experiments.json",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/tables/experiments.json",
       "contentSize": "15526",
       "encodingFormat": "application/json",
       "sha256": "00c4fa6e46eda9a11bbac210bdda06f5d33faa87905011b5c69f0e9cd3df0b5d"
@@ -332,7 +332,7 @@
       "@id": "table_manifest_json",
       "name": "MANIFEST.json",
       "description": "Canonical table manifest with file sizes, row counts, hashes, schema version, and generation timestamp.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/tables/MANIFEST.json",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/tables/MANIFEST.json",
       "contentSize": "963",
       "encodingFormat": "application/json",
       "sha256": "f6c8edc1f4e7ee96295c7aad33f8cfa554ffa9583963bdeeab0b2c1cb62ef8a4"
@@ -342,10 +342,10 @@
       "@id": "reproducibility_index_md",
       "name": "reproducibility_index.md",
       "description": "Reproducibility index: maps the paper's main results to the scripts, tables, and reports that produce them, with the table hashes.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/reproducibility_index.md",
-      "contentSize": "12173",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/reproducibility_index.md",
+      "contentSize": "12174",
       "encodingFormat": "text/markdown",
-      "sha256": "b2f392c66b33e33058796edca38733c62312f8f708603323cd5aa450ebbfdfc2"
+      "sha256": "84b1e470ab9b5a142e9b6674eb1a1712c33f1bffc41a3a28977bd22783c2904f"
     },
     {
       "@type": "cr:FileSet",
@@ -377,7 +377,7 @@
       "@id": "evidence_citation_audit_md",
       "name": "evidence_citation_audit.md",
       "description": "Evidence-citation audit of a sample of correct finder answers.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/evidence_citation_audit.md",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/evidence_citation_audit.md",
       "contentSize": "1157",
       "encodingFormat": "text/markdown",
       "sha256": "a671d855ce09689f1d36c6c417a30cfc79df2b876c2193aea233af29ef9a5cf8"
@@ -387,7 +387,7 @@
       "@id": "evidence_citation_audit_sample_csv",
       "name": "evidence_citation_audit_sample.csv",
       "description": "Evidence-citation audit sample with the audit labels.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/evidence_citation_audit_sample.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/evidence_citation_audit_sample.csv",
       "contentSize": "63749",
       "encodingFormat": "text/csv",
       "sha256": "d61293e7045244733ba7faae723925b01224f7bd4c85dc564c42886de9a7d584"
@@ -397,7 +397,7 @@
       "@id": "implementation_labels_csv",
       "name": "artifact_conformance_final.csv",
       "description": "v1.0 implementation labels: one row per artifact-question pair with its final label and label source (consensus prelabel or manual review). Unchanged in v1.1.0.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/artifact_conformance_consensus/final/artifact_conformance_final.csv",
       "contentSize": "1044174",
       "encodingFormat": "text/csv",
       "sha256": "d89d92dc92b00488984cb52965c5cb1f774894fea845ef90ed9b9b8eee3a2b1e"
@@ -407,7 +407,7 @@
       "@id": "label_corrections_v1_1_csv",
       "name": "label_corrections_v1_1.csv",
       "description": "v1.1.0 implementation-label corrections, applied as an overlay on artifact_conformance_final.csv.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/artifact_conformance_consensus/final/label_corrections_v1_1.csv",
       "contentSize": "5025",
       "encodingFormat": "text/csv",
       "sha256": "6430dd0b42919b7f8b25214ae10d20f0f5958cb8c784093f92bd084e08910b29"
@@ -417,7 +417,7 @@
       "@id": "conditioned_builder_scores_by_task_csv",
       "name": "conditioned_builder_scores_by_task.csv",
       "description": "Per-task builder R_b under the released labels with the v1.1 correction (paper Table 16).",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/artifact_conformance_consensus/impact/conditioned_builder_scores_by_task.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/artifact_conformance_consensus/impact/conditioned_builder_scores_by_task.csv",
       "contentSize": "5427",
       "encodingFormat": "text/csv",
       "sha256": "bfb048a4888774e55d5b4721e07af189424c75ed7d1678adba0d25690d05539c"
@@ -442,7 +442,7 @@
       "@id": "excluded_question_only_runs_csv",
       "name": "excluded_question_only_runs.csv",
       "description": "The 11 question-only control runs excluded in v1.1.0, with the exposure category and transcript evidence.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/eandd_final/control_exclusions/excluded_question_only_runs.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/eandd_final/control_exclusions/excluded_question_only_runs.csv",
       "contentSize": "3226",
       "encodingFormat": "text/csv",
       "sha256": "9b8566d5f3064ae12289d93697fa7ae38c3a9e5e0b789bb06977372b41e87858"
@@ -467,7 +467,7 @@
       "@id": "primary_panel_exposure_csv",
       "name": "primary_panel_exposure.csv",
       "description": "The 62 primary-panel find runs whose transcripts reach outside their workspace, with the exposure category.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/eandd_final/transcript_audit/primary_panel_exposure.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/eandd_final/transcript_audit/primary_panel_exposure.csv",
       "contentSize": "16511",
       "encodingFormat": "text/csv",
       "sha256": "02c7d4fbd53b7cfbc9d3049304c453a026a71c9c3ec9e9af44acfff7f61206d7"
@@ -492,7 +492,7 @@
       "@id": "option_free_grading_key_csv",
       "name": "grading_key.csv",
       "description": "Option-free check: map from grading id to session, condition, finder, trial, seed, and source artifact.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/option_free_check/grading_key.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/option_free_check/grading_key.csv",
       "contentSize": "17074",
       "encodingFormat": "text/csv",
       "sha256": "16701370cf99b9a7f79ff8a1fb2ad9f51cb58f08f29261394de8076ca80d39d7"
@@ -502,7 +502,7 @@
       "@id": "option_free_grading_pass2_csv",
       "name": "grading_sheet.pass2.csv",
       "description": "Option-free check: the frozen author grading (claim correctness from pass 1 and evidence sufficiency from pass 2) of the 96 free-text answers.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/option_free_check/grading_sheet.pass2.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/option_free_check/grading_sheet.pass2.csv",
       "contentSize": "68230",
       "encodingFormat": "text/csv",
       "sha256": "8a479b6c79bbafa0cf876af3be43698ae23062c3c5a3e48d04aacc6c7f0b53a9"
@@ -527,7 +527,7 @@
       "@id": "artifact_tests_csv",
       "name": "artifact_tests.csv",
       "description": "One run of cargo build --release and cargo test per released build artifact.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/runs_release/reports/runtime_tests/artifact_tests.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/runs_release/reports/runtime_tests/artifact_tests.csv",
       "contentSize": "6843",
       "encodingFormat": "text/csv",
       "sha256": "06c693838de9a9bad68dd378ce085ddcb455f10be3609139cf50467c40599597"
@@ -537,7 +537,7 @@
       "@id": "full_audit_readme_md",
       "name": "full_conformance_audit_README.md",
       "description": "Description of the full-coverage source-trace audit files and decision tables.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/README.md",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/README.md",
       "contentSize": "9474",
       "encodingFormat": "text/markdown",
       "sha256": "0a7d93ad470ec2e8d772d94771d31c894dc8ac24c4ada79ddf0e45b649f32ae5"
@@ -547,7 +547,7 @@
       "@id": "full_audit_spec_md",
       "name": "full_conformance_audit_SPEC.md",
       "description": "Protocol of the full-coverage source-trace audit.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/SPEC.md",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/SPEC.md",
       "contentSize": "7943",
       "encodingFormat": "text/markdown",
       "sha256": "c9f59d63534813c1dc2952bd81b31a463968d84ce0fbf0f1f417a00ee872f18e"
@@ -557,7 +557,7 @@
       "@id": "full_audit_report_md",
       "name": "full_conformance_audit_report.md",
       "description": "Summary of the full-coverage source-trace audit run.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/report.md",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/report.md",
       "contentSize": "8752",
       "encodingFormat": "text/markdown",
       "sha256": "3cfd238539421effffb2ffdfe3c1c3881b8ca3944f29d0d105641fea1267924e"
@@ -567,7 +567,7 @@
       "@id": "full_audit_prompt_md",
       "name": "live_path_v1.md",
       "description": "Prompt template of the source-trace audit passes.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/prompts/live_path_v1.md",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/prompts/live_path_v1.md",
       "contentSize": "2073",
       "encodingFormat": "text/markdown",
       "sha256": "d02a81bb42f2f3cb685c4c8e3d9712f091f3508859a8f82381a79d3c24caef87"
@@ -577,7 +577,7 @@
       "@id": "full_audit_population_manifest_csv",
       "name": "population_manifest.csv",
       "description": "The 592 scored compile-pass artifact-question pairs audited.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/population_manifest.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/population_manifest.csv",
       "contentSize": "176048",
       "encodingFormat": "text/csv",
       "sha256": "3ef3d5cac41f3b26b1a6ca5fe133bb8a8f07724ba29603210e13e1d06f489efd"
@@ -587,7 +587,7 @@
       "@id": "full_audit_minidb_adjudication_csv",
       "name": "full_audit_minidb_adjudication.csv",
       "description": "Primary and cross-check audit results for the scratch_minidb pairs.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/minidb_adjudication.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/minidb_adjudication.csv",
       "contentSize": "557671",
       "encodingFormat": "text/csv",
       "sha256": "a1c01056c196698fd3cdebe4e4a94b47d94d4e4c57e3f8982e2a6533d56023aa"
@@ -597,7 +597,7 @@
       "@id": "full_audit_nanoweb_adjudication_csv",
       "name": "full_audit_nanoweb_adjudication.csv",
       "description": "Primary and cross-check audit results for the scratch_nanoweb pairs.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/nanoweb_adjudication.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/nanoweb_adjudication.csv",
       "contentSize": "588251",
       "encodingFormat": "text/csv",
       "sha256": "df3abc72153d61164bc93ae4c5653cc1ad59a796d6625472069afd39783e7b23"
@@ -607,7 +607,7 @@
       "@id": "full_audit_disagreements_csv",
       "name": "full_audit_disagreements.csv",
       "description": "The 205 pairs flagged by either audit pass.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/disagreements.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/disagreements.csv",
       "contentSize": "495897",
       "encodingFormat": "text/csv",
       "sha256": "07832ae110093b9a55b044dd97a94bf35e8836412e33be9390141bd31ce28ac1"
@@ -617,7 +617,7 @@
       "@id": "full_audit_evidence_excerpts_jsonl",
       "name": "evidence_excerpts.jsonl",
       "description": "Source excerpts cited by the audit passes, one line per cited span, with the SHA-256 of the cited artifact file.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/evidence_excerpts.jsonl",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/evidence_excerpts.jsonl",
       "contentSize": "5801598",
       "encodingFormat": "application/jsonlines",
       "sha256": "532d30809cb34412dd349a6f72f05d4ec6615cf8e98fea0f99940f9d4dd943da"
@@ -627,7 +627,7 @@
       "@id": "author_decisions_csv",
       "name": "author_decisions.csv",
       "description": "The 43 author decisions on audit flags.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/author_decisions.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/author_decisions.csv",
       "contentSize": "7443",
       "encodingFormat": "text/csv",
       "sha256": "0d7826a49385678bf79f22daae945fa67d71ac5d85f7d21a159f3ff0a577d0a3"
@@ -637,7 +637,7 @@
       "@id": "model_assisted_decisions_csv",
       "name": "model_assisted_decisions.csv",
       "description": "The 162 decisions drafted by model-assisted adjudication and approved by the author.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/model_assisted_decisions.csv",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/model_assisted_decisions.csv",
       "contentSize": "199702",
       "encodingFormat": "text/csv",
       "sha256": "82092af15ef8dcd097bf45c34a333ba0ea53a192ffbaa25ab1b752cf4d4d91cc"
@@ -647,7 +647,7 @@
       "@id": "full_audit_core_generation_manifest_json",
       "name": "core_generation_manifest.json",
       "description": "Manifest of the core audit generation; make label-sensitivity checks the audit tables against its hashes.",
-      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.0/rebuttal/full_conformance_audit/generations/345e9f073af7b83f6ed35a069afe4c1dc78f9aac5c74e40b09c34b33cc428bfd/generation_manifest.json",
+      "contentUrl": "https://huggingface.co/datasets/JacobLinCool/Build-and-Find/resolve/v1.1.1/rebuttal/full_conformance_audit/generations/345e9f073af7b83f6ed35a069afe4c1dc78f9aac5c74e40b09c34b33cc428bfd/generation_manifest.json",
       "contentSize": "2639",
       "encodingFormat": "application/json",
       "sha256": "35b1834f10c68a4e9f743f0e63117bdb2041a678386831e610abf7954a59c9e4"

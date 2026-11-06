@@ -12,7 +12,7 @@ Differences from the question-only control use matched finder x task x trial str
 
 - Released `bootstrap_lift.csv` reproduced exactly: yes
 - Frozen low-prior subset equals the released-control rule (agreement < 90%): yes
-- Core-finder selection unchanged: yes (core `claude_code_sonnet_4_6_low`, `claude_code_sonnet_4_6_high`; audit `claude_code_mimo_v2_5_pro_low`)
+- Core-finder selection unchanged: yes (core none; audit `claude_code_mimo_v2_5_pro_low`)
 - Label sources after v1.1 corrections: consensus_prelabel 681, manual_review 24, rule_empty_artifact 15
 
 ## Printed values
@@ -231,7 +231,7 @@ printed precision.
 | value | printed | exact |
 | --- | ---: | --- |
 | `app_e.largest_question_only_lift.claude_code_mimo_v2_5_pro_low` | +12.9 | +12.9326 pp |
-| `app_e.selection_unchanged` | unchanged | core claude_code_sonnet_4_6_low, claude_code_sonnet_4_6_high; audit claude_code_mimo_v2_5_pro_low |
+| `app_e.selection_unchanged` | unchanged | core none; audit claude_code_mimo_v2_5_pro_low |
 
 ### App. F (app:metric_details), Uncertainty
 
@@ -257,9 +257,9 @@ of Table 9, so a lift can differ from formal minus question-only accuracy.
 
 | finder | selection | q-only lift | low-prior lift | impl.-signal lift |
 | --- | --- | ---: | ---: | ---: |
-| `claude_code_sonnet_4_6_low` | core_default | +0.9 | +3.4 | +2.2 |
-| `claude_code_sonnet_4_6_high` | core_default | +2.5 | +10.2 | +5.6 |
 | `claude_code_mimo_v2_5_pro_low` | prior_stress_audit | +12.9 | +36.7 | +23.0 |
+| `claude_code_sonnet_4_6_low` | not_selected | +0.9 | +3.4 | +2.2 |
+| `claude_code_sonnet_4_6_high` | not_selected | +2.5 | +10.2 | +5.6 |
 | `claude_code_opus_4_7_low` | not_selected | -2.1 | -2.6 | -0.7 |
 | `claude_code_opus_4_7_high` | not_selected | -2.9 | -3.1 | -0.8 |
 | `claude_code_mimo_v2_5_low` | not_selected | +2.8 | +12.7 | +7.1 |

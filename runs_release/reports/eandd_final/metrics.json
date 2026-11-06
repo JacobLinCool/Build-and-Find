@@ -72,8 +72,8 @@
       "downstream_run_ci95_low": 0.9911613209145976,
       "effort": "high",
       "family": "claude",
-      "median_build_tokens": 5891623.0,
-      "total_build_tokens": 25675659
+      "median_build_tokens": 5963041.0,
+      "total_build_tokens": 26263322
     },
     {
       "agent_id": "claude_code_opus_4_7_low",
@@ -83,8 +83,8 @@
       "downstream_run_ci95_low": 0.9891586006040337,
       "effort": "low",
       "family": "claude",
-      "median_build_tokens": 4507726.0,
-      "total_build_tokens": 18977400
+      "median_build_tokens": 4588497.5,
+      "total_build_tokens": 19283421
     },
     {
       "agent_id": "claude_code_mimo_v2_5_pro_low",
@@ -138,8 +138,8 @@
       "downstream_run_ci95_low": 0.9615169835322208,
       "effort": "high",
       "family": "claude",
-      "median_build_tokens": 6900882.0,
-      "total_build_tokens": 30836507
+      "median_build_tokens": 7065720.5,
+      "total_build_tokens": 31468782
     },
     {
       "agent_id": "claude_code_mimo_v2_5_pro_high",
@@ -149,8 +149,8 @@
       "downstream_run_ci95_low": 0.9517468391366029,
       "effort": "high",
       "family": "mimo",
-      "median_build_tokens": 22845676.0,
-      "total_build_tokens": 45691352
+      "median_build_tokens": 23108807.5,
+      "total_build_tokens": 46217615
     },
     {
       "agent_id": "claude_code_sonnet_4_6_low",
@@ -160,8 +160,8 @@
       "downstream_run_ci95_low": 0.9390175935771679,
       "effort": "low",
       "family": "claude",
-      "median_build_tokens": 3034817.0,
-      "total_build_tokens": 13123479
+      "median_build_tokens": 5529057.5,
+      "total_build_tokens": 20370498
     },
     {
       "agent_id": "claude_code_mimo_v2_5_low",
@@ -171,8 +171,8 @@
       "downstream_run_ci95_low": 0.9309637085170341,
       "effort": "low",
       "family": "mimo",
-      "median_build_tokens": 11909618,
-      "total_build_tokens": 41578437
+      "median_build_tokens": 12084066,
+      "total_build_tokens": 41928015
     },
     {
       "agent_id": "codex_gpt5_4_mini_low",
@@ -193,8 +193,8 @@
       "downstream_run_ci95_low": 0.9030462995068412,
       "effort": "high",
       "family": "mimo",
-      "median_build_tokens": 14120147.5,
-      "total_build_tokens": 61338562
+      "median_build_tokens": 14214290.0,
+      "total_build_tokens": 61699061
     }
   ],
   "control_diagnostics": {
@@ -312,14 +312,14 @@
       "formal_minus_spec_only": -0.013008130081300862,
       "formal_run_ci95_high": 0.9925669283590308,
       "formal_run_ci95_low": 0.9814168114783677,
-      "median_find_tokens": 108429,
+      "median_find_tokens": 629543,
       "question_only_accuracy": 0.9777777777777777,
       "question_only_stable_questions": 29,
       "question_only_total_questions": 30,
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 14278298
+      "total_find_tokens": 82528195
     },
     {
       "agent_id": "claude_code_sonnet_4_6_high",
@@ -331,14 +331,14 @@
       "formal_minus_spec_only": -0.019512195121951237,
       "formal_run_ci95_high": 0.9871886514103919,
       "formal_run_ci95_low": 0.9737869583457056,
-      "median_find_tokens": 115841,
+      "median_find_tokens": 684900,
       "question_only_accuracy": 0.9555555555555556,
       "question_only_stable_questions": 27,
       "question_only_total_questions": 30,
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 16415091
+      "total_find_tokens": 89723641
     },
     {
       "agent_id": "claude_code_opus_4_7_low",
@@ -350,14 +350,14 @@
       "formal_minus_spec_only": -0.021138211382113803,
       "formal_run_ci95_high": 0.9859881190827636,
       "formal_run_ci95_low": 0.9717354581530088,
-      "median_find_tokens": 393682,
+      "median_find_tokens": 442934,
       "question_only_accuracy": 1.0,
       "question_only_stable_questions": 30,
       "question_only_total_questions": 30,
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 57759611
+      "total_find_tokens": 64133147
     },
     {
       "agent_id": "claude_code_opus_4_7_high",
@@ -369,14 +369,14 @@
       "formal_minus_spec_only": -0.02872628726287263,
       "formal_run_ci95_high": 0.9799500940097176,
       "formal_run_ci95_low": 0.9625973314645372,
-      "median_find_tokens": 929709,
+      "median_find_tokens": 939938,
       "question_only_accuracy": 1.0,
       "question_only_stable_questions": 30,
       "question_only_total_questions": 30,
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 109379454
+      "total_find_tokens": 112255420
     },
     {
       "agent_id": "claude_code_mimo_v2_5_high",
@@ -414,7 +414,7 @@
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 48843244
+      "total_find_tokens": 48908233
     },
     {
       "agent_id": "claude_code_mimo_v2_5_pro_low",
@@ -426,14 +426,14 @@
       "formal_minus_spec_only": -0.03252032520325199,
       "formal_run_ci95_high": 0.9753710344885602,
       "formal_run_ci95_low": 0.9595883151049358,
-      "median_find_tokens": 369992,
+      "median_find_tokens": 371420,
       "question_only_accuracy": 0.6444444444444445,
       "question_only_stable_questions": 3,
       "question_only_total_questions": 30,
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 50329438
+      "total_find_tokens": 50676169
     },
     {
       "agent_id": "claude_code_mimo_v2_5_pro_high",
@@ -471,7 +471,7 @@
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 47952491
+      "total_find_tokens": 47908484
     },
     {
       "agent_id": "codex_gpt5_5_high",
@@ -502,14 +502,14 @@
       "formal_minus_spec_only": -0.048238482384823866,
       "formal_run_ci95_high": 0.9632797183931744,
       "formal_run_ci95_low": 0.9402433168371779,
-      "median_find_tokens": 312134,
+      "median_find_tokens": 310677,
       "question_only_accuracy": 0.9777777777777777,
       "question_only_stable_questions": 28,
       "question_only_total_questions": 30,
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 40680176
+      "total_find_tokens": 40492384
     },
     {
       "agent_id": "codex_gpt5_4_mini_high",
@@ -528,7 +528,7 @@
       "spec_only_accuracy": 1.0,
       "spec_only_stable_questions": 30,
       "spec_only_total_questions": 30,
-      "total_find_tokens": 78568500
+      "total_find_tokens": 78482341
     }
   ],
   "generated_at": "2026-05-03T20:04:26.141382+00:00",
@@ -536,10 +536,10 @@
     "control_question_only_accuracy": 0.9453703703703704,
     "control_spec_only_accuracy": 0.9990740740740741,
     "control_total_cost_usd": 19.42142055,
-    "control_total_tokens": 19189616,
+    "control_total_tokens": 19311382,
     "formal_accuracy": 0.967163504968383,
     "formal_total_cost_usd": 616.00270425,
-    "formal_total_tokens": 934533272
+    "formal_total_tokens": 1095444301
   },
   "outputs": {
     "build_exclusions_csv": "runs_release/reports/eandd_final/build_exclusions.csv",

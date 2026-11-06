@@ -21,9 +21,11 @@ records, the analysis scripts, and the reports behind the paper's numbers.
 |---|---|
 | `v1.0.0` | The release as reviewed for the NeurIPS 2026 Evaluations and Datasets Track, without the manuscript sources. |
 | `v1.1.0` | Camera-ready corrections and post-review checks. The v1.0 records, tables, artifacts, and implementation labels are unchanged; every correction is an added file or a change to an analysis script, a derived report, or a figure. [`CHANGELOG.md`](CHANGELOG.md) lists each change. |
+| `v1.1.1` | Includes subagent requests in token totals and updates the derived cost summaries, finder selection, and figure readability. |
 
-Each version is one commit of this repository, tagged `v1.0.0` and `v1.1.0`. The
-Hugging Face dataset holds the v1.1.0 data files at its revision `v1.1.0`.
+Each version is one commit of this repository, tagged `v1.0.0`, `v1.1.0`, and
+`v1.1.1`. The Hugging Face dataset holds the current data files at revision
+`v1.1.1`; prior versions remain available.
 
 `v1.0.0` keeps the reviewed files unchanged, which has three consequences:
 
@@ -53,7 +55,7 @@ uv sync --extra dev --extra paper
 
 The release data (`benchmarks/`, `runs_release/`, `metadata/croissant.json`, and
 the audit records under `rebuttal/`) are in this repository. The Hugging Face
-dataset (https://huggingface.co/datasets/JacobLinCool/Build-and-Find) holds the v1.1.0 data files under the same paths,
+dataset (https://huggingface.co/datasets/JacobLinCool/Build-and-Find) holds the v1.1.1 data files under the same paths,
 without the seed projects and the `edit_*` tasks. Its root also holds the
 dataset card (`README.md`) and `croissant.json`, which is the same file as
 `metadata/croissant.json`. To download the data files into a checkout, include
@@ -63,7 +65,7 @@ README:
 ```bash
 HF_DATASET_URL="https://huggingface.co/datasets/JacobLinCool/Build-and-Find"
 uvx --from huggingface_hub hf download "${HF_DATASET_URL#https://huggingface.co/datasets/}" \
-  --repo-type dataset --revision v1.1.0 \
+  --repo-type dataset --revision v1.1.1 \
   --include "benchmarks/**" --include "runs_release/**" --include "rebuttal/**" \
   --local-dir .
 ```
@@ -88,7 +90,7 @@ validation, table export, the Croissant refresh, release verification, and the
 table tests), and `make test` and `make lint` run the test suite and `ruff`.
 
 `metadata/croissant.json` gives each file as its URL in the Hugging Face dataset
-at revision `v1.1.0` and each file set as paths in the dataset's git repository,
+at revision `v1.1.1` and each file set as paths in the dataset's git repository,
 so `mlcroissant` can load it from any location. The verifier and
 `make update-croissant` map these URLs to the files in the checkout.
 
@@ -147,7 +149,7 @@ hf/README.md                 dataset card of the Hugging Face dataset
 rebuttal/
 ├── full_conformance_audit/  post-review source-trace audit of implementation labels
 └── conformance_spot_audit/  post-review spot audit of implementation labels
-CHANGELOG.md                 changes from v1.0.0 to v1.1.0
+CHANGELOG.md                 changes from v1.0.0 to v1.1.1
 CITATION.cff                 citation metadata
 LICENSE, LICENSE-CODE, LICENSE-DATA
 ```
@@ -311,17 +313,15 @@ a temporary root. Records are written under `runs/` (or `BNF_RUNS_ROOT`).
 
 ### Calibrated finder panel
 
-For routine builder or harness comparisons, use the scripted v1 core finder
-panel instead of rerunning every calibrated finder:
+The scripted v1 selector currently selects no routine core finders: all 12
+configurations exceed its unchanged 150,000 mean-token ceiling when observed
+subagent usage is included.
 
-- Default core finders: `claude_code_sonnet_4_6_low`,
-  `claude_code_sonnet_4_6_high`
+- Default core finders: none
 - Prior-stress audit finder: `claude_code_mimo_v2_5_pro_low`
 
 `scripts/select_eandd_core_finders.py` regenerates the selection and records it
-under `runs_release/reports/eandd_final/core_finder_selection/`. The default
-panel is smaller than the top formal-accuracy set because some high-accuracy
-finders saturate the question-only controls on this task pack.
+under `runs_release/reports/eandd_final/core_finder_selection/`.
 
 ### Benchmark content
 

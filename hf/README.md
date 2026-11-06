@@ -72,7 +72,7 @@ the paper.
 - Paper: https://openreview.net/forum?id=y48mj8HiWu
 - Code: https://github.com/JacobLinCool/Build-and-Find
 - DOI: [10.57967/hf/11347](https://doi.org/10.57967/hf/11347)
-- Version: 1.1.0 (camera-ready), revision `v1.1.0` of this dataset; changes
+- Version: 1.1.1 (camera-ready), revision `v1.1.1` of this dataset; changes
   from the reviewed v1.0.0 are listed in `CHANGELOG.md`.
 
 ## Dataset structure
@@ -85,7 +85,7 @@ data directories into a checkout of the code, from its root:
 ```bash
 HF_DATASET_URL="https://huggingface.co/datasets/JacobLinCool/Build-and-Find"
 uvx --from huggingface_hub hf download "${HF_DATASET_URL#https://huggingface.co/datasets/}" \
-  --repo-type dataset --revision v1.1.0 \
+  --repo-type dataset --revision v1.1.1 \
   --include "benchmarks/**" --include "runs_release/**" --include "rebuttal/**" \
   --local-dir .
 ```
@@ -93,7 +93,7 @@ uvx --from huggingface_hub hf download "${HF_DATASET_URL#https://huggingface.co/
 Downloading the whole dataset into a checkout would replace the code
 repository's `README.md` with this card. `croissant.json` is the same file as
 `metadata/croissant.json` in the code repository: it gives each file as its URL
-at revision `v1.1.0` and each file set as paths in this repository.
+at revision `v1.1.1` and each file set as paths in this repository.
 
 | path | contents | license |
 |---|---|---|
@@ -107,7 +107,7 @@ at revision `v1.1.0` and each file set as paths in this repository.
 | `rebuttal/conformance_spot_audit/` | post-review spot audit of 24 consensus prelabels | CC BY 4.0 |
 | `croissant.json` | Croissant 1.1 metadata with Responsible AI fields (`metadata/croissant.json` in the code repository) | CC BY 4.0 |
 | `LICENSE-DATA`, `LICENSE-CODE` | license notices: CC BY 4.0 for the data, Apache-2.0 for the generated codebases | |
-| `CHANGELOG.md` | changes from v1.0.0 to v1.1.0 | CC BY 4.0 |
+| `CHANGELOG.md` | changes from v1.0.0 to v1.1.1 | CC BY 4.0 |
 
 The v1.1.0 report layers are `runs_release/reports/eandd_final/control_exclusions/`,
 `runs_release/reports/eandd_final/transcript_audit/`,
@@ -228,6 +228,14 @@ reasoning effort.
 No crowdsourced or human-subject annotation was used. The raw agent sessions of
 the audits are not included; the audit tables keep each session's id and result
 hash.
+
+## Corrections in v1.1.1
+
+v1.1.1 includes subagent requests in observed vendor-token totals and the derived
+cost summaries. No routine finder meets the unchanged 150,000 mean-token ceiling;
+the prior-stress audit finder remains MiMo 2.5 Pro low. The released records,
+canonical tables, artifacts, and labels are unchanged, and v1.1.0 remains
+available at its original revision.
 
 ## Corrections in v1.1.0
 

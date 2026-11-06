@@ -98,8 +98,8 @@ Positive values mean high effort outperformed low effort for the same base model
 
 Token and cost totals are reported only as run-cost diagnostics. They are not used as direct recovery-efficiency metrics because formal, spec-only, and question-only runs have different inputs.
 
-- Formal tokens: 934,533,272
-- Control tokens: 19,189,616
+- Formal tokens: 1,095,444,301
+- Control tokens: 19,311,382
 - Formal cost USD: 616.00
 - Control cost USD: 19.42
 

@@ -35,8 +35,8 @@ This index maps the paper's main results to the scripts, tables, and reports tha
 - Paper Table 2 formal: 97.5% three-trial agreement; 29 / 30 reliable questions (1476 find runs, 21312 answer rows)
 - Paper Table 2 spec_only: 99.7% three-trial agreement; 30 / 30 reliable questions (72 find runs, 1080 answer rows)
 - Paper Table 2 question_only: 94.4% three-trial agreement; 24 / 30 reliable questions (61 find runs, 915 answer rows)
-- Formal tokens: 934533272
-- Control tokens: 19189616
+- Formal tokens: 1095444301
+- Control tokens: 19311382
 - Formal cost USD: 616.00
 - Control cost USD: 19.42
 

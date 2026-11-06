@@ -210,40 +210,44 @@ Diagnostic only; not the paper's within-finder builder-efficiency metric.
 
 | role | view | frontier agent | accuracy | mean tokens | acc / M tok |
 | --- | --- | --- | ---: | ---: | ---: |
-| builder | all_finders | claude_code_opus_4_7_high | 0.994 | 6418915 | 0.155 |
-| builder | all_finders | claude_code_opus_4_7_low | 0.993 | 4744350 | 0.209 |
+| builder | all_finders | claude_code_opus_4_7_high | 0.994 | 6565830 | 0.151 |
+| builder | all_finders | claude_code_opus_4_7_low | 0.993 | 4820855 | 0.206 |
 | builder | all_finders | codex_gpt5_5_high | 0.989 | 3216598 | 0.307 |
 | builder | all_finders | codex_gpt5_5_low | 0.987 | 1921738 | 0.513 |
 | builder | implementation_signal_questions | claude_code_mimo_v2_5_pro_low | 1.000 | 7278835 | 0.137 |
-| builder | implementation_signal_questions | claude_code_sonnet_4_6_low | 0.995 | 3280870 | 0.303 |
+| builder | implementation_signal_questions | claude_code_sonnet_4_6_low | 0.995 | 5092624 | 0.195 |
 | builder | implementation_signal_questions | codex_gpt5_4_mini_low | 0.992 | 2536506 | 0.391 |
 | builder | implementation_signal_questions | codex_gpt5_5_low | 0.983 | 1921738 | 0.511 |
 | builder | low_prior_questions | claude_code_mimo_v2_5_pro_low | 1.000 | 7278835 | 0.137 |
 | builder | low_prior_questions | codex_gpt5_4_mini_low | 0.993 | 2536506 | 0.391 |
 | builder | low_prior_questions | codex_gpt5_5_low | 0.965 | 1921738 | 0.502 |
 | builder | top4_formal_finders | claude_code_mimo_v2_5_pro_low | 1.000 | 7278835 | 0.137 |
-| builder | top4_formal_finders | claude_code_opus_4_7_low | 0.999 | 4744350 | 0.210 |
+| builder | top4_formal_finders | claude_code_opus_4_7_low | 0.999 | 4820855 | 0.207 |
 | builder | top4_formal_finders | codex_gpt5_5_high | 0.997 | 3216598 | 0.310 |
 | builder | top4_formal_finders | codex_gpt5_5_low | 0.990 | 1921738 | 0.515 |
-| finder | all_builders | claude_code_sonnet_4_6_low | 0.987 | 116084 | 8.502 |
-| finder | implementation_signal_questions | claude_code_opus_4_7_low | 0.993 | 469590 | 2.114 |
-| finder | implementation_signal_questions | codex_gpt5_5_low | 0.990 | 389858 | 2.540 |
-| finder | implementation_signal_questions | claude_code_sonnet_4_6_high | 0.989 | 133456 | 7.414 |
-| finder | implementation_signal_questions | claude_code_sonnet_4_6_low | 0.989 | 116084 | 8.517 |
-| finder | low_prior_questions | claude_code_opus_4_7_low | 0.974 | 469590 | 2.074 |
-| finder | low_prior_questions | claude_code_sonnet_4_6_high | 0.969 | 133456 | 7.262 |
-| finder | low_prior_questions | claude_code_sonnet_4_6_low | 0.967 | 116084 | 8.334 |
-| finder | top4_builders | claude_code_opus_4_7_low | 0.998 | 469590 | 2.126 |
-| finder | top4_builders | claude_code_sonnet_4_6_low | 0.997 | 116084 | 8.585 |
+| finder | all_builders | claude_code_sonnet_4_6_low | 0.987 | 670961 | 1.471 |
+| finder | all_builders | claude_code_opus_4_7_low | 0.979 | 521408 | 1.877 |
+| finder | all_builders | claude_code_mimo_v2_5_low | 0.968 | 397628 | 2.434 |
+| finder | all_builders | codex_gpt5_5_low | 0.965 | 389500 | 2.478 |
+| finder | all_builders | codex_gpt5_4_mini_low | 0.952 | 329206 | 2.891 |
+| finder | implementation_signal_questions | claude_code_opus_4_7_low | 0.993 | 521408 | 1.904 |
+| finder | implementation_signal_questions | codex_gpt5_5_low | 0.990 | 389500 | 2.542 |
+| finder | implementation_signal_questions | codex_gpt5_4_mini_low | 0.965 | 329206 | 2.932 |
+| finder | low_prior_questions | claude_code_opus_4_7_low | 0.974 | 521408 | 1.868 |
+| finder | low_prior_questions | codex_gpt5_5_low | 0.966 | 389500 | 2.480 |
+| finder | low_prior_questions | codex_gpt5_4_mini_low | 0.925 | 329206 | 2.810 |
+| finder | top4_builders | claude_code_opus_4_7_low | 0.998 | 521408 | 1.915 |
+| finder | top4_builders | codex_gpt5_5_low | 0.997 | 389500 | 2.559 |
+| finder | top4_builders | codex_gpt5_4_mini_low | 0.981 | 329206 | 2.980 |
 
 ## Low-Cost Near-Ceiling Points
 
 | role | view | band | agent | accuracy | mean tokens |
 | --- | --- | --- | --- | ---: | ---: |
-| builder | all_finders | within 0.5pp | claude_code_opus_4_7_low | 0.993 | 4744350 |
+| builder | all_finders | within 0.5pp | claude_code_opus_4_7_low | 0.993 | 4820855 |
 | builder | all_finders | within 1.0pp | codex_gpt5_5_low | 0.987 | 1921738 |
 | builder | all_finders | within 2.0pp | codex_gpt5_5_low | 0.987 | 1921738 |
-| builder | implementation_signal_questions | within 0.5pp | claude_code_sonnet_4_6_low | 0.995 | 3280870 |
+| builder | implementation_signal_questions | within 0.5pp | claude_code_sonnet_4_6_low | 0.995 | 5092624 |
 | builder | implementation_signal_questions | within 1.0pp | codex_gpt5_4_mini_low | 0.992 | 2536506 |
 | builder | implementation_signal_questions | within 2.0pp | codex_gpt5_5_low | 0.983 | 1921738 |
 | builder | low_prior_questions | within 0.5pp | claude_code_mimo_v2_5_pro_low | 1.000 | 7278835 |
@@ -252,18 +256,18 @@ Diagnostic only; not the paper's within-finder builder-efficiency metric.
 | builder | top4_formal_finders | within 0.5pp | codex_gpt5_5_high | 0.997 | 3216598 |
 | builder | top4_formal_finders | within 1.0pp | codex_gpt5_5_low | 0.990 | 1921738 |
 | builder | top4_formal_finders | within 2.0pp | codex_gpt5_5_low | 0.990 | 1921738 |
-| finder | all_builders | within 0.5pp | claude_code_sonnet_4_6_low | 0.987 | 116084 |
-| finder | all_builders | within 1.0pp | claude_code_sonnet_4_6_low | 0.987 | 116084 |
-| finder | all_builders | within 2.0pp | claude_code_sonnet_4_6_low | 0.987 | 116084 |
-| finder | implementation_signal_questions | within 0.5pp | claude_code_sonnet_4_6_low | 0.989 | 116084 |
-| finder | implementation_signal_questions | within 1.0pp | claude_code_sonnet_4_6_low | 0.989 | 116084 |
-| finder | implementation_signal_questions | within 2.0pp | claude_code_sonnet_4_6_low | 0.989 | 116084 |
-| finder | low_prior_questions | within 0.5pp | claude_code_sonnet_4_6_high | 0.969 | 133456 |
-| finder | low_prior_questions | within 1.0pp | claude_code_sonnet_4_6_low | 0.967 | 116084 |
-| finder | low_prior_questions | within 2.0pp | claude_code_sonnet_4_6_low | 0.967 | 116084 |
-| finder | top4_builders | within 0.5pp | claude_code_sonnet_4_6_low | 0.997 | 116084 |
-| finder | top4_builders | within 1.0pp | claude_code_sonnet_4_6_low | 0.997 | 116084 |
-| finder | top4_builders | within 2.0pp | claude_code_sonnet_4_6_low | 0.997 | 116084 |
+| finder | all_builders | within 0.5pp | claude_code_sonnet_4_6_low | 0.987 | 670961 |
+| finder | all_builders | within 1.0pp | claude_code_opus_4_7_low | 0.979 | 521408 |
+| finder | all_builders | within 2.0pp | claude_code_mimo_v2_5_low | 0.968 | 397628 |
+| finder | implementation_signal_questions | within 0.5pp | codex_gpt5_5_low | 0.990 | 389500 |
+| finder | implementation_signal_questions | within 1.0pp | codex_gpt5_5_low | 0.990 | 389500 |
+| finder | implementation_signal_questions | within 2.0pp | codex_gpt5_5_low | 0.990 | 389500 |
+| finder | low_prior_questions | within 0.5pp | claude_code_opus_4_7_low | 0.974 | 521408 |
+| finder | low_prior_questions | within 1.0pp | codex_gpt5_5_low | 0.966 | 389500 |
+| finder | low_prior_questions | within 2.0pp | codex_gpt5_5_low | 0.966 | 389500 |
+| finder | top4_builders | within 0.5pp | codex_gpt5_5_low | 0.997 | 389500 |
+| finder | top4_builders | within 1.0pp | codex_gpt5_5_low | 0.997 | 389500 |
+| finder | top4_builders | within 2.0pp | codex_gpt5_4_mini_low | 0.981 | 329206 |
 
 ## Family Pair Matrix
 

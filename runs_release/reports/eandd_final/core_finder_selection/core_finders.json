@@ -1,12 +1,9 @@
 {
   "analysis_script": "scripts/select_eandd_core_finders.py",
-  "default_core_finders": [
-    "claude_code_sonnet_4_6_low",
-    "claude_code_sonnet_4_6_high"
-  ],
+  "default_core_finders": [],
   "generated_at": "2026-05-03T20:04:26.141382+00:00",
   "input_hashes": {
-    "runs_release/reports/eandd_final/finder_summary.csv": "d3e32cbf72eb436caf03335a2221387994c23ed916b4868a0b5f02534567e790",
+    "runs_release/reports/eandd_final/finder_summary.csv": "d5d5d6df99eecbbdc457a6591a6513f0b61031d042573d654d98654d5672aba2",
     "runs_release/reports/eandd_final/pivots/affinity_by_agent.csv": "9fcbaff2b04874b1a6ac96bc91536ffada4503085f0c230bc864aadea30e955b",
     "runs_release/reports/eandd_final/pivots/manifest.json": "f327294d9f0e37343fdff0393ea1ecade43d7e6576739ea18b7031ff10416817",
     "runs_release/reports/eandd_final/within_finder_efficiency/within_finder_cells.csv": "00ef3820d18abca3219eca0f79266f5001c655a881f1d8b8cd7df7696ef4e94b",

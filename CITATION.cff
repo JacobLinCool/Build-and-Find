@@ -12,7 +12,7 @@ abstract: >-
   with specification-traced multiple-choice question banks, the generated
   artifacts, run records, canonical tables, derived reports, Croissant
   metadata, and post-review audit records.
-version: 1.1.0
+version: 1.1.1
 license:
   - Apache-2.0
   - CC-BY-4.0

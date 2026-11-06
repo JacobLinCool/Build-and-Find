@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.1.1: token-accounting and readability corrections (2026-11-07)
+
+- Include subagent requests in observed vendor-token totals and the derived cost
+  summaries. No routine finder meets the unchanged 150,000 mean-token ceiling;
+  the prior-stress audit finder remains MiMo 2.5 Pro low.
+- Improve figure and table readability with larger text and compact heatmap labels.
+
 ## v1.1.0: camera-ready corrections (2026-10-16)
 
 v1.0.0 is the release as submitted to the NeurIPS 2026 Evaluations & Datasets

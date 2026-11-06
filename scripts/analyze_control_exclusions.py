@@ -1186,7 +1186,7 @@ def printed_values(analysis: Analysis) -> list[PrintedValue]:
         "app_e.selection_unchanged",
         location,
         "unchanged" if analysis.selection.unchanged else "CHANGED",
-        f"core {', '.join(analysis.selection.core_finders)}; "
+        f"core {', '.join(analysis.selection.core_finders) or 'none'}; "
         f"audit {', '.join(analysis.selection.audit_finders)}",
     )
 
@@ -1440,7 +1440,7 @@ def _report(analysis: Analysis) -> str:
         "- Frozen low-prior subset equals the released-control rule (agreement < 90%): yes",
         "- Core-finder selection unchanged: "
         + ("yes" if analysis.selection.unchanged else "NO")
-        + f" (core {', '.join(f'`{x}`' for x in analysis.selection.core_finders)}; "
+        + f" (core {', '.join(f'`{x}`' for x in analysis.selection.core_finders) or 'none'}; "
         f"audit {', '.join(f'`{x}`' for x in analysis.selection.audit_finders)})",
         "- Label sources after v1.1 corrections: "
         + ", ".join(f"{name} {count}" for name, count in analysis.label_sources.items()),
